@@ -5,6 +5,16 @@ import {
 } from 'lucide-react'
 import { PLANS } from '../lib/registry'
 import { img, StockImg } from '../components/ui'
+import CountUp from '../components/CountUp'
+
+function HeroStat({ value, suffix, label }) {
+  return (
+    <div className="hero-stat">
+      <b><CountUp value={value} />{suffix}</b>
+      <span>{label}</span>
+    </div>
+  )
+}
 
 const LANDFEATURES = [
   { icon: Users, color: '#6366f1', title: 'Multi-role portals', desc: 'Principal, admin, teacher, student, parent and accounts — each with their own view.' },
@@ -42,9 +52,9 @@ export default function Landing() {
             </Link>
           </div>
           <div className="hero-stats">
-            <div className="hero-stat"><b>40,247</b><span>Question bank items</span></div>
-            <div className="hero-stat"><b>12K</b><span>Parent alerts sent this month</span></div>
-            <div className="hero-stat"><b>92%</b><span>Fee collection rate</span></div>
+            <HeroStat value={40247} suffix="" label="Question bank items" />
+            <HeroStat value={12} suffix="K" label="Parent alerts sent this month" />
+            <HeroStat value={92} suffix="%" label="Fee collection rate" />
           </div>
         </div>
 
