@@ -75,6 +75,27 @@ a {
   color: inherit;
 }
 
+.table-hint {
+  padding: 8px 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+}
+
+.clickable-row {
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.clickable-row:hover {
+  background: rgba(109, 92, 255, 0.07);
+}
+
+.clickable-row:active {
+  background: rgba(109, 92, 255, 0.12);
+}
+
 :focus-visible {
   outline: 2px solid var(--primary-light);
   outline-offset: 2px;

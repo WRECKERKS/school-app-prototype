@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Users, CalendarCheck, CalendarDays, Megaphone, FileDown,
@@ -50,6 +51,25 @@ const roles = [
 ]
 
 export default function BasicDashboard() {
+  const [attendance, setAttendance] = useState(attendanceData)
+
+  const toggleAttendance = (name) => {
+    setAttendance((rows) =>
+      rows.map((row) => {
+        if (row.name !== name || row.absent === 0) return row
+        const updated = {
+          ...row,
+          absent: row.absent - 1,
+          present: row.present + 1,
+          pct: Math.round(((row.present + 1) / row.total) * 100),
+        }
+        return { ...updated }
+      }),
+    )
+  }
+
+  const resetAttendance = () => setAttendance(attendanceData)
+
   return (
     <main className="demo-page">
       {/* Demo header */}
@@ -136,11 +156,15 @@ export default function BasicDashboard() {
               <button className="btn btn-primary" style={{ padding: '8px 14px', fontSize: 12 }}>
                 Today, Sep 1 2026
               </button>
+              <button className="btn btn-ghost" style={{ padding: '8px 14px', fontSize: 12 }} onClick={resetAttendance}>
+                Reset demo
+              </button>
               <button className="btn btn-secondary" style={{ padding: '8px 14px', fontSize: 12 }}>
                 Export CSV <FileDown size={14} />
               </button>
             </div>
           </div>
+          <div className="table-hint">💡 Click any row to demo marking a student present</div>
           <div style={{ overflowX: 'auto' }}>
             <table className="data-table">
               <thead>
@@ -154,9 +178,11 @@ export default function BasicDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {attendanceData.map((row) => (
-                  <tr key={row.name}>
-                    <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{row.name}</td>
+                {attendance.map((row) => (
+                  <tr key={row.name} className="clickable-row" onClick={() => toggleAttendance(row.name)} title="Click to mark one student present">
+                    <td style={{ fontWeight: 600, color: 'var(--text-primary)' }}>
+                      {row.name}
+                    </td>
                     <td>{row.total}</td>
                     <td style={{ color: '#4ade80' }}>{row.present}</td>
                     <td style={{ color: '#f87171' }}>{row.absent}</td>
