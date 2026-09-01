@@ -158,7 +158,7 @@ export default function Landing() {
           {plans.map((plan, idx) => (
             <div
               key={plan.id}
-              className={`plan-card animate-fade-up delay-${(idx + 1) * 100} ${plan.featured ? 'featured' : ''}`}
+              className={`plan-card ${plan.id} animate-fade-up delay-${(idx + 1) * 100} ${plan.featured ? 'featured' : ''}`}
             >
               {plan.featured && <span className="popular-tag">Most Popular</span>}
               <div className={`plan-icon ${plan.id}`}>{plan.icon}</div>

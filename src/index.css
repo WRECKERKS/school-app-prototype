@@ -75,6 +75,12 @@ a {
   color: inherit;
 }
 
+:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 button {
   font-family: var(--font-body);
   cursor: pointer;
@@ -314,10 +320,30 @@ button {
   overflow: hidden;
 }
 
+.plan-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.plan-card.basic::before { background: var(--gradient-basic); }
+.plan-card.standard::before { background: var(--gradient-standard); }
+.plan-card.premium::before { background: var(--gradient-premium); }
+
 .plan-card:hover {
   transform: translateY(-8px);
   border-color: var(--border-light);
   box-shadow: var(--shadow-lg);
+}
+
+.plan-card:hover::before {
+  opacity: 1;
 }
 
 .plan-card.featured {
