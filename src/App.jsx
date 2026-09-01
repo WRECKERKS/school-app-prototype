@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
+import BackToTop from './components/BackToTop'
 import { AuthProvider } from './context/AuthContext'
 
 const Landing = lazy(() => import('./pages/Landing'))
@@ -28,6 +29,7 @@ function App() {
         <div className="app-bg" />
         <ScrollToTop />
         <Navbar />
+        <BackToTop />
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Landing />} />

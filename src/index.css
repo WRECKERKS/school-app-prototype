@@ -1739,6 +1739,39 @@ button {
   color: var(--primary-light);
 }
 
+/* Back to top */
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px var(--primary-glow);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(12px);
+  transition: all 0.3s ease;
+  z-index: 150;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  filter: brightness(1.12);
+  transform: translateY(-2px);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .nav-links {
