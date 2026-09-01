@@ -1,12 +1,24 @@
+import { lazy, Suspense } from 'react'
 import { HashRouter, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
-import Landing from './pages/Landing'
-import Compare from './pages/Compare'
-import Login from './pages/Login'
-import BasicDashboard from './pages/demos/BasicDashboard'
-import StandardDashboard from './pages/demos/StandardDashboard'
-import PremiumDashboard from './pages/demos/PremiumDashboard'
 import { AuthProvider } from './context/AuthContext'
+
+const Landing = lazy(() => import('./pages/Landing'))
+const Compare = lazy(() => import('./pages/Compare'))
+const Login = lazy(() => import('./pages/Login'))
+const NotFound = lazy(() => import('./pages/NotFound'))
+const BasicDashboard = lazy(() => import('./pages/demos/BasicDashboard'))
+const StandardDashboard = lazy(() => import('./pages/demos/StandardDashboard'))
+const PremiumDashboard = lazy(() => import('./pages/demos/PremiumDashboard'))
+
+function PageLoader() {
+  return (
+    <div className="page-loader">
+      <span className="page-loader-spinner" />
+      <span className="page-loader-text">Loading…</span>
+    </div>
+  )
+}
 
 function App() {
   return (
@@ -14,14 +26,17 @@ function App() {
       <HashRouter>
         <div className="app-bg" />
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/compare" element={<Compare />} />
-          <Route path="/demo/basic" element={<BasicDashboard />} />
-          <Route path="/demo/standard" element={<StandardDashboard />} />
-          <Route path="/demo/premium" element={<PremiumDashboard />} />
-        </Routes>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/compare" element={<Compare />} />
+            <Route path="/demo/basic" element={<BasicDashboard />} />
+            <Route path="/demo/standard" element={<StandardDashboard />} />
+            <Route path="/demo/premium" element={<PremiumDashboard />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </HashRouter>
     </AuthProvider>
   )
