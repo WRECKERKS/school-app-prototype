@@ -17,9 +17,12 @@ export default function Login() {
   const [selectedRole, setSelectedRole] = useState('principal')
   const [error, setError] = useState('')
 
+  const selectedPlan = demoRoles.find((r) => r.id === selectedRole)?.plan || 'standard'
+
   const continueAsDemo = (roleId) => {
-    loginAsDemo(roleId)
-    navigate(from)
+    const role = loginAsDemo(roleId)
+    const isDemoRoute = from.startsWith('/demo')
+    navigate(isDemoRoute ? from : `/demo/${role.plan}`)
   }
 
   const handleLogin = (e) => {
@@ -114,6 +117,17 @@ export default function Login() {
               Continue as Demo
               <ChevronRight size={18} />
             </button>
+
+            <div className="login-demo-meta">
+              Logs you in as{' '}
+              <strong>{demoRoles.find((r) => r.id === selectedRole)?.name}</strong> and opens the{' '}
+              <span className="plan-pill" style={{
+                color: selectedPlan === 'premium' ? '#f59e0b' : selectedPlan === 'standard' ? '#3b82f6' : '#22c55e',
+                borderColor: selectedPlan === 'premium' ? 'rgba(245,158,11,0.4)' : selectedPlan === 'standard' ? 'rgba(59,130,246,0.4)' : 'rgba(34,197,94,0.4)',
+              }}>
+                {selectedPlan} demo
+              </span>
+            </div>
 
             <div className="login-divider">
               <span>or sign in with</span>

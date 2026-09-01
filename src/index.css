@@ -1672,6 +1672,34 @@ button {
   50% { box-shadow: 0 6px 36px var(--primary-glow), 0 0 0 4px rgba(109, 92, 255, 0.12); }
 }
 
+.login-demo-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+
+.login-demo-meta strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.plan-pill {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 100px;
+  border: 1px solid;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  line-height: 1.6;
+}
+
 .login-divider {
   display: flex;
   align-items: center;
