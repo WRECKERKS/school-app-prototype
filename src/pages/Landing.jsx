@@ -68,6 +68,10 @@ export default function Landing() {
             <span className="h-ico" style={{ background: '#10b981' }}><Check size={16} /></span>
             Attendance 87% • Fees 92%
           </div>
+          <div className="hero-img-badge mid">
+            <span className="h-ico" style={{ background: '#8b5cf6' }}><ScanLine size={16} /></span>
+            QR attendance live
+          </div>
         </div>
       </header>
 

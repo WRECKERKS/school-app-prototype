@@ -435,9 +435,16 @@ img {
 
 .hero-title .grad {
   background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 45%, var(--accent) 100%);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  animation: gradShift 8s ease-in-out infinite;
+}
+
+@keyframes gradShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 .hero-sub {
@@ -476,6 +483,16 @@ img {
   position: relative;
 }
 
+.hero-visual::before {
+  content: '';
+  position: absolute;
+  inset: 8% -6% -4% 2%;
+  background: radial-gradient(60% 60% at 30% 40%, rgba(99, 102, 241, 0.25), transparent 70%),
+    radial-gradient(50% 50% at 75% 70%, rgba(16, 185, 129, 0.22), transparent 70%);
+  filter: blur(28px);
+  z-index: -1;
+}
+
 .hero-img {
   border-radius: var(--radius);
   border: 4px solid #fff;
@@ -483,6 +500,11 @@ img {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   width: 100%;
+  transition: transform var(--transition);
+}
+
+.hero-img:hover {
+  transform: scale(1.01) rotate(-0.4deg);
 }
 
 .hero-img-badge {
@@ -503,11 +525,34 @@ img {
 .hero-img-badge.top {
   top: 16px;
   left: -22px;
+  animation: floatA 5.5s ease-in-out infinite;
 }
 
 .hero-img-badge.bottom {
   bottom: 16px;
   right: -18px;
+  animation: floatB 6.5s ease-in-out 0.6s infinite;
+}
+
+.hero-img-badge.mid {
+  top: 46%;
+  right: -30px;
+  animation: floatC 5s ease-in-out 0.3s infinite;
+}
+
+@keyframes floatA {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -10px; }
+}
+
+@keyframes floatB {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 10px; }
+}
+
+@keyframes floatC {
+  0%, 100% { translate: 0 0; }
+  50% { translate: -8px 8px; }
 }
 
 .hero-img-badge .h-ico {
@@ -2433,6 +2478,10 @@ img {
 
   .hero-img-badge.bottom {
     right: 8px;
+  }
+
+  .hero-img-badge.mid {
+    display: none;
   }
 
   .grid-2, .grid-3, .attendance-tools {
