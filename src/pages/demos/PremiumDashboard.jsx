@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowLeft, Brain, BookMarked, BarChart3, Bus,
@@ -41,7 +42,68 @@ const routes = [
   { route: 'Route D — Yellow Line', driver: 'Ms. Lakshmi', stops: 5, status: 'On Time', eta: 'Arriving in 15 min', progress: 30, color: '#6d5cff' },
 ]
 
+const initialMessages = [
+  { role: 'bot', text: "Hello! I'm your school's AI assistant. I can help with <strong>fees</strong>, <strong>events</strong>, <strong>homework</strong>, and <strong>schedules</strong>. How can I help today? 😊" },
+  { role: 'user', text: 'When is the Term 3 exam fee due?' },
+  { role: 'bot', text: 'The Term 3 exam fee is <strong>₹1,500</strong>, due by <strong>30 September 2026</strong>. You can pay online through the parent portal or at the school office.' },
+]
+
+const suggestedQuestions = [
+  'When is the next PTM?',
+  'How do I pay the transport fee?',
+  'What homework does Class 10A have today?',
+]
+
+function chatbotReply(message) {
+  const q = message.toLowerCase()
+  if (q.includes('fee') && (q.includes('bus') || q.includes('transport'))) {
+    return 'The <strong>transport fee for Q3</strong> is <strong>₹4,200</strong>, due by <strong>15 September 2026</strong>. You can pay under <strong>Fees &gt; Pay Online</strong> in the parent portal. 🚌'
+  }
+  if (q.includes('fee')) {
+    return 'Your outstanding balance is <strong>₹6,200</strong>. Remaining items: Transport fee (Q3) ₹4,200 and Activity fee ₹2,000. Both are due by <strong>30 September</strong>. You can pay instantly in the portal. 💳'
+  }
+  if (q.includes('ptm') || q.includes('parent teacher')) {
+    return 'The next <strong>Parent-Teacher Meeting</strong> for Grade 10 is on <strong>Saturday, 20 September</strong> from <strong>9:00 AM</strong> in the school assembly hall. See you there! 📅'
+  }
+  if (q.includes('homework') || q.includes('assignment')) {
+    return 'Today Class 10A has: <strong>Mathematics</strong> (Linear Equations, Q1-15) and <strong>Science</strong> (Photosynthesis lab report). Both due tomorrow <strong>9 AM</strong>. 📚'
+  }
+  if (q.includes('bus') || q.includes('transport')) {
+    return '🚌 <strong>Route A (Green Line)</strong> is on time and arriving at the <strong>Lakeview stop</strong> in about <strong>7 minutes</strong>. ETA <strong>7:35 AM</strong>.'
+  }
+  if (q.includes('holiday') || q.includes('vacation')) {
+    return 'The next holiday is <strong>Gandhi Jayanti</strong> on <strong>2 October</strong>. Classes resume on <strong>3 October</strong>. 🎉'
+  }
+  return 'I can help with <strong>fees</strong>, the <strong>PTM schedule</strong>, <strong>homework</strong>, <strong>bus times</strong>, and <strong>holidays</strong>. Try one of the suggestions below! 😊'
+}
+
 export default function PremiumDashboard() {
+  const [messages, setMessages] = useState(initialMessages)
+  const [input, setInput] = useState('')
+  const [typing, setTyping] = useState(false)
+  const chatEndRef = useRef(null)
+
+  const sendMessage = (text) => {
+    const trimmed = (text || '').trim()
+    if (!trimmed || typing) return
+    setInput('')
+    setMessages((m) => [...m, { role: 'user', text: trimmed }])
+    setTyping(true)
+    setTimeout(() => {
+      setMessages((m) => [...m, { role: 'bot', text: chatbotReply(trimmed) }])
+      setTyping(false)
+    }, 700)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    sendMessage(input)
+  }
+
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, typing])
+
   return (
     <main className="demo-page">
       <header className="demo-header">
@@ -289,21 +351,33 @@ export default function PremiumDashboard() {
               </div>
             </div>
             <div className="chat-messages">
-              <div className="chat-message bot">
-                Hello! I'm your school's AI assistant. I can help with <strong>fees</strong>, <strong>events</strong>, <strong>homework</strong>, and <strong>schedules</strong>. How can I help today? 😊
-              </div>
-              <div className="chat-message user">When is the Term 3 exam fee due?</div>
-              <div className="chat-message bot">
-                The Term 3 exam fee is <strong>₹1,500</strong>, due by <strong>30 September 2026</strong>. You can pay online through the parent portal or at the school office.
-              </div>
-              <div className="chat-message user">What time does the school bus arrive at Lakeview stop?</div>
-              <div className="chat-message bot">
-                🚌 The bus for <strong>Route A (Green Line)</strong> arrives at the <strong>Lakeview stop</strong> at approximately <strong>7:35 AM</strong>. It's currently on time with an ETA of 7 minutes.
-              </div>
+              {messages.map((m, i) => (
+                <div key={i} className={`chat-message ${m.role}`} dangerouslySetInnerHTML={{ __html: m.text }} />
+              ))}
+              {typing && (
+                <div className="chat-message bot chat-typing">
+                  <span className="typing-dot" /><span className="typing-dot" /><span className="typing-dot" />
+                </div>
+              )}
+              <span ref={chatEndRef} />
             </div>
             <div className="chat-input">
-              <input placeholder="Type your question here..." />
-              <button className="send-btn"><Send size={18} /></button>
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSubmit(e)}
+                placeholder="Type your question here..."
+              />
+              <button type="button" className="send-btn" onClick={() => sendMessage(input)} disabled={typing || !input.trim()}>
+                <Send size={18} />
+              </button>
+            </div>
+            <div className="chat-quick-replies">
+              {suggestedQuestions.map((q, i) => (
+                <button key={i} type="button" onClick={() => sendMessage(q)} disabled={typing}>
+                  {q}
+                </button>
+              ))}
             </div>
           </div>
         </div>
