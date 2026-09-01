@@ -1242,6 +1242,20 @@ button {
   flex-shrink: 0;
 }
 
+.plan-tier-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid transparent;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  vertical-align: middle;
+}
+
 /* Navbar auth */
 .nav-divider {
   width: 1px;
