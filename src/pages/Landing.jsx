@@ -102,7 +102,7 @@ export default function Landing() {
         </span>
         <h1 className="animate-fade-up delay-100">
           The School OS that <br />
-          <span className="gradient-text">grows with you</span>
+          <span className="gradient-text animated">grows with you</span>
         </h1>
         <p className="hero-desc animate-fade-up delay-200">
           From essential administration to AI-powered automation — choose the plan
