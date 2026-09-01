@@ -254,6 +254,13 @@ img {
   border-radius: var(--radius);
   box-shadow: var(--clay-sm);
   padding: 10px 16px;
+  transition: box-shadow var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.navbar.scrolled .navbar-inner {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: var(--line-dark);
+  box-shadow: var(--clay);
 }
 
 .logo {
@@ -284,6 +291,7 @@ img {
 }
 
 .nav-link {
+  position: relative;
   padding: 8px 14px;
   border-radius: var(--radius-xs);
   font-weight: 600;
@@ -299,6 +307,17 @@ img {
 .nav-link.active {
   background: var(--primary-soft);
   color: var(--primary-deep);
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 3px;
+  height: 2.5px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
 }
 
 .nav-user {
