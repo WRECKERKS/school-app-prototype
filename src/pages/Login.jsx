@@ -1,28 +1,36 @@
-import { useState } from 'react'
-import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useMemo, useState } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   GraduationCap, Mail, Lock, LogIn, Sparkles, ChevronRight,
-  ShieldCheck, Zap, Users2, ArrowRight, PlayCircle, X
+  ShieldCheck, Zap, Users2, ArrowRight, PlayCircle, X, RefreshCw
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import { PLANS, rolesForPlan } from '../lib/registry'
 
 export default function Login() {
-  const { demoRoles, loginAsDemo, login } = useAuth()
+  const { user, loginAsDemo } = useAuth()
   const navigate = useNavigate()
-  const location = useLocation()
-  const from = location.state?.from || '/'
+  const [params] = useSearchParams()
+
+  const planHint = user?.plan
+  const selectedPlan = PLANS[planHint] ? planHint : (params.get('plan') || PLANS.basic.id)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [selectedRole, setSelectedRole] = useState('principal')
+  const [planChoice, setPlanChoice] = useState(selectedPlan)
   const [error, setError] = useState('')
 
-  const selectedPlan = demoRoles.find((r) => r.id === selectedRole)?.plan || 'standard'
+  const roles = useMemo(() => rolesForPlan(planChoice), [planChoice])
+  const activePlan = PLANS[planChoice]
 
-  const continueAsDemo = (roleId) => {
-    const role = loginAsDemo(roleId)
-    const isDemoRoute = from.startsWith('/demo')
-    navigate(isDemoRoute ? from : `/demo/${role.plan}`)
+  const instantDemo = () => {
+    loginAsDemo(roles[0].id, planChoice)
+    navigate('/app')
+  }
+
+  const demoAsRole = (roleId) => {
+    loginAsDemo(roleId, planChoice)
+    navigate('/app')
   }
 
   const handleLogin = (e) => {
@@ -31,8 +39,7 @@ export default function Login() {
       setError('Please enter an email address.')
       return
     }
-    login(email.trim(), selectedRole)
-    navigate(from)
+    demoAsRole(roles[0].id)
   }
 
   return (
@@ -40,143 +47,106 @@ export default function Login() {
       <div className="login-shell">
         {/* Brand panel */}
         <div className="login-brand">
-          <div className="login-brand-inner">
-            <Link to="/" className="logo" style={{ color: 'white' }}>
-              <span className="logo-icon">
-                <GraduationCap size={20} color="white" />
-              </span>
-              EduSuite Pro
-            </Link>
+          <Link to="/" className="logo" style={{ color: '#fff' }}>
+            <span className="logo-icon">
+              <GraduationCap size={20} color="#fff" />
+            </span>
+            EduSuite Pro
+          </Link>
 
-            <h1 className="login-brand-title">
-              The complete <br />
-              <span className="gradient-text">School OS</span>
-            </h1>
-            <p className="login-brand-desc">
-              One platform for attendance, grades, fees, parents, and AI-powered
-              automation — across every plan tier.
-            </p>
+          <h2 className="login-brand-title">
+            The complete <br /> School OS
+          </h2>
+          <p className="login-brand-desc">
+            Attendance, fees, grades, homework and AI — across every plan tier, in one platform.
+          </p>
 
-            <div className="login-brand-points">
-              {[
-                { icon: <ShieldCheck size={18} />, label: 'Multi-role secure access' },
-                { icon: <Zap size={18} />, label: 'Real-time updates & alerts' },
-                { icon: <Users2 size={18} />, label: 'Parent, staff & student portals' },
-                { icon: <Sparkles size={18} />, label: 'AI-powered lesson & exam builder' },
-              ].map((p, i) => (
-                <div key={i} className="login-brand-point">
-                  <span className="login-brand-point-icon">{p.icon}</span>
-                  <span>{p.label}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="login-brand-footer">
-              <span className="status-badge status-present"><PlayCircle size={12} /> Prototype</span>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>
-                No credentials required — try any role
-              </span>
-            </div>
+          <div className="login-points">
+            <div className="login-point"><span className="p-ico"><ShieldCheck size={16} /></span> Multi-role secure access</div>
+            <div className="login-point"><span className="p-ico"><Zap size={16} /></span> Real-time updates & parent alerts</div>
+            <div className="login-point"><span className="p-ico"><Users2 size={16} /></span> Teacher, student & parent portals</div>
           </div>
         </div>
 
         {/* Form panel */}
         <div className="login-form-panel">
-          <div className="login-form-inner">
-            <h2 className="login-form-title">Welcome back</h2>
-            <p className="login-form-sub">Sign in to access your school workspace</p>
+          <h2 className="login-title">Start the {activePlan.name} demo</h2>
+          <p className="login-sub">Fresh session — pick the plan, then a role. No credentials needed.</p>
 
-            {/* Role selector */}
-            <div className="login-role-select">
-              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 10 }}>
-                Step 1 — Choose your role
-              </div>
-              <div className="login-role-grid">
-                {demoRoles.map((r) => (
-                  <button
-                    key={r.id}
-                    type="button"
-                    onClick={() => setSelectedRole(r.id)}
-                    className={`login-role-chip ${selectedRole === r.id ? 'active' : ''}`}
-                    style={selectedRole === r.id ? { borderColor: r.color, background: `${r.color}1f` } : undefined}
-                  >
-                    <span style={{ fontSize: 18 }}>{r.icon}</span>
-                    <span style={{ fontWeight: 600, fontSize: 12 }}>{r.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Demo button */}
-            <button
-              type="button"
-              className="btn btn-primary login-demo-btn"
-              onClick={() => continueAsDemo(selectedRole)}
-            >
-              <PlayCircle size={20} />
-              Continue as Demo
-              <ChevronRight size={18} />
-            </button>
-
-            <div className="login-demo-meta">
-              Logs you in as{' '}
-              <strong>{demoRoles.find((r) => r.id === selectedRole)?.name}</strong> and opens the{' '}
-              <span className="plan-pill" style={{
-                color: selectedPlan === 'premium' ? '#f59e0b' : selectedPlan === 'standard' ? '#3b82f6' : '#22c55e',
-                borderColor: selectedPlan === 'premium' ? 'rgba(245,158,11,0.4)' : selectedPlan === 'standard' ? 'rgba(59,130,246,0.4)' : 'rgba(34,197,94,0.4)',
-              }}>
-                {selectedPlan} demo
-              </span>
-            </div>
-
-            <div className="login-divider">
-              <span>or sign in with</span>
-            </div>
-
-            <form className="login-form" onSubmit={handleLogin}>
-              <label className="login-field">
-                <span>Email address</span>
-                <div className="login-input">
-                  <Mail size={16} />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => { setEmail(e.target.value); setError('') }}
-                    placeholder="you@school.edu"
-                  />
-                </div>
-              </label>
-              <label className="login-field">
-                <span>Password</span>
-                <div className="login-input">
-                  <Lock size={16} />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                  />
-                </div>
-              </label>
-
-              {error && <div className="login-error"><X size={13} /> {error}</div>}
-
-              <button type="submit" className="btn btn-secondary login-submit">
-                <LogIn size={17} /> Sign In
+          {/* Plan selector */}
+          <div className="login-step-label">Step 1 — Demo plan</div>
+          <div className="chip-row" style={{ marginBottom: 18 }}>
+            {Object.values(PLANS).map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                className={`chip ${planChoice === p.id ? 'active' : ''}`}
+                style={planChoice === p.id ? { background: p.color, borderColor: p.color } : undefined}
+                onClick={() => setPlanChoice(p.id)}
+              >
+                {p.name} • {p.price}
               </button>
-            </form>
+            ))}
+          </div>
 
-            <div className="login-hint">
-              <Sparkles size={13} />
-              This is a prototype — the demo button instantly logs you in as your chosen role.
-            </div>
+          {/* Role selector */}
+          <div className="login-step-label">Step 2 — Role (roles for {activePlan.name})</div>
+          <div className="login-role-grid">
+            {roles.map((r) => (
+              <button key={r.id} type="button" className="login-role-chip" onClick={() => demoAsRole(r.id)}>
+                <span className="chip-emoji">{r.icon}</span>
+                {r.name}
+                <span
+                  className="plan-pill"
+                  style={{ borderColor: `${r.color}55`, color: r.color, fontSize: 10.5 }}
+                >
+                  {r.desc.split(' ')[0]}
+                </span>
+              </button>
+            ))}
+          </div>
 
-            <div className="login-back">
-              <Link to="/">
-                <ArrowRight size={15} style={{ transform: 'rotate(180deg)' }} />
-                Back to home
-              </Link>
-            </div>
+          <button type="button" className="btn btn-primary login-demo-btn" onClick={instantDemo}>
+            <PlayCircle size={20} /> Instant demo as {roles[0].name}
+            <ChevronRight size={18} />
+          </button>
+
+          <div className="login-demo-meta">
+            Logs you in instantly • opens the <strong>{activePlan.name}</strong> app
+          </div>
+
+          <div className="login-divider"><span>or sign in with any email</span></div>
+
+          <form className="login-form" onSubmit={handleLogin}>
+            <label className="login-field">
+              <span>Email address</span>
+              <div className="login-input">
+                <Mail size={16} />
+                <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setError('') }} placeholder="you@school.edu" />
+              </div>
+            </label>
+            <label className="login-field">
+              <span>Password</span>
+              <div className="login-input">
+                <Lock size={16} />
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+              </div>
+            </label>
+            {error && <div className="login-error"><X size={13} /> {error}</div>}
+            <button type="submit" className="btn btn-secondary login-submit">
+              <LogIn size={17} /> {password !== 'demo123' && password ? 'Sign In (demo accepts demo123)' : 'Sign In as demo'}
+            </button>
+          </form>
+
+          <div className="login-hint">
+            <Sparkles size={13} /> Accepts any email — password <b>demo123</b>. You&apos;ll enter the {activePlan.name} app as {roles[0].name}.
+            <span style={{ display: 'inline-flex' }}><RefreshCw size={12} /></span>
+          </div>
+
+          <div className="login-back">
+            <Link to="/start">
+              <ArrowRight size={15} style={{ transform: 'rotate(180deg)' }} /> Choose another plan
+            </Link>
           </div>
         </div>
       </div>

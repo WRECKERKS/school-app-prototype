@@ -1,270 +1,180 @@
 import { Link } from 'react-router-dom'
 import {
-  Shield,
-  Users,
-  CalendarCheck,
-  Check,
-  X,
-  Sparkles,
-  GraduationCap,
-  TrendingUp,
-  MessageSquare,
-  Brain,
-  Bus,
-  Cpu,
-  ChevronRight,
-  CalendarDays,
-  LayoutDashboard,
-  Banknote,
-  PenLine,
-  BookMarked,
-  BarChart3,
-  Library,
-  Headset,
-  LogIn
+  GraduationCap, Star, ListChecks, Check, ArrowRight, Users,
+  CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine
 } from 'lucide-react'
+import { PLANS } from '../lib/registry'
+import { img, StockImg } from '../components/ui'
 
-const plans = [
-  {
-    id: 'basic',
-    name: 'Basic Plan',
-    price: '25,000',
-    period: '/year',
-    color: '#22c55e',
-    icon: <Shield size={26} />,
-    tagline: 'Essential school management',
-    features: [
-      { text: 'Multi-Role Access Control (Principal, Admin, Teachers)', included: true },
-      { text: 'Basic Profile Directory & Emergency Contacts', included: true },
-      { text: 'Daily Attendance Register', included: true },
-      { text: 'Class Timetable Builder', included: true },
-      { text: 'Internal Staff Announcements', included: true },
-      { text: 'Data Export to CSV', included: true },
-      { text: 'Parent Access Portal', included: false },
-      { text: 'Homework Tracking', included: false },
-      { text: 'Fee Collection', included: false },
-    ],
-    demoPath: '/demo/basic',
-    featured: false,
-  },
-  {
-    id: 'standard',
-    name: 'Standard Plan',
-    price: '50,000',
-    period: '/year',
-    color: '#3b82f6',
-    icon: <TrendingUp size={26} />,
-    tagline: 'Complete school solution',
-    features: [
-      { text: 'All Basic Features Included', included: true },
-      { text: 'Parent, Student & Accounts Portals', included: true },
-      { text: 'Homework & Assignments Module', included: true },
-      { text: 'Live Gradebook & Report Cards', included: true },
-      { text: 'Online Fee Payment Gateway', included: true },
-      { text: 'Parent Communications Hub', included: true },
-      { text: 'Library & Resource Management', included: true },
-      { text: 'Staff Leave & Substitutions', included: true },
-    ],
-    demoPath: '/demo/standard',
-    featured: true,
-  },
-  {
-    id: 'premium',
-    name: 'Premium Plan',
-    price: '96,000',
-    period: '/year',
-    color: '#f59e0b',
-    icon: <Sparkles size={26} />,
-    tagline: 'AI-powered premium experience',
-    features: [
-      { text: 'All Standard Features Included', included: true },
-      { text: 'Custom Permissions & Multi-Branch', included: true },
-      { text: 'AI Lesson Plan Generator', included: true },
-      { text: 'AI Quiz & Exam Builder', included: true },
-      { text: 'AI Report Card Remarks', included: true },
-      { text: '24/7 AI Parent Support Chatbot', included: true },
-      { text: 'Bus & Transport Tracking', included: true },
-      { text: 'White-Label Branding', included: true },
-    ],
-    demoPath: '/demo/premium',
-    featured: false,
-  },
+const LANDFEATURES = [
+  { icon: Users, color: '#6366f1', title: 'Multi-role portals', desc: 'Principal, admin, teacher, student, parent and accounts — each with their own view.' },
+  { icon: CalendarCheck, color: '#10b981', title: 'Live attendance', desc: 'QR, GPS-secured or manual marking with instant parent SMS alerts.' },
+  { icon: Wallet, color: '#f59e0b', title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
+  { icon: FileBarChart2, color: '#8b5cf6', title: 'Tests & results', desc: 'Question bank of 40,000+ items, AI difficulty balancing and deep analytics.' },
+  { icon: MessageSquareWarning, color: '#ec4899', title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
+  { icon: ScanLine, color: '#06b6d4', title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
+]
+
+const TESTIMONIALS = [
+  { name: 'Mrs. Kavita Verma', role: 'Principal, Sunrise Public School', photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=120&q=80', quote: 'We replaced three apps with EduSuite. Attendance and fees alone save our office staff 15 hours a week.' },
+  { name: 'Rajesh Kumar', role: 'Science Teacher, Class 10', photo: 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?auto=format&fit=crop&w=120&q=80', quote: 'The question bank and homework grading are brilliant. Reviewing submissions takes minutes now.' },
+  { name: 'Anita Sharma', role: 'Parent of two students', photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80', quote: 'I know attendance, fees and homework on my phone before my kids even reach home. Very reassuring.' },
 ]
 
 export default function Landing() {
   return (
-    <main>
+    <div className="landing">
       {/* Hero */}
-      <section className="hero">
-        <span className="badge animate-fade-up">
-          <Sparkles size={14} />
-          Complete School Management
-        </span>
-        <h1 className="animate-fade-up delay-100">
-          The School OS that <br />
-          <span className="gradient-text animated">grows with you</span>
-        </h1>
-        <p className="hero-desc animate-fade-up delay-200">
-          From essential administration to AI-powered automation — choose the plan
-          that fits your school's needs today, and scale up whenever you're ready.
-        </p>
-        <div className="demo-actions" style={{ justifyContent: 'center' }}>
-          <Link to="/compare" className="btn btn-primary" style={{ padding: '14px 28px', fontSize: '16px' }}>
-            Compare All Plans <ChevronRight size={18} />
-          </Link>
-          <Link to="/demo/standard" className="btn btn-secondary" style={{ padding: '14px 28px', fontSize: '16px' }}>
-            Try Standard Demo
-          </Link>
-          <Link to="/login" className="btn btn-ghost" style={{ padding: '14px 28px', fontSize: '16px' }}>
-            <LogIn size={16} /> Sign In
-          </Link>
+      <header className="hero">
+        <div>
+          <span className="hero-eyebrow"><Star size={14} /> Trusted by 200+ schools • Starts at ₹25,000/yr</span>
+          <h1 className="hero-title">
+            The complete <span className="grad">School OS</span> — attendance, fees and results in one place
+          </h1>
+          <p className="hero-sub">
+            EduSuite Pro brings every daily task — attendance, fee collection, homework, tests and parent updates —
+            into one friendly, easy-to-run platform. Start with Basic, grow to Premium.
+          </p>
+          <div className="hero-cta">
+            <Link to="/start" className="btn btn-primary btn-lg"><Star size={18} /> Start Demo</Link>
+            <Link to="/" className="btn btn-soft btn-lg" onClick={(e) => { e.preventDefault(); document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' }) }}>
+              See plans <ArrowRight size={18} />
+            </Link>
+          </div>
+          <div className="hero-stats">
+            <div className="hero-stat"><b>40,247</b><span>Question bank items</span></div>
+            <div className="hero-stat"><b>12K</b><span>Parent alerts sent this month</span></div>
+            <div className="hero-stat"><b>92%</b><span>Fee collection rate</span></div>
+          </div>
         </div>
-      </section>
 
-      {/* Quick stats */}
-      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
-        <div className="stat-row">
-          <div className="stat-card">
-            <div className="stat-label"><TrendingUp size={14} /> School Growth</div>
-            <div className="stat-value">3 Plans</div>
-            <span className="stat-change positive">Scales with you</span>
+        <div className="hero-visual">
+          <StockImg src={img('hero')} alt="Students in a classroom" className="hero-img" />
+          <div className="hero-img-badge top">
+            <span className="h-ico"><Users size={16} /></span>
+            245 students • 18 staff
           </div>
-          <div className="stat-card">
-            <div className="stat-label"><Users size={14} /> Role Portals</div>
-            <div className="stat-value">6+</div>
-            <span className="stat-change positive">Full access matrix</span>
+          <div className="hero-img-badge bottom">
+            <span className="h-ico" style={{ background: '#10b981' }}><Check size={16} /></span>
+            Attendance 87% • Fees 92%
           </div>
-          <div className="stat-card">
-            <div className="stat-label"><Cpu size={14} /> AI Features</div>
-            <div className="stat-value">5</div>
-            <span className="stat-change positive">Premium only</span>
-          </div>
-          <div className="stat-card">
-            <div className="stat-label"><LayoutDashboard size={14} /> Demo Dashboards</div>
-            <div className="stat-value">3</div>
-            <span className="stat-change positive">Try them live</span>
-          </div>
+        </div>
+      </header>
+
+      {/* Features */}
+      <section className="section" id="features">
+        <div className="section-head">
+          <span className="section-kicker">Built for daily school life</span>
+          <h2>Everything your staff and parents touch, in one app</h2>
+          <p>Six core modules — each one available up to your plan tier.</p>
+        </div>
+        <div className="features-grid">
+          {LANDFEATURES.map((f) => {
+            const Icon = f.icon
+            return (
+              <div className="feature-card" key={f.title}>
+                <span className="feature-icon" style={{ background: f.color }}><Icon size={22} /></span>
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
+              </div>
+            )
+          })}
         </div>
       </section>
 
       {/* Plans */}
-      <section className="plans-section">
-        <div className="section-title">
-          <h2>Choose your plan</h2>
-          <p>Every plan is packed with the features your school needs — pick the level that's right for you.</p>
+      <section className="section" id="plans">
+        <div className="section-head">
+          <span className="section-kicker">Simple pricing</span>
+          <h2>Three plans. One platform. Grow as you go.</h2>
+          <p>Basic covers essentials. Standard adds daily operations. Premium brings analytics and AI.</p>
         </div>
-
-        <div className="plans-grid">
-          {plans.map((plan, idx) => (
-            <div
-              key={plan.id}
-              className={`plan-card ${plan.id} animate-fade-up delay-${(idx + 1) * 100} ${plan.featured ? 'featured' : ''}`}
-            >
-              {plan.featured && <span className="popular-tag">Most Popular</span>}
-              <div className={`plan-icon ${plan.id}`}>{plan.icon}</div>
-              <h3 className="plan-name">{plan.name}</h3>
-              <p className="plan-subtitle">{plan.tagline}</p>
-              <div className="plan-price">
-                <span className="price-currency">₹</span>
-                <span className="price-value">{plan.price}</span>
-                <span className="price-period">{plan.period}</span>
-              </div>
-
-              <ul className="plan-features">
-                {plan.features.map((feat, i) => (
-                  <li key={i} className={feat.included ? '' : 'dim'}>
-                    {feat.included ? (
-                      <Check size={16} className="feature-check" />
-                    ) : (
-                      <X size={16} className="feature-x" />
-                    )}
-                    {feat.text}
+        <div className="plan-grid">
+          {[
+            {
+              id: 'basic',
+              name: 'Basic',
+              price: '₹25,000',
+              desc: 'For small schools that need essentials, done right.',
+              feats: ['Overview dashboard', 'Attendance register', 'Class timetable', 'Staff directory', 'Announcements'],
+              cta: 'Start Basic demo',
+            },
+            {
+              id: 'standard',
+              name: 'Standard',
+              price: '₹50,000',
+              desc: 'Complete daily operations with parent engagement.',
+              feats: ['Everything in Basic', 'Fee management + receipts', 'Homework & grading', 'Tests & results', 'Notes library', 'Parent alerts (SMS/WhatsApp)'],
+              cta: 'Start Standard demo',
+              featured: true,
+            },
+            {
+              id: 'premium',
+              name: 'Premium',
+              price: '₹96,000',
+              desc: 'Everything, supercharged with analytics and AI.',
+              feats: ['Everything in Standard', 'Advanced analytics (4 views)', '40K+ question bank + AI builder', 'QR / GPS attendance', 'Doubts & full activity log'],
+              cta: 'Start Premium demo',
+            },
+          ].map((p) => (
+            <div key={p.id} className={`plan-card ${p.featured ? 'featured' : ''}`}>
+              <span className={`plan-icon ${p.id}`}>
+                {p.id === 'basic' ? <ListChecks size={26} /> : p.id === 'standard' ? <Users size={26} /> : <Star size={26} />}
+              </span>
+              <h3 className="plan-name">{p.name}</h3>
+              <p className="plan-desc">{p.desc}</p>
+              <div className="plan-price"><b>{p.price}</b><span>/year, rolling</span></div>
+              <ul className="plan-feats">
+                {p.feats.map((f) => (
+                  <li key={f}>
+                    <span className="f-ico" style={{ background: PLANS[p.id].soft, color: PLANS[p.id].color }}><Check size={13} /></span>
+                    {f}
                   </li>
                 ))}
               </ul>
-
-              <Link
-                to={plan.demoPath}
-                className={`plan-btn ${plan.featured ? 'primary' : ''}`}
-              >
-                See {plan.name} Demo
-              </Link>
+              <Link to="/start" className="btn btn-primary" style={{ justifyContent: 'center' }}>{p.cta} <ArrowRight size={15} /></Link>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Feature modules overview */}
-      <section className="plans-section" style={{ paddingTop: 40 }}>
-        <div className="section-title">
-          <h2>Powerful modules for every need</h2>
-          <p>Explore the feature set that powers modern schools</p>
+      {/* Testimonials */}
+      <section className="section">
+        <div className="section-head">
+          <span className="section-kicker">What schools say</span>
+          <h2>Trusted by principals, teachers and parents</h2>
         </div>
-        <div className="feature-grid" style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px' }}>
-          {[
-            { icon: <LayoutDashboard size={22} />, cls: 'purple-icon', title: 'Role Dashboards', desc: 'Distinct experiences for Principal, Admin, Teachers, Parents, Students & Accounts.' },
-            { icon: <CalendarCheck size={22} />, cls: 'green-icon', title: 'Attendance', desc: 'Daily digital register with instant presence tracking.' },
-            { icon: <CalendarDays size={22} />, cls: 'blue-icon', title: 'Timetables', desc: 'Build class schedules for periods and subjects in minutes.' },
-            { icon: <PenLine size={22} />, cls: 'orange-icon', title: 'Homework & Assignments', desc: 'Upload tasks, share notes, and track submissions digitally.' },
-            { icon: <BarChart3 size={22} />, cls: 'teal-icon', title: 'Live Gradebook', desc: 'Real-time grades, test scores, and printable report cards.' },
-            { icon: <Banknote size={22} />, cls: 'pink-icon', title: 'Fee Payment', desc: 'Online collection with instant receipts and reminders.' },
-            { icon: <MessageSquare size={22} />, cls: 'purple-icon', title: 'Parent Comms', desc: 'Push notifications for attendance, events, and alerts.' },
-            { icon: <Library size={22} />, cls: 'blue-icon', title: 'Library Management', desc: 'Track inventory, issue/return dates, and overdue logs.' },
-            { icon: <Brain size={22} />, cls: 'purple-icon', title: 'AI Lesson Plans', desc: 'Generate weekly lesson plans and learning objectives instantly.' },
-            { icon: <BookMarked size={22} />, cls: 'green-icon', title: 'AI Quiz Builder', desc: 'Auto-create question papers with answer keys.' },
-            { icon: <Headset size={22} />, cls: 'orange-icon', title: 'AI Chatbot', desc: '24/7 automated support for parent queries.' },
-            { icon: <Bus size={22} />, cls: 'teal-icon', title: 'Transport Tracking', desc: 'Live bus routes, stops, and vehicle status.' },
-          ].map((mod, i) => (
-            <div key={i} className="feature-module animate-fade-up" style={{ animationDelay: `${(i % 4) * 100}ms` }}>
-              <div className={`module-icon ${mod.cls}`}>{mod.icon}</div>
-              <h4 style={{ fontSize: 15, marginBottom: 8 }}>{mod.title}</h4>
-              <p>{mod.desc}</p>
+        <div className="testimonial-grid">
+          {TESTIMONIALS.map((t) => (
+            <div className="tcard" key={t.name}>
+              <div className="tcard-stars">{Array.from({ length: 5 }).map((_, i) => <Star key={i} size={15} fill="currentColor" />)}</div>
+              <p>“{t.quote}”</p>
+              <div className="tcard-person">
+                <StockImg src={t.photo} alt={t.name} />
+                <div><b>{t.name}</b><span>{t.role}</span></div>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="hero" style={{ paddingTop: 40 }}>
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(109,92,255,0.15), rgba(139,130,255,0.05))',
-          border: '1px solid rgba(109,92,255,0.3)',
-          borderRadius: '24px',
-          padding: '48px 32px',
-          boxShadow: '0 0 60px rgba(109,92,255,0.1)',
-        }}>
-          <h2 style={{ fontSize: 28, marginBottom: 16 }}>
-            Ready to see it in action?
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', maxWidth: 500, margin: '0 auto 28px' }}>
-            Explore each plan's interactive demo to understand what your school gets.
-          </p>
-          <div className="demo-actions" style={{ justifyContent: 'center' }}>
-            <Link to="/compare" className="btn btn-primary" style={{ padding: '14px 28px' }}>
-              View Comparison
-            </Link>
+      {/* CTA band */}
+      <div className="cta-band">
+        <div className="cta-band-inner">
+          <div>
+            <h2>Ready to see it live?</h2>
+            <p>Open a fresh demo — pick a plan, choose a role, and explore the full app in under 30 seconds.</p>
           </div>
+          <Link to="/start" className="btn btn-white btn-lg"><Star size={18} /> Start Demo now</Link>
         </div>
-      </section>
+      </div>
 
-      {/* Footer */}
       <footer className="footer">
-        <div className="footer-inner">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, marginBottom: 12 }}>
-            <span style={{
-              width: 32, height: 32, borderRadius: 8, background: 'var(--gradient-primary)',
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center'
-            }}>
-              <GraduationCap size={18} style={{ color: 'white' }} />
-            </span>
-            <span style={{ fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: 18, color: 'var(--text-primary)' }}>
-              EduSuite Pro
-            </span>
-          </div>
-          <p>Complete school management system • Prototype Demo</p>
-          <p style={{ marginTop: 8 }}>© 2026 EduSuite Pro</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <span className="logo" style={{ fontSize: 16 }}><span className="logo-icon" style={{ width: 30, height: 30 }}><GraduationCap size={16} color="#fff" /></span>EduSuite Pro</span>
         </div>
+        <div>Interactive prototype for school demos • Built with React + Vite</div>
       </footer>
-    </main>
+    </div>
   )
 }
