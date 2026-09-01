@@ -157,11 +157,19 @@ img {
   cursor: pointer;
   border: 2.5px solid transparent;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--transition), box-shadow var(--transition),
+    background var(--transition), border-color var(--transition), color var(--transition);
 }
 
 .btn:active {
   box-shadow: var(--clay-press);
-  transform: translateY(1px);
+  transform: translateY(2px) scale(0.98);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--primary);
 }
 
 .btn-primary {
@@ -1896,6 +1904,19 @@ img {
 .chip:hover {
   border-color: var(--primary);
   color: var(--primary-deep);
+}
+
+.chip:active,
+.role-switcher-btn:active {
+  transform: translateY(1px);
+}
+
+.chip:focus-visible,
+.role-switcher-btn:focus-visible,
+.login-role-chip:focus-visible,
+.role-switcher-menu button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--primary-soft), 0 0 0 5px var(--primary);
 }
 
 .chip.active {
