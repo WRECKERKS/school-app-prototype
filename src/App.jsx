@@ -48,6 +48,15 @@ function LoginRoute() {
   return <Login key={params.get('plan') || 'basic'} />
 }
 
+function AnimatedRoutes({ children }) {
+  const location = useLocation()
+  return (
+    <div key={location.pathname} className="route-fade">
+      {children}
+    </div>
+  )
+}
+
 function App() {
   return (
     <AuthProvider>
@@ -58,7 +67,8 @@ function App() {
           <PublicNav />
           <BackToTop />
           <Suspense fallback={<PageLoader />}>
-            <Routes>
+            <AnimatedRoutes>
+              <Routes>
               <Route path="/" element={<Landing />} />
               <Route path="/start" element={<StartDemo />} />
               <Route path="/login" element={<LoginRoute />} />
@@ -81,7 +91,8 @@ function App() {
                 <Route path="activity" element={<ActivityPage />} />
               </Route>
               <Route path="*" element={<NotFound />} />
-            </Routes>
+              </Routes>
+            </AnimatedRoutes>
           </Suspense>
         </HashRouter>
       </ToastProvider>
