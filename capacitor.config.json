@@ -1,0 +1,13 @@
+{
+  "appId": "app.edusuite.pro",
+  "appName": "EduSuite Pro",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "android": {
+    "backgroundColor": "#f1eefc",
+    "allowMixedContent": false
+  }
+}
