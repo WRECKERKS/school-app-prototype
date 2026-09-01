@@ -1693,6 +1693,12 @@ img {
   border-radius: var(--radius);
   box-shadow: var(--clay-sm);
   padding: 22px;
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.panel:hover {
+  box-shadow: var(--clay);
+  transform: translateY(-2px);
 }
 
 .panel-header {
@@ -1740,6 +1746,17 @@ img {
   border-radius: var(--radius-sm);
   box-shadow: var(--clay-sm);
   padding: 18px;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--clay);
+  border-color: var(--line-dark);
+}
+
+.stat-card:hover .stat-icon {
+  transform: scale(1.1) rotate(-4deg);
 }
 
 .stat-card .sc-top {
@@ -1757,6 +1774,7 @@ img {
   border-radius: var(--radius-xs);
   color: #fff;
   box-shadow: 3px 3px 0 0 rgba(30, 27, 75, 0.14), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  transition: transform var(--transition);
 }
 
 .stat-value {
