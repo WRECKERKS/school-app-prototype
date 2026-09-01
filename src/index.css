@@ -617,12 +617,42 @@ img {
   border-radius: var(--radius);
   box-shadow: var(--clay);
   padding: 28px 26px;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
+
+.plan-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  border-radius: 16px 16px 0 0;
+  background: linear-gradient(90deg, var(--tier-a, var(--primary)), var(--tier-b, var(--secondary)));
+  opacity: 0.9;
+}
+
+.plan-card.basic { --tier-a: #22c55e; --tier-b: #16a34a; }
+.plan-card.standard { --tier-a: #6366f1; --tier-b: #4338ca; }
+.plan-card.premium { --tier-a: #f59e0b; --tier-b: #d97706; }
 
 .plan-card.featured {
   border-color: var(--primary);
   transform: translateY(-8px);
+  box-shadow: var(--clay), 0 0 0 4px var(--primary-soft);
+}
+
+.plan-card:hover {
+  transform: translateY(-7px);
+}
+
+.plan-card.basic:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(34, 197, 94, 0.5); }
+.plan-card.standard:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(99, 102, 241, 0.5); }
+.plan-card.premium:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(245, 158, 11, 0.5); }
+
+.plan-card.featured:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--clay), 0 0 0 4px var(--primary-soft), 0 18px 34px -14px rgba(99, 102, 241, 0.55);
 }
 
 .plan-card.featured::before {

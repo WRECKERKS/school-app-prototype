@@ -131,7 +131,7 @@ export default function Landing() {
               cta: 'Start Premium demo',
             },
           ].map((p) => (
-            <div key={p.id} className={`plan-card ${p.featured ? 'featured' : ''}`}>
+            <div key={p.id} className={`plan-card ${p.id} ${p.featured ? 'featured' : ''}`}>
               <span className={`plan-icon ${p.id}`}>
                 {p.id === 'basic' ? <ListChecks size={26} /> : p.id === 'standard' ? <Users size={26} /> : <Star size={26} />}
               </span>
