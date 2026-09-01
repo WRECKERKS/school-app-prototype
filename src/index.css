@@ -506,7 +506,35 @@ html {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 34px;
+  margin-bottom: 22px;
+}
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-bottom: 30px;
+}
+
+.hero-trust span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.hero-trust svg {
+  color: var(--accent);
+}
+
+.hero-trust .trust-sep {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--line-dark);
 }
 
 .hero-stats {

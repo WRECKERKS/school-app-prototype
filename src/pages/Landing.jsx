@@ -42,14 +42,21 @@ export default function Landing() {
             The complete <span className="grad">School OS</span> — attendance, fees and results in one place
           </h1>
           <p className="hero-sub">
-            EduSuite Pro brings every daily task — attendance, fee collection, homework, tests and parent updates —
-            into one friendly, easy-to-run platform. Start with Basic, grow to Premium.
+            Every daily school task — attendance, fee collection, homework, tests and parent updates —
+            on one friendly platform. Start on Basic, grow to Premium.
           </p>
           <div className="hero-cta">
             <Link to="/start" className="btn btn-primary btn-lg"><Star size={18} /> Start Demo</Link>
             <Link to="/" className="btn btn-soft btn-lg" onClick={(e) => { e.preventDefault(); document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' }) }}>
               See plans <ArrowRight size={18} />
             </Link>
+          </div>
+          <div className="hero-trust">
+            <span><Check size={14} /> No credit card needed</span>
+            <span className="trust-sep" />
+            <span><Check size={14} /> 60-second setup</span>
+            <span className="trust-sep" />
+            <span><Check size={14} /> Free upgrades between plans</span>
           </div>
           <div className="hero-stats">
             <HeroStat value={40247} suffix="" label="Question bank items" />
