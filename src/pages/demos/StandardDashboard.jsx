@@ -5,6 +5,7 @@ import {
   Home, GraduationCap, User, Wallet, TrendingUp, AlertCircle, Download
 } from 'lucide-react'
 import DemoUserBanner from '../../components/DemoUserBanner'
+import DemoPlanSwitcher from '../../components/DemoPlanSwitcher'
 
 const homework = [
   { subject: 'Mathematics', teacher: 'Rajesh Kumar', title: 'Chapter 3: Linear Equations', desc: 'Solve Q1-15 from exercise 3.2. Submit by tomorrow 9 AM.', cls: '10A', due: 'Tomorrow, 9 AM', color: '#6d5cff', submissions: 38, total: 42 },
@@ -60,11 +61,9 @@ export default function StandardDashboard() {
             <p>₹50,000 / year • Parent, student & accounts portals included</p>
           </div>
           <div className="demo-actions">
-            <Link to="/demo/basic" className="btn btn-secondary">
-              <ArrowLeft size={16} /> Basic
-            </Link>
-            <Link to="/demo/premium" className="btn btn-primary">
-              Premium Demo <ArrowLeft size={16} style={{ transform: 'rotate(180deg)' }} />
+            <DemoPlanSwitcher active="standard" />
+            <Link to="/compare" className="btn btn-secondary">
+              <ArrowLeft size={16} /> Back to Plans
             </Link>
           </div>
         </div>

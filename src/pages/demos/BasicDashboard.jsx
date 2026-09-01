@@ -5,6 +5,7 @@ import {
   Bell, FileSpreadsheet
 } from 'lucide-react'
 import DemoUserBanner from '../../components/DemoUserBanner'
+import DemoPlanSwitcher from '../../components/DemoPlanSwitcher'
 
 const attendanceData = [
   { name: 'Class 8A', total: 42, present: 39, absent: 3, pct: 93 },
@@ -61,6 +62,7 @@ export default function BasicDashboard() {
             <p>₹25,000 / year • Essential school administration toolkit</p>
           </div>
           <div className="demo-actions">
+            <DemoPlanSwitcher active="basic" />
             <Link to="/compare" className="btn btn-secondary">
               <ArrowLeft size={16} /> Back to Plans
             </Link>

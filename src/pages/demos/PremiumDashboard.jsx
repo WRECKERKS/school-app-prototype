@@ -5,6 +5,7 @@ import {
   Building, Clock
 } from 'lucide-react'
 import DemoUserBanner from '../../components/DemoUserBanner'
+import DemoPlanSwitcher from '../../components/DemoPlanSwitcher'
 
 const lessonPlan = {
   subject: 'Mathematics',
@@ -52,11 +53,9 @@ export default function PremiumDashboard() {
             <p>₹96,000 / year • Full AI automation + school branding</p>
           </div>
           <div className="demo-actions">
-            <Link to="/demo/standard" className="btn btn-secondary">
-              <ArrowLeft size={16} /> Standard
-            </Link>
-            <Link to="/compare" className="btn btn-primary">
-              Compare Plans
+            <DemoPlanSwitcher active="premium" />
+            <Link to="/compare" className="btn btn-secondary">
+              <ArrowLeft size={16} /> Compare Plans
             </Link>
           </div>
         </div>
