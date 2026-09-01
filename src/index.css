@@ -110,21 +110,29 @@ img {
 }
 
 ::selection {
-  background: var(--primary);
+  background: linear-gradient(120deg, var(--primary), var(--accent));
   color: #fff;
 }
 
+html {
+  scrollbar-color: var(--secondary) var(--bg-soft);
+  scrollbar-width: thin;
+}
+
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-soft);
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cfc6ea;
-  border-radius: 20px;
-  border: 2px solid var(--bg-soft);
+  background: linear-gradient(180deg, var(--secondary), var(--primary));
+  border-radius: 100px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-deep);
 }
 
 /* ==== Background decoration ==== */
