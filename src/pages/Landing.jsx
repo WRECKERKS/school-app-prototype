@@ -83,10 +83,10 @@ export default function Landing() {
           <p>Six core modules — each one available up to your plan tier.</p>
         </div>
         <div className="features-grid">
-          {LANDFEATURES.map((f) => {
+          {LANDFEATURES.map((f, i) => {
             const Icon = f.icon
             return (
-              <div className="feature-card" key={f.title}>
+              <div className="feature-card" key={f.title} style={{ '--i': i }}>
                 <span className="feature-icon" style={{ background: f.color }}><Icon size={22} /></span>
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
@@ -130,8 +130,8 @@ export default function Landing() {
               feats: ['Everything in Standard', 'Advanced analytics (4 views)', '40K+ question bank + AI builder', 'QR / GPS attendance', 'Doubts & full activity log'],
               cta: 'Start Premium demo',
             },
-          ].map((p) => (
-            <div key={p.id} className={`plan-card ${p.id} ${p.featured ? 'featured' : ''}`}>
+          ].map((p, i) => (
+            <div key={p.id} className={`plan-card ${p.id} ${p.featured ? 'featured' : ''}`} style={{ '--i': i }}>
               <span className={`plan-icon ${p.id}`}>
                 {p.id === 'basic' ? <ListChecks size={26} /> : p.id === 'standard' ? <Users size={26} /> : <Star size={26} />}
               </span>
@@ -159,8 +159,8 @@ export default function Landing() {
           <h2>Trusted by principals, teachers and parents</h2>
         </div>
         <div className="testimonial-grid">
-          {TESTIMONIALS.map((t) => (
-            <div className="tcard" key={t.name}>
+          {TESTIMONIALS.map((t, i) => (
+            <div className="tcard" key={t.name} style={{ '--i': i }}>
               <div className="tcard-stars">{Array.from({ length: 5 }).map((_, i) => <Star key={i} size={15} fill="currentColor" />)}</div>
               <p>“{t.quote}”</p>
               <div className="tcard-person">
