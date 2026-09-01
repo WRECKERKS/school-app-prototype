@@ -110,11 +110,21 @@ const TOAST_ICONS = {
 
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([])
+  const [leaving, setLeaving] = useState({})
 
   const push = useCallback((message, type = 'success') => {
     const id = Math.random().toString(36).slice(2)
     setToasts((t) => [...t, { id, message, type }])
-    setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 3800)
+    setTimeout(() => setLeaving((l) => ({ ...l, [id]: true })), 3600)
+    setTimeout(() => {
+      setToasts((t) => t.filter((x) => x.id !== id))
+      setLeaving((l) => {
+        const copy = { ...l }
+        delete copy[id]
+        return copy
+      })
+    }, 4200)
+    return id
   }, [])
 
   return (
@@ -122,7 +132,7 @@ export function ToastProvider({ children }) {
       {children}
       <div className="toast-stack">
         {toasts.map((t) => (
-          <div key={t.id} className={`toast ${t.type}`}>
+          <div key={t.id} className={`toast ${t.type} ${leaving[t.id] ? 'leaving' : ''}`}>
             <span className="toast-ico">{TOAST_ICONS[t.type]}</span>
             {t.message}
           </div>

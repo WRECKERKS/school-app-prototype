@@ -2117,6 +2117,8 @@ img {
 }
 
 .toast {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -2129,6 +2131,34 @@ img {
   font-weight: 700;
   color: var(--ink);
   animation: toastIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.toast::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 100%;
+  background: var(--good);
+  animation: toastTime 3.6s linear forwards;
+}
+
+.toast.success::after { background: var(--good); }
+.toast.info::after { background: var(--info); }
+.toast.warn::after { background: var(--warn); }
+
+.toast.leaving {
+  animation: toastOut 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes toastTime {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@keyframes toastOut {
+  to { transform: translateX(60px); opacity: 0; }
 }
 
 .toast.success { border-left: 6px solid var(--good); }
