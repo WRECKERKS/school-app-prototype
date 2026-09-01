@@ -1,41 +1,48 @@
 # EduSuite Pro — School Management System Prototype
 
-A polished, non-sloppy interactive prototype of a complete school management
-platform, built to demo to schools. It showcases **three plan tiers** — Basic,
-Standard, and Premium — each with a full interactive dashboard.
+A polished, client-ready interactive prototype of a complete school management
+platform. Built to be pitched live to schools across **three plan tiers** —
+Basic, Standard and Premium — each with its own roles, modules and demo flow.
+
+▶ Live demo: <https://wreckerks.github.io/school-app-prototype/>
 
 ## Features
 
-### 🗂️ Three Plan Tiers
+### 🚀 Start-Demo Pitch Flow
+- Landing page with hero, features, plan cards and testimonials (claymorphism light design)
+- **Start Demo** → plan picker (`/start`) → role login (`/login?plan=...`) → full app (`/app`)
+- Plan chips + per-plan **role grid** (Basic: Principal, Admin • Standard: + Teacher/Parent/Student/Accounts • Premium: all roles)
+- One-click **Instant demo** and email/password sign-in (any email, `demo123`) with zero friction
 
-| Plan | Price | Demo |
-|------|-------|------|
-| **Basic** | ₹25,000 / year | `/demo/basic` |
-| **Standard** | ₹50,000 / year | `/demo/standard` |
-| **Premium** | ₹96,000 / year | `/demo/premium` |
+### 🧭 Multi-Page App (`/app`)
+- Dedicated page per module, gated by plan + role (`src/lib/registry.jsx`)
+- **Overview** (role-aware dashboards), **Attendance** (interactive register; Premium adds QR + GPS verification), **Timetable**, **Homework** (grading dialogs), **Tests & Results**, **Notes Library**, **Doubts**, **Fee Management** (UPI/Card/Wallet), **Students & Staff**, **Schedule**, **Announcements**, **Parent Alerts** (SMS/WhatsApp/Email/Call), **Staff Directory** (Basic), **Analytics** (recharts), **Question Bank**, **Activity Log**
+- Topbar **plan switcher** ("Show Standard plan") and **role switcher** (no logout) for live pivots mid-pitch
 
-### 🔐 User / Role System
-- Custom **login page** with role selection (Principal, Admin, Teacher, Parent, Student, Accounts)
-- One-click **"Continue as Demo"** button — instantly logs you in as the chosen role and opens that role's matching plan demo
-- Email/password sign-in flow
-- Session persisted in `localStorage`
-- Auth-aware navbar showing the signed-in user chip + plan-tier badge + logout
+### 📲 Installable PWA
+- `<150KB` footprint app shell, offline-capable service worker, manifest + icons
+- Installable to the home screen on Android, iOS and desktop
 
-### 🖼️ Demo Dashboards
-- **Basic Plan** — Multi-role access, *interactive* attendance register (click a row to mark a student present), class timetable, staff directory, announcements, CSV export
-- **Standard Plan** — Parent/student/accounts portals, homework module, live gradebook, fee payments, parent comms, library, staff leave
-- **Premium Plan** — Custom permissions, multi-branch, AI lesson plans, AI quiz builder, AI report card remarks, **working AI chatbot with smart canned replies**, bus tracking, white-label branding
+### 🤖 Android APK (Capacitor)
+- The `/app` web build is packaged into a real Android app via **Capacitor**
+- `apk.yml` workflow builds `app-debug.apk` on every push — grab it from **Actions → Artifacts**
+- `release.yml` publishes the APK to **GitHub Releases** when you push a `v*` tag
 
-### 🧭 Plan Switcher
-- Every dashboard includes a persistent **plan switcher** pill navigation (Basic / Standard / Premium) so you can jump between tiers without leaving the demo flow.
+## Plan Tiers
+
+| Plan | Price | Roles | Modules |
+|------|-------|-------|---------|
+| **Basic** | ₹25,000 / year | Principal, Admin | Overview, Attendance, Timetable, Staff Directory, Announcements |
+| **Standard** | ₹50,000 / year | Admin, Teacher, Parent, Student, Accounts | + Homework, Tests, Notes, Doubts, Fees, Students, Schedule, Parent Alerts |
+| **Premium** | ₹96,000 / year | All roles | + Analytics, AI Question Bank, Full Activity Log, QR/GPS attendance |
 
 ## Tech Stack
 
-- **React 19** + **Vite 8**
-- **react-router-dom** (HashRouter, lazy route code-splitting)
-- **lucide-react** for icons
-- Custom dark, glassy design system with CSS variables & animations
-- Deployable to **GitHub Pages** via `vite build` + the included workflow
+- **React 19 + Vite 8** (lazy route code-splitting, hash routing for Pages)
+- **Claymorphism design system** — indigo/emerald/gold palette, Plus Jakarta Sans, clay shadows & animations
+- **lucide-react** icons, **recharts** analytics charts
+- **Capacitor** for native Android packaging, **PWA** service worker + manifest
+- Two GitHub Actions: **Pages deploy** and **APK build**
 
 ## Getting Started
 
@@ -47,33 +54,44 @@ npm run preview  # preview production build
 npm run lint     # oxlint
 ```
 
+### Building the APK locally (requires JDK 17+ and Android SDK)
+
+```bash
+npm install @capacitor/core @capacitor/cli @capacitor/android
+npm run build -- --base=./
+npx cap add android
+npx cap sync android
+cd android && gradlew assembleDebug   # output: android/app/build/outputs/apk/debug/
+```
+
+Prefer CI — just push and download the APK from **Actions → Build Android APK → Artifacts**.
+
 ## Project Structure
 
 ```
 src/
 ├── components/
-│   ├── Navbar.jsx            # Auth-aware top navigation
-│   ├── DemoUserBanner.jsx    # Signed-in context banner
-│   ├── DemoPlanSwitcher.jsx  # Plan-tier pill navigation
-│   ├── ScrollToTop.jsx       # Route scroll restoration
-│   └── BackToTop.jsx         # Floating back-to-top button
+│   ├── DashboardLayout.jsx   # App shell: sidebar, topbar, plan/role switchers
+│   ├── Navbar.jsx            # Floating glass navbar (Home + Live Demo)
+│   ├── ui.jsx                # Panels, stat cards, avatars, stock images, toasts
+│   ├── CountUp.jsx           # Eased number animation
+│   └── ScrollToTop.jsx, BackToTop.jsx
 ├── context/
-│   └── AuthContext.jsx       # Authentication state & demo roles
+│   └── AuthContext.jsx       # Demo auth: startDemo / loginAsDemo / switchPlan / switchRole
+├── lib/
+│   ├── registry.jsx          # PLANS, ROLES, MODULES gating source of truth
+│   └── mock.js               # Realistic mock data (~40k question bank etc.)
 ├── pages/
-│   ├── Landing.jsx           # Hero + plan cards + feature grid
-│   ├── Login.jsx             # Sign-in + Continue as Demo
-│   ├── Compare.jsx           # Full feature comparison table
-│   ├── NotFound.jsx          # 404 page
-│   └── demos/
-│       ├── BasicDashboard.jsx
-│       ├── StandardDashboard.jsx
-│       └── PremiumDashboard.jsx
-├── App.jsx                   # Lazy routes + auth provider wiring
-├── main.jsx                  # App entry
-└── index.css                 # Design system
+│   ├── Landing.jsx           # Hero + features + plans + testimonials + CTA
+│   ├── StartDemo.jsx         # Plan picker launcher
+│   ├── Login.jsx             # Plan chips + role grid + instant demo
+│   ├── NotFound.jsx          # 404
+│   └── app/                  # 16 dedicated feature pages
+├── App.jsx                   # Lazy routes + auth/toast providers
+└── index.css                 # Claymorphism design system
 ```
 
 ## Note
 
-This is a **front-end prototype** — all data is mocked in-memory. It is designed
-to be shown live to schools as a visual demonstration of the product.
+Front-end prototype — all data is mocked in-memory. Built to be shown live to
+schools as a visual demonstration of the product and its pricing tiers.
