@@ -1497,6 +1497,7 @@ img {
 }
 
 .app-nav-item {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 11px;
@@ -1511,11 +1512,25 @@ img {
 .app-nav-item:hover {
   background: var(--bg-soft);
   color: var(--ink);
+  transform: translateX(2px);
 }
 
 .app-nav-item.active {
-  background: var(--primary-soft);
+  background: linear-gradient(90deg, var(--primary-soft), rgba(238, 242, 255, 0.35));
   color: var(--primary-deep);
+  box-shadow: inset 0 0 0 2px rgba(99, 102, 241, 0.18), 3px 3px 0 rgba(99, 102, 241, 0.12);
+}
+
+.app-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  translate: 0 -50%;
+  width: 4px;
+  height: 22px;
+  border-radius: 4px;
+  background: var(--primary);
 }
 
 .app-nav-item.soon {
@@ -1534,11 +1549,14 @@ img {
   background: var(--bg-soft);
   color: var(--primary-deep);
   flex: none;
+  transition: transform var(--transition), background var(--transition), color var(--transition), box-shadow var(--transition);
 }
 
 .app-nav-item.active .nav-ico {
   background: var(--primary);
   color: #fff;
+  box-shadow: 3px 3px 0 rgba(99, 102, 241, 0.28);
+  transform: scale(1.06);
 }
 
 .app-nav-item .soon-tag {
