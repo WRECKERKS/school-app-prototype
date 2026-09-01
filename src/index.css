@@ -1849,11 +1849,19 @@ img {
 }
 
 .data-table tbody tr {
-  transition: background var(--transition);
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+.data-table tbody tr:nth-child(even) {
+  background: rgba(241, 238, 252, 0.5);
 }
 
 .data-table tbody tr:hover {
-  background: var(--card-soft);
+  background: var(--primary-soft);
+}
+
+.data-table tbody tr:hover td:first-child {
+  box-shadow: inset 3px 0 0 var(--primary);
 }
 
 .data-table td .strong {
