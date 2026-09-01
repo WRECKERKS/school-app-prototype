@@ -1,70 +1,43 @@
 /* oxlint-disable react/only-export-components -- context + hook pattern is intentional */
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { ROLES, rolesForPlan, roleById } from '../lib/registry'
 
-const demoRoles = [
-  {
-    id: 'principal',
-    name: 'Principal',
-    desc: 'Full school oversight',
-    plan: 'premium',
-    icon: '🏫',
-    email: 'principal@demoschool.edu',
-    color: '#6d5cff',
-  },
-  {
-    id: 'admin',
-    name: 'Admin',
-    desc: 'Staff & student management',
-    plan: 'standard',
-    icon: '🛡️',
-    email: 'admin@demoschool.edu',
-    color: '#22c55e',
-  },
-  {
-    id: 'teacher',
-    name: 'Teacher',
-    desc: 'Classes, grades & attendance',
-    plan: 'standard',
-    icon: '📚',
-    email: 'teacher@demoschool.edu',
-    color: '#3b82f6',
-  },
-  {
-    id: 'parent',
-    name: 'Parent',
-    desc: 'Fees, homework & updates',
-    plan: 'standard',
-    icon: '👨‍👩‍👧',
-    email: 'parent@demoschool.edu',
-    color: '#f59e0b',
-  },
-  {
-    id: 'student',
-    name: 'Student',
-    desc: 'Assignments & results',
-    plan: 'premium',
-    icon: '🎓',
-    email: 'student@demoschool.edu',
-    color: '#ec4899',
-  },
-  {
-    id: 'accounts',
-    name: 'Accounts',
-    desc: 'Fees & receipts',
-    plan: 'standard',
-    icon: '💰',
-    email: 'accounts@demoschool.edu',
-    color: '#2dd4bf',
-  },
-]
+const DEMO_NAMES = {
+  principal: 'Dr. Meera Iyer',
+  admin: 'Sameer Joshi',
+  teacher: 'Priya Sharma',
+  parent: 'Anita Sharma',
+  student: 'Arjun Patel',
+  accounts: 'Rahul Nair',
+}
+
+function makeUser(roleId, planId, isDemo = true) {
+  const role = roleById(roleId) || ROLES[0]
+  return {
+    name: DEMO_NAMES[role.id] || role.name,
+    role: role.name,
+    roleId: role.id,
+    icon: role.icon,
+    plan: planId,
+    color: role.color,
+    email: role.email,
+    isDemo,
+  }
+}
 
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
-      const saved = localStorage.getItem('edusuite_user')
-      return saved ? JSON.parse(saved) : null
+      const raw = localStorage.getItem('edusuite_user')
+      if (!raw) return null
+      const saved = JSON.parse(raw)
+      if (saved && !rolesForPlan(saved.plan).some((r) => r.id === saved.roleId)) {
+        const okRole = rolesForPlan(saved.plan)[0]
+        return { ...saved, roleId: okRole.id, role: okRole.name, icon: okRole.icon, color: okRole.color, email: okRole.email }
+      }
+      return saved
     } catch {
       return null
     }
@@ -79,54 +52,53 @@ export function AuthProvider({ children }) {
     }
   }, [user])
 
-  const loginAsDemo = (roleId) => {
-    const role = demoRoles.find((r) => r.id === roleId) || demoRoles[0]
-    setUser({
-      name: role.name === 'Principal'
-        ? 'Dr. Meera Iyer'
-        : role.name === 'Admin'
-          ? 'Sameer Joshi'
-          : role.name === 'Teacher'
-            ? 'Rajesh Kumar'
-            : role.name === 'Parent'
-              ? 'Anita Sharma'
-              : role.name === 'Student'
-                ? 'Aarav Sharma'
-                : 'Rahul Nair',
-      role: role.name,
-      roleId: role.id,
-      icon: role.icon,
-      plan: role.plan,
-      color: role.color,
-      email: role.email,
-      isDemo: true,
-    })
-    return role
-  }
+  const loginAsDemo = useCallback((roleId, planId) => {
+    const plan = planId || (roleById(roleId) || {}).plan || 'standard'
+    setUser(makeUser(roleId, plan))
+    return roleById(roleId) || ROLES[0]
+  }, [])
 
-  const login = (email, roleId) => {
-    const role = demoRoles.find((r) => r.id === roleId) || demoRoles[0]
-    const displayName = email.split('@')[0].replace(/[._-]+/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
-    setUser({
-      name: displayName || 'Guest User',
-      role: role.name,
-      roleId: role.id,
-      icon: role.icon,
-      plan: role.plan,
-      color: role.color,
-      email,
-      isDemo: false,
-    })
-  }
+  // Fresh start for a client pitch: plan is fixed for the whole session flow
+  const startDemo = useCallback((planId) => {
+    const firstRole = rolesForPlan(planId)[0]
+    setUser(makeUser(firstRole.id, planId))
+    return firstRole
+  }, [])
 
-  const logout = () => setUser(null)
+  const switchPlan = useCallback((planId) => {
+    if (!user) return
+    const allowed = rolesForPlan(planId)
+    const keepRole = allowed.some((r) => r.id === user.roleId)
+    const nextRole = keepRole ? user.roleId : allowed[0].id
+    setUser({ ...user, plan: planId, ...(keepRole ? {} : pickRoleFields(nextRole)) })
+  }, [user])
+
+  const switchRole = useCallback((roleId) => {
+    setUser((u) => (u ? { ...u, ...pickRoleFields(roleId) } : u))
+  }, [])
+
+  const logout = useCallback(() => setUser(null), [])
 
   const value = useMemo(
-    () => ({ user, loginAsDemo, login, logout, demoRoles, isAuthenticated: Boolean(user) }),
-    [user]
+    () => ({
+      user,
+      loginAsDemo,
+      startDemo,
+      switchPlan,
+      switchRole,
+      logout,
+      rolesForPlan: (p) => rolesForPlan(p),
+      isAuthenticated: Boolean(user),
+    }),
+    [user, loginAsDemo, startDemo, switchPlan, switchRole, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+function pickRoleFields(roleId) {
+  const role = roleById(roleId)
+  return { roleId: role.id, role: role.name, icon: role.icon, color: role.color, email: role.email }
 }
 
 export function useAuth() {
