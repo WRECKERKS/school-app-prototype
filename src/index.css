@@ -602,18 +602,21 @@ html {
   top: 16px;
   left: -22px;
   animation: floatA 5.5s ease-in-out infinite;
+  will-change: translate;
 }
 
 .hero-img-badge.bottom {
   bottom: 16px;
   right: -18px;
   animation: floatB 6.5s ease-in-out 0.6s infinite;
+  will-change: translate;
 }
 
 .hero-img-badge.mid {
   top: 46%;
   right: -30px;
   animation: floatC 5s ease-in-out 0.3s infinite;
+  will-change: translate;
 }
 
 @keyframes floatA {
@@ -990,6 +993,7 @@ html {
   background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 50%, #7c3aed 100%);
   background-size: 200% 200%;
   animation: ctaShift 9s ease-in-out infinite;
+  transform: translateZ(0);
   border-radius: var(--radius);
   border: 4px solid var(--primary-dark);
   box-shadow: 12px 14px 0 0 rgba(67, 56, 202, 0.14), 20px 24px 44px -16px rgba(67, 56, 202, 0.4);
@@ -2863,10 +2867,23 @@ html {
 .section { content-visibility: auto; contain-intrinsic-size: auto 600px; }
 .cta-band { content-visibility: auto; contain-intrinsic-size: auto 200px; }
 
+/* GPU hints for continuously-animating elements only — keeps low-end GPUs happy */
+.hero-img-badge { will-change: translate; }
+.cta-band-inner { will-change: background-position; }
+.qr-scan-line { will-change: transform; }
+.route-fade { will-change: opacity, translate; }
+
+/* Cap GPU layers on entry-level / integrated graphics */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+@media (update: slow), (pointer: coarse) {
+  *, *::before, *::after {
+    will-change: auto !important;
   }
 }
