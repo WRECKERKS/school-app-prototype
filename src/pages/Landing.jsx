@@ -6,6 +6,7 @@ import {
 import { PLANS } from '../lib/registry'
 import { img, StockImg } from '../components/ui'
 import CountUp from '../components/CountUp'
+import LazySection from '../components/LazySection'
 
 function HeroStat({ value, suffix, label }) {
   return (
@@ -91,7 +92,7 @@ export default function Landing() {
       </header>
 
       {/* Features */}
-      <section className="section" id="features">
+      <LazySection as="section" className="section" id="features">
         <div className="section-head">
           <span className="section-kicker">Built for daily school life</span>
           <h2>Everything your staff and parents touch, in one app</h2>
@@ -109,10 +110,10 @@ export default function Landing() {
             )
           })}
         </div>
-      </section>
+      </LazySection>
 
       {/* Plans */}
-      <section className="section" id="plans">
+      <LazySection as="section" className="section" id="plans">
         <div className="section-head">
           <span className="section-kicker">Simple pricing</span>
           <h2>Three plans. One platform. Grow as you go.</h2>
@@ -165,10 +166,10 @@ export default function Landing() {
             </div>
           ))}
         </div>
-      </section>
+      </LazySection>
 
       {/* Testimonials */}
-      <section className="section">
+      <LazySection as="section" className="section">
         <div className="section-head">
           <span className="section-kicker">What schools say</span>
           <h2>Trusted by principals, teachers and parents</h2>
@@ -185,10 +186,10 @@ export default function Landing() {
             </div>
           ))}
         </div>
-      </section>
+      </LazySection>
 
       {/* CTA band */}
-      <div className="cta-band">
+      <LazySection className="cta-band" as="div">
         <div className="cta-band-inner">
           <div>
             <h2>Ready to see it live?</h2>
@@ -196,7 +197,7 @@ export default function Landing() {
           </div>
           <Link to="/start" className="btn btn-white btn-lg"><Star size={18} /> Start Demo now</Link>
         </div>
-      </div>
+      </LazySection>
 
       <footer className="footer">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
