@@ -7,6 +7,7 @@ import { PLANS } from '../lib/registry'
 import { img, StockImg } from '../components/ui'
 import CountUp from '../components/CountUp'
 import LazySection from '../components/LazySection'
+import { usePrefersReducedMotion } from '../lib/useReducedMotion'
 
 function HeroStat({ value, suffix, label }) {
   return (
@@ -33,6 +34,18 @@ const TESTIMONIALS = [
 ]
 
 export default function Landing() {
+  const reducedMotion = usePrefersReducedMotion()
+  const scrollToPlans = (e) => {
+    e.preventDefault()
+    const el = document.getElementById('plans')
+    if (!el) return
+    if (reducedMotion) {
+      el.scrollIntoView()
+    } else {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
   return (
     <div className="landing">
       {/* Hero */}
@@ -48,7 +61,7 @@ export default function Landing() {
           </p>
           <div className="hero-cta">
             <Link to="/start" className="btn btn-primary btn-lg"><Star size={18} /> Start Demo</Link>
-            <Link to="/" className="btn btn-soft btn-lg" onClick={(e) => { e.preventDefault(); document.getElementById('plans')?.scrollIntoView({ behavior: 'smooth' }) }}>
+            <Link to="/" className="btn btn-soft btn-lg" onClick={scrollToPlans}>
               See plans <ArrowRight size={18} />
             </Link>
           </div>

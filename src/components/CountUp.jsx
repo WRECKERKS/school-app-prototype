@@ -1,14 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-
-const prefersReducedMotion = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+import { usePrefersReducedMotion } from '../lib/useReducedMotion'
 
 export default function CountUp({ value, duration = 1400 }) {
-  const [n, setN] = useState(() => (prefersReducedMotion() ? value : 0))
+  const reduced = usePrefersReducedMotion()
+  const [n, setN] = useState(value)
   const raf = useRef(0)
 
   useEffect(() => {
-    if (prefersReducedMotion()) return
+    if (reduced) {
+      setN(value)
+      return undefined
+    }
+    setN(0)
     const t0 = performance.now()
     const step = (now) => {
       const p = Math.min((now - t0) / duration, 1)
@@ -18,7 +21,7 @@ export default function CountUp({ value, duration = 1400 }) {
     }
     raf.current = requestAnimationFrame(step)
     return () => cancelAnimationFrame(raf.current)
-  }, [value, duration])
+  }, [value, duration, reduced])
 
   return <>{Math.round(n).toLocaleString('en-IN')}</>
 }
