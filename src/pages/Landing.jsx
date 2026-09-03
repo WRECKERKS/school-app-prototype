@@ -66,7 +66,15 @@ export default function Landing() {
         </div>
 
         <div className="hero-visual">
-          <StockImg src={img('hero')} alt="Students in a classroom" className="hero-img" />
+          <StockImg
+            src={img('hero')}
+            alt="Students in a classroom"
+            className="hero-img"
+            priority
+            width={1200}
+            height={900}
+            style={{ width: '100%' }}
+          />
           <div className="hero-img-badge top">
             <span className="h-ico"><Users size={16} /></span>
             245 students • 18 staff
