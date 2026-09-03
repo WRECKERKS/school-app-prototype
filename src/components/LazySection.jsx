@@ -10,6 +10,11 @@ export default function LazySection({ children, as: Tag = 'div', className, id, 
       return undefined
     }
     const el = ref.current
+    if (!el) return undefined
+    if (el.getBoundingClientRect().top < window.innerHeight) {
+      setVisible(true)
+      return undefined
+    }
     const obs = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   GraduationCap, Mail, Lock, LogIn, Sparkles, ChevronRight,
@@ -7,10 +7,26 @@ import {
 import { useAuth } from '../context/AuthContext'
 import { PLANS, rolesForPlan } from '../lib/registry'
 
+const warmApp = () => {
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(() => {
+      import('../components/DashboardLayout').catch(() => {})
+      import('./app/DashboardPage').catch(() => {})
+    }, { timeout: 1200 })
+  } else {
+    setTimeout(() => {
+      import('../components/DashboardLayout').catch(() => {})
+      import('./app/DashboardPage').catch(() => {})
+    }, 200)
+  }
+}
+
 export default function Login() {
   const { user, loginAsDemo } = useAuth()
   const navigate = useNavigate()
   const [params] = useSearchParams()
+
+  useEffect(() => { warmApp() }, [])
 
   const planHint = user?.plan
   const selectedPlan = PLANS[planHint] ? planHint : (params.get('plan') || PLANS.basic.id)

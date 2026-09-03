@@ -9,9 +9,11 @@ export function usePrefersReducedMotion() {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
     const onChange = () => setReduced(mq.matches)
     onChange()
-    mq.addEventListener ? mq.addEventListener('change', onChange) : mq.addListener(onChange)
+    if (mq.addEventListener) mq.addEventListener('change', onChange)
+    else if (mq.addListener) mq.addListener(onChange)
     return () => {
-      mq.removeEventListener ? mq.removeEventListener('change', onChange) : mq.removeListener(onChange)
+      if (mq.removeEventListener) mq.removeEventListener('change', onChange)
+      else if (mq.removeListener) mq.removeListener(onChange)
     }
   }, [])
 
