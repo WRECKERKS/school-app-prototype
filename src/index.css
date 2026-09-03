@@ -2844,6 +2844,23 @@ html {
   }
 }
 
+/* Layout containment — isolates repaints and layout recalc per element */
+.panel { contain: layout style paint; }
+.stat-card { contain: layout style paint; }
+.feature-card { contain: layout style paint; }
+.plan-card { contain: layout style paint; }
+.tcard { contain: layout style paint; }
+.app-content { contain: layout style; }
+.table-wrap { contain: layout style; }
+.stat-row { contain: layout style; }
+.features-grid { contain: layout style; }
+.plan-grid { contain: layout style; }
+.testimonial-grid { contain: layout style; }
+
+/* Off-screen content: skip paint until near viewport */
+.section { content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.cta-band { content-visibility: auto; contain-intrinsic-size: auto 200px; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
