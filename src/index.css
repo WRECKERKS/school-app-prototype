@@ -2216,6 +2216,7 @@ html {
   height: 4px;
   width: 100%;
   background: var(--good);
+  transform-origin: left;
   animation: toastTime 3.6s linear forwards;
 }
 
@@ -2228,8 +2229,8 @@ html {
 }
 
 @keyframes toastTime {
-  from { width: 100%; }
-  to { width: 0%; }
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
 }
 
 @keyframes toastOut {
@@ -2315,15 +2316,16 @@ html {
   position: absolute;
   left: 8%;
   right: 8%;
-  height: 3px;
-  border-radius: 4px;
-  background: var(--good);
+  top: 0;
+  height: 100%;
+  background: linear-gradient(to bottom, transparent 0%, var(--good) 1.5px, transparent 3px);
   animation: scan 1.6s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes scan {
-  0%, 100% { top: 12%; }
-  50% { top: 82%; }
+  0%, 100% { transform: translateY(12%); }
+  50% { transform: translateY(82%); }
 }
 
 .pulse-dot {
