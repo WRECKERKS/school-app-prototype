@@ -16,13 +16,13 @@ export default function HomeworkPage() {
   const [marks, setMarks] = useState('')
   const [remark, setRemark] = useState('')
 
-  if (isStudent) return <StudentHomework />
-
   const visible = useMemo(() =>
     items.filter((h) =>
       (filter === 'all' || h.status === filter) &&
       (h.subject + h.title + h.cls).toLowerCase().includes(q.toLowerCase())
     ), [items, filter, q])
+
+  if (isStudent) return <StudentHomework />
 
   const submitReview = () => {
     toast(`Review saved — ${marks || '8'}/10 for Arjun with remark "${remark || 'Great work!'}".`)

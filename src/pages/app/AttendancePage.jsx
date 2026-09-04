@@ -4,8 +4,6 @@ import { useAuth } from '../../context/AuthContext'
 import { Panel, PageHeader, Progress, pctColor, useToast } from '../../components/ui'
 import { classes } from '../../lib/mock'
 
-const STATUS_META = { excellent: 'Excellent', good: 'Good', review: 'Needs review' }
-
 export default function AttendancePage() {
   const { user } = useAuth()
   const pre = user.plan === 'premium'
