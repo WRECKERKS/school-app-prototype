@@ -10,8 +10,8 @@ export const PLANS = {
     name: 'Basic',
     price: '₹25,000',
     perYear: true,
-    color: '#22c55e',
-    soft: '#dcfce7',
+    color: '#818cf8',
+    soft: '#eef2ff',
     tagline: 'For small schools that need the essentials, done right.',
   },
   standard: {
@@ -20,7 +20,7 @@ export const PLANS = {
     price: '₹50,000',
     perYear: true,
     color: '#6366f1',
-    soft: '#eef2ff',
+    soft: '#e0e7ff',
     tagline: 'Complete daily school operations with parent engagement.',
   },
   premium: {
@@ -28,8 +28,8 @@ export const PLANS = {
     name: 'Premium',
     price: '₹96,000',
     perYear: true,
-    color: '#f59e0b',
-    soft: '#fef3c7',
+    color: '#4f46e5',
+    soft: '#ddd5f7',
     tagline: 'Everything, supercharged with analytics, AI and audit tools.',
   },
 }

@@ -3,34 +3,38 @@
    ============================================================ */
 
 :root {
-  /* Palette — dual/tri tone: indigo primary, emerald accent, gold tier */
+  /* Palette — single cohesive theme: indigo primary, violet accent.
+     Decorative neon accents removed. Semantic colors are used ONLY for real
+     meaning (success / warning / danger / info), never for decoration. */
   --primary: #6366f1;
   --primary-dark: #4f46e5;
   --primary-deep: #4338ca;
-  --secondary: #818cf8;
-  --accent: #10b981;
-  --accent-dark: #059669;
-  --accent-soft: #d1fae5;
-  --good: #22c55e;
+  --secondary: #8b5cf6;
+  --accent: #8b5cf6;
+  --accent-dark: #7c3aed;
+  --accent-soft: #ede9fe;
+  --good: #10b981;
+  --good-dark: #047857;
   --info: #3b82f6;
-  --warn: #f59e0b;
+  --info-dark: #1d4ed8;
+  --warn: #d97706;
+  --warn-dark: #b45309;
   --danger: #ef4444;
-  --pink: #ec4899;
-  --teal: #2dd4bf;
+  --danger-dark: #b91c1c;
 
-  --bg: #f1eefc;
-  --bg-soft: #e6e0fa;
+  --bg: #f6f5ff;
+  --bg-soft: #eef1ff;
   --card: #ffffff;
-  --card-soft: #fbfaff;
-  --ink: #1e1b4b;
-  --ink-soft: #4b5578;
-  --ink-muted: #7c88ad;
-  --line: #e3ddf5;
-  --line-dark: #cfc6ea;
+  --card-soft: #fcfcff;
+  --ink: #1c1b37;
+  --ink-soft: #4c4c6b;
+  --ink-muted: #8585a8;
+  --line: #e8e6fb;
+  --line-dark: #d4d0f2;
 
-  --ink-06: rgba(30, 27, 75, 0.06);
-  --ink-08: rgba(30, 27, 75, 0.08);
-  --ink-12: rgba(30, 27, 75, 0.12);
+  --ink-06: rgba(28, 27, 55, 0.06);
+  --ink-08: rgba(28, 27, 55, 0.08);
+  --ink-12: rgba(28, 27, 55, 0.12);
   --primary-soft: #eef2ff;
   --warn-soft: #fef3c7;
   --danger-soft: #fee2e2;
@@ -711,9 +715,9 @@ html {
   opacity: 0.9;
 }
 
-.plan-card.basic { --tier-a: #22c55e; --tier-b: #16a34a; }
-.plan-card.standard { --tier-a: #6366f1; --tier-b: #4338ca; }
-.plan-card.premium { --tier-a: #f59e0b; --tier-b: #d97706; }
+.plan-card.basic { --tier-a: #818cf8; --tier-b: #6366f1; }
+.plan-card.standard { --tier-a: #6366f1; --tier-b: #4f46e5; }
+.plan-card.premium { --tier-a: #4f46e5; --tier-b: #7c3aed; }
 
 .plan-card.featured {
   border-color: var(--primary);
@@ -725,9 +729,9 @@ html {
   transform: translateY(-7px);
 }
 
-.plan-card.basic:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(34, 197, 94, 0.5); }
-.plan-card.standard:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(99, 102, 241, 0.5); }
-.plan-card.premium:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(245, 158, 11, 0.5); }
+.plan-card.basic:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(99, 102, 241, 0.5); }
+.plan-card.standard:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(99, 102, 241, 0.55); }
+.plan-card.premium:hover { box-shadow: var(--clay), 0 18px 34px -14px rgba(124, 58, 237, 0.5); }
 
 .plan-card.featured:hover {
   transform: translateY(-10px);
@@ -761,9 +765,9 @@ html {
   box-shadow: 4px 4px 0 0 rgba(30, 27, 75, 0.16), inset 0 2px 0 rgba(255, 255, 255, 0.35);
 }
 
-.plan-icon.basic { background: linear-gradient(135deg, #22c55e, #16a34a); }
-.plan-icon.standard { background: linear-gradient(135deg, #6366f1, #4338ca); }
-.plan-icon.premium { background: linear-gradient(135deg, #f59e0b, #d97706); }
+.plan-icon.basic { background: linear-gradient(135deg, #818cf8, #6366f1); }
+.plan-icon.standard { background: linear-gradient(135deg, #6366f1, #4f46e5); }
+.plan-icon.premium { background: linear-gradient(135deg, #4f46e5, #7c3aed); }
 
 .plan-name {
   font-size: 20px;
