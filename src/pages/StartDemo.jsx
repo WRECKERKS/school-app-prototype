@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Star, ArrowRight, GraduationCap, ListChecks } from 'lucide-react'
+import { Star, ArrowRight, GraduationCap, ListChecks, Zap } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
-import { PLANS } from '../lib/registry'
+import { PLANS, rolesForPlan } from '../lib/registry'
 import { img, StockImg } from '../components/ui'
 
 const FEATURES = {
@@ -12,11 +12,16 @@ const FEATURES = {
 
 export default function StartDemo() {
   const navigate = useNavigate()
-  const { startDemo } = useAuth()
+  const { startDemo, loginAsDemo } = useAuth()
 
   const pick = (planId) => {
     startDemo(planId)
     navigate('/login?plan=' + planId)
+  }
+
+  const jumpIn = (roleId, planId) => {
+    loginAsDemo(roleId, planId)
+    navigate('/app')
   }
 
   return (
@@ -61,6 +66,23 @@ export default function StartDemo() {
                 <Star size={16} /> Start {plan.name} demo
                 <ArrowRight size={16} />
               </button>
+              <div className="qd-row">
+                <Zap size={13} />
+                <span>Jump straight in as</span>
+              </div>
+              <div className="qd-chips">
+                {rolesForPlan(plan.id).map((r) => (
+                  <button
+                    key={r.id}
+                    className="qd-chip"
+                    style={{ color: r.color }}
+                    onClick={() => jumpIn(r.id, plan.id)}
+                    title={`Open the app as ${r.name}`}
+                  >
+                    {r.icon} {r.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         ))}
