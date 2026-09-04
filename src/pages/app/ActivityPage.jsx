@@ -4,12 +4,12 @@ import { Panel, PageHeader, useToast } from '../../components/ui'
 import { activityLog } from '../../lib/mock'
 
 const CATEGORY = {
-  Fees: { color: '#10b981', soft: '#dcfce7' },
-  Attendance: { color: '#6366f1', soft: '#eef2ff' },
-  Tests: { color: '#8b5cf6', soft: '#f3e8ff' },
-  Homework: { color: '#f59e0b', soft: '#fef3c7' },
-  Auth: { color: '#ec4899', soft: '#fce7f3' },
-  Doubts: { color: '#06b6d4', soft: '#cffafe' },
+  Fees: { color: '#10b981', soft: '#d1fae5' },
+  Attendance: { color: '#6366f1', soft: '#e0e7ff' },
+  Tests: { color: '#8b5cf6', soft: '#ede9fe' },
+  Homework: { color: '#d97706', soft: '#fef3c7' },
+  Auth: { color: '#0ea5e9', soft: '#e0f2fe' },
+  Doubts: { color: '#3b82f6', soft: '#dbeafe' },
 }
 
 export default function ActivityPage() {

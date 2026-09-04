@@ -18,8 +18,8 @@ export default function AnalyticsPage() {
       <div className="stat-row">
         <StatCard icon={ChartNoAxesCombined} color="#6366f1" value="87%" label="Overall term score" change="+6 vs last term" />
         <StatCard icon={ChartNoAxesCombined} color="#10b981" value="24" label="Top performers" change="above 90%" />
-        <StatCard icon={ChartNoAxesCombined} color="#f59e0b" value="3" label="Need attention" change="weak topics" changeTone="negative" />
-        <StatCard icon={ChartNoAxesCombined} color="#ec4899" value="40,247" label="Question bank" change="11 subjects" />
+        <StatCard icon={ChartNoAxesCombined} color="#d97706" value="3" label="Need attention" change="weak topics" changeTone="negative" />
+        <StatCard icon={ChartNoAxesCombined} color="#8b5cf6" value="40,247" label="Question bank" change="11 subjects" />
       </div>
 
       <div className="grid-2">

@@ -3,10 +3,10 @@ import { Panel, PageHeader, StatCard, useToast } from '../../components/ui'
 import { notifHistory } from '../../lib/mock'
 
 const CHANNEL = {
-  SMS: { icon: MessageCircle, color: '#6366f1', soft: '#eef2ff' },
-  WhatsApp: { icon: MessageCircle, color: '#10b981', soft: '#dcfce7' },
-  Email: { icon: Send, color: '#f59e0b', soft: '#fef3c7' },
-  Call: { icon: Phone, color: '#ec4899', soft: '#fce7f3' },
+  SMS: { icon: MessageCircle, color: '#6366f1', soft: '#e0e7ff' },
+  WhatsApp: { icon: MessageCircle, color: '#10b981', soft: '#d1fae5' },
+  Email: { icon: Send, color: '#d97706', soft: '#fef3c7' },
+  Call: { icon: Phone, color: '#8b5cf6', soft: '#ede9fe' },
 }
 
 export default function NotificationsPage() {
@@ -26,8 +26,8 @@ export default function NotificationsPage() {
       <div className="stat-row">
         <StatCard icon={BellRing} color="#6366f1" value="12K" label="Messages sent" change="this month" />
         <StatCard icon={BellRing} color="#10b981" value="11.2K" label="Delivered" change="93%" />
-        <StatCard icon={BellRing} color="#f59e0b" value="9.8K" label="Read" change="87% open" />
-        <StatCard icon={BellRing} color="#ec4899" value="96%" label="Channel health" change="all OK" />
+        <StatCard icon={BellRing} color="#d97706" value="9.8K" label="Read" change="87% open" />
+        <StatCard icon={BellRing} color="#8b5cf6" value="96%" label="Channel health" change="all OK" />
       </div>
 
       <div className="grid-3">

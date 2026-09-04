@@ -17,7 +17,7 @@ export default function NotesPage() {
         {notes.map((n, i) => (
           <div className="fcard" key={i}>
             <div className="fcard-top">
-              <span className="stat-icon" style={{ background: ['#6366f1', '#10b981', '#f59e0b', '#ec4899'][i % 4] }}><BookOpen size={18} /></span>
+              <span className="stat-icon" style={{ background: ['#6366f1', '#8b5cf6', '#10b981', '#d97706'][i % 4] }}><BookOpen size={18} /></span>
               <span className="file-type">{n.type}</span>
             </div>
             <h4>{n.title}</h4>

@@ -4,8 +4,8 @@ import { Panel, PageHeader, StatCard, useToast } from '../../components/ui'
 import { questionBank } from '../../lib/mock'
 
 const DIFF = {
-  Easy: { color: '#22c55e', soft: '#dcfce7' },
-  Medium: { color: '#f59e0b', soft: '#fef3c7' },
+  Easy: { color: '#10b981', soft: '#d1fae5' },
+  Medium: { color: '#d97706', soft: '#fef3c7' },
   Hard: { color: '#ef4444', soft: '#fee2e2' },
 }
 
@@ -40,8 +40,8 @@ export default function QuestionBankPage() {
       <div className="stat-row">
         <StatCard icon={Database} color="#6366f1" value="40,247" label="Questions" change="+124 this week" />
         <StatCard icon={Database} color="#10b981" value="11" label="Subjects" change="all grades" />
-        <StatCard icon={Database} color="#f59e0b" value="6,210" label="Hard questions" change="AI tagged" />
-        <StatCard icon={FilePlus2} color="#ec4899" value="23" label="Tests built" change="this term" />
+        <StatCard icon={Database} color="#d97706" value="6,210" label="Hard questions" change="AI tagged" />
+        <StatCard icon={FilePlus2} color="#8b5cf6" value="23" label="Tests built" change="this term" />
       </div>
 
       <Panel title={`Selected (${selected.length}) — build a test now`} icon={FilePlus2} actions={

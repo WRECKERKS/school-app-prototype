@@ -21,10 +21,10 @@ function HeroStat({ value, suffix, label }) {
 const LANDFEATURES = [
   { icon: Users, color: '#6366f1', title: 'Multi-role portals', desc: 'Principal, admin, teacher, student, parent and accounts — each with their own view.' },
   { icon: CalendarCheck, color: '#10b981', title: 'Live attendance', desc: 'QR, GPS-secured or manual marking with instant parent SMS alerts.' },
-  { icon: Wallet, color: '#f59e0b', title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
+  { icon: Wallet, color: '#d97706', title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
   { icon: FileBarChart2, color: '#8b5cf6', title: 'Tests & results', desc: 'Question bank of 40,000+ items, AI difficulty balancing and deep analytics.' },
-  { icon: MessageSquareWarning, color: '#ec4899', title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
-  { icon: ScanLine, color: '#06b6d4', title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
+  { icon: MessageSquareWarning, color: '#3b82f6', title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
+  { icon: ScanLine, color: '#0ea5e9', title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
 ]
 
 const TESTIMONIALS = [

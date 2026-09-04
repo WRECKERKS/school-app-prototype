@@ -118,7 +118,7 @@ export const subjectPerformance = [
   { subject: 'Mathematics', score: 88, color: '#6366f1' },
   { subject: 'Physics', score: 92, color: '#8b5cf6' },
   { subject: 'Chemistry', score: 85, color: '#10b981' },
-  { subject: 'Biology', score: 90, color: '#f59e0b' },
+  { subject: 'Biology', score: 90, color: '#d97706' },
 ]
 
 export const chartTopicData = [
