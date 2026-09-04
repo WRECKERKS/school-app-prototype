@@ -228,9 +228,9 @@ html {
   pointer-events: none;
   background:
     radial-gradient(600px 400px at 8% 12%, rgba(109, 92, 255, 0.16), transparent 60%),
-    radial-gradient(500px 380px at 92% 6%, rgba(16, 185, 129, 0.18), transparent 60%),
-    radial-gradient(620px 480px at 85% 96%, rgba(245, 158, 11, 0.12), transparent 60%),
-    radial-gradient(480px 360px at 12% 92%, rgba(236, 72, 153, 0.1), transparent 60%);
+    radial-gradient(500px 380px at 92% 6%, rgba(139, 92, 246, 0.16), transparent 60%),
+    radial-gradient(620px 480px at 85% 96%, rgba(99, 102, 241, 0.14), transparent 60%),
+    radial-gradient(480px 360px at 12% 92%, rgba(124, 58, 237, 0.12), transparent 60%);
 }
 
 /* ============================================================
@@ -799,7 +799,7 @@ html {
   position: absolute;
   inset: 8% -6% -4% 2%;
   background: radial-gradient(60% 60% at 30% 40%, rgba(99, 102, 241, 0.25), transparent 70%),
-    radial-gradient(50% 50% at 75% 70%, rgba(16, 185, 129, 0.22), transparent 70%);
+    radial-gradient(50% 50% at 75% 70%, rgba(139, 92, 246, 0.22), transparent 70%);
   filter: blur(28px);
   z-index: -1;
 }
@@ -2767,7 +2767,7 @@ html {
   right: 8%;
   top: 0;
   height: 100%;
-  background: linear-gradient(to bottom, transparent 0%, var(--good) 1.5px, transparent 3px);
+  background: linear-gradient(to bottom, transparent 0%, var(--primary) 1.5px, transparent 3px);
   animation: scan 1.6s ease-in-out infinite;
   will-change: transform;
 }
