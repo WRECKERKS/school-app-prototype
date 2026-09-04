@@ -21,11 +21,11 @@ function HeroStat({ value, suffix, label }) {
 
 const LANDFEATURES = [
   { icon: Users, color: '#6366f1', title: 'Multi-role portals', desc: 'Principal, admin, teacher, student, parent and accounts — each with their own view.' },
-  { icon: CalendarCheck, color: '#10b981', title: 'Live attendance', desc: 'QR, GPS-secured or manual marking with instant parent SMS alerts.' },
-  { icon: Wallet, color: '#d97706', title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
-  { icon: FileBarChart2, color: '#8b5cf6', title: 'Tests & results', desc: 'Question bank of 40,000+ items, AI difficulty balancing and deep analytics.' },
-  { icon: MessageSquareWarning, color: '#3b82f6', title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
-  { icon: ScanLine, color: '#0ea5e9', title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
+  { icon: CalendarCheck, color: '#4f46e5', title: 'Live attendance', desc: 'QR, GPS-secured or manual marking with instant parent SMS alerts.' },
+  { icon: Wallet, color: '#8b5cf6', title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
+  { icon: FileBarChart2, color: '#7c3aed', title: 'Tests & results', desc: 'Question bank of 40,000+ items, AI difficulty balancing and deep analytics.' },
+  { icon: MessageSquareWarning, color: '#6d28d9', title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
+  { icon: ScanLine, color: '#4338ca', title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
 ]
 
 const TESTIMONIALS = [
@@ -121,7 +121,7 @@ export default function Landing() {
             245 students • 18 staff
           </div>
           <div className="hero-img-badge bottom">
-            <span className="h-ico" style={{ background: '#10b981' }}><Check size={16} /></span>
+            <span className="h-ico" style={{ background: '#4f46e5' }}><Check size={16} /></span>
             Attendance 87% • Fees 92%
           </div>
           <div className="hero-img-badge mid">
