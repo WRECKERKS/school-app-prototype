@@ -308,6 +308,32 @@ html {
   cursor: pointer;
 }
 
+.mini-input {
+  padding: 9px 12px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--card-soft);
+  color: var(--ink);
+  font-size: 13px;
+  min-width: 140px;
+}
+.mini-input::placeholder {
+  color: var(--ink-muted);
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+.sort-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.sortable:hover {
+  color: var(--primary);
+}
+
 .btn-danger {
   background: var(--card);
   border-color: #f0c7c7;
