@@ -15,8 +15,8 @@
   --accent-soft: #ede9fe;
   --good: #10b981;
   --good-dark: #047857;
-  --info: #3b82f6;
-  --info-dark: #1d4ed8;
+  --info: #8b5cf6;
+  --info-dark: #7c3aed;
   --warn: #d97706;
   --warn-dark: #b45309;
   --danger: #ef4444;
@@ -39,7 +39,7 @@
   --warn-soft: #fef3c7;
   --danger-soft: #fee2e2;
   --good-soft: #d1fae5;
-  --info-soft: #dbeafe;
+  --info-soft: #ede9fe;
 
   --font: 'Plus Jakarta Sans', system-ui, sans-serif;
 
@@ -71,8 +71,8 @@ html[data-theme='dark'] {
   --accent-soft: #312e4d;
   --good: #34d399;
   --good-dark: #10b981;
-  --info: #60a5fa;
-  --info-dark: #3b82f6;
+  --info: #a78bfa;
+  --info-dark: #8b5cf6;
   --warn: #fbbf24;
   --warn-dark: #f59e0b;
   --danger: #f87171;
@@ -95,7 +95,7 @@ html[data-theme='dark'] {
   --warn-soft: #3a3210;
   --danger-soft: #3a1f26;
   --good-soft: #123524;
-  --info-soft: #1b2c4d;
+  --info-soft: #312e4d;
 
   --clay: 7px 7px 0 0 rgba(0, 0, 0, 0.35), 14px 16px 32px -10px rgba(0, 0, 0, 0.5),
     inset 0 2px 0 rgba(255, 255, 255, 0.05), inset 0 -4px 0 rgba(0, 0, 0, 0.3);
