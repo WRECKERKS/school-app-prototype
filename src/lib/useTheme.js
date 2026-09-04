@@ -1,11 +1,26 @@
 import { useEffect, useState } from 'react'
 
+export const ACCENT_NAMES = {
+  indigo: 'Indigo',
+  violet: 'Violet',
+  royal: 'Royal',
+  steel: 'Steel',
+}
+
 export function useTheme() {
   const [theme, setTheme] = useState(() => {
     try {
       return localStorage.getItem('edusuite_theme') || 'light'
     } catch {
       return 'light'
+    }
+  })
+
+  const [accent, setAccent] = useState(() => {
+    try {
+      return localStorage.getItem('edusuite_accent') || 'indigo'
+    } catch {
+      return 'indigo'
     }
   })
 
@@ -18,7 +33,16 @@ export function useTheme() {
     }
   }, [theme])
 
+  useEffect(() => {
+    document.documentElement.setAttribute('data-accent', accent)
+    try {
+      localStorage.setItem('edusuite_accent', accent)
+    } catch {
+      // storage unavailable
+    }
+  }, [accent])
+
   const toggle = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
 
-  return { theme, toggle }
+  return { theme, accent, toggle, setAccent }
 }

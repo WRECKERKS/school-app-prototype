@@ -38,6 +38,8 @@
       try {
         var t = localStorage.getItem('edusuite_theme') || 'light'
         document.documentElement.setAttribute('data-theme', t)
+        var a = localStorage.getItem('edusuite_accent') || 'indigo'
+        document.documentElement.setAttribute('data-accent', a)
       } catch (e) {}
     </script>
     <script type="module" src="/src/main.jsx"></script>

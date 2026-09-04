@@ -1,19 +1,20 @@
 import { useState } from 'react'
 import { Link, Navigate, Outlet, useLocation } from 'react-router-dom'
 import {
-  GraduationCap, LogOut, Menu, X, ChevronDown, Check, RefreshCw, Lock, Sun, Moon
+  GraduationCap, LogOut, Menu, X, ChevronDown, Check, RefreshCw, Lock, Sun, Moon, Palette
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { PLANS, moduleById, modulesFor } from '../lib/registry'
 import { appName } from '../lib/registry'
-import { useTheme } from '../lib/useTheme'
+import { ACCENT_NAMES, useTheme } from '../lib/useTheme'
 
 export default function DashboardLayout() {
   const { user, switchRole, switchPlan, logout, rolesForPlan: rolesFn } = useAuth()
-  const { theme, toggle: toggleTheme } = useTheme()
+  const { theme, accent, toggle: toggleTheme, setAccent } = useTheme()
   const location = useLocation()
   const [swRoleOpen, setSwRoleOpen] = useState(false)
   const [swPlanOpen, setSwPlanOpen] = useState(false)
+  const [swAccentOpen, setSwAccentOpen] = useState(false)
   const [mobileNav, setMobileNav] = useState(false)
 
   if (!user) return <Navigate to={`/login?plan=${PLANS.basic.id}`} replace />
@@ -94,11 +95,42 @@ export default function DashboardLayout() {
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
+            {/* Accent picker */}
+            <div className="role-switcher" style={{ position: 'relative' }}>
+              <button
+                className="role-switcher-btn"
+                title="Accent colour"
+                onClick={() => { setSwAccentOpen((v) => !v); setSwPlanOpen(false); setSwRoleOpen(false) }}
+              >
+                <Palette size={14} /> <span style={{ textTransform: 'capitalize' }}>{ACCENT_NAMES[accent] || accent}</span>
+                <ChevronDown size={14} />
+              </button>
+              {swAccentOpen && (
+                <div className="role-switcher-menu">
+                  <div className="rs-label">Accent colour</div>
+{Object.keys(ACCENT_NAMES).map((key) => {
+                  const swatch = { indigo: '#6366f1', violet: '#8b5cf6', royal: '#4f46e5', steel: '#5b7cfa' }[key]
+                    return (
+                      <button
+                        key={key}
+                        className={key === accent ? 'active' : ''}
+                        onClick={() => { setAccent(key); setSwAccentOpen(false) }}
+                      >
+                        <span className="accent-swatch" style={{ background: swatch }} />
+                        {ACCENT_NAMES[key]}
+                        {key === accent && <Check size={14} />}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+
             {/* Plan switcher */}
             <div className="role-switcher" style={{ position: 'relative' }}>
               <button
                 className="role-switcher-btn"
-                onClick={() => { setSwPlanOpen((v) => !v); setSwRoleOpen(false) }}
+                onClick={() => { setSwPlanOpen((v) => !v); setSwRoleOpen(false); setSwAccentOpen(false) }}
               >
                 <RefreshCw size={14} /> Show {plan.name} plan
                 <ChevronDown size={14} />
@@ -127,7 +159,7 @@ export default function DashboardLayout() {
               <div className="role-switcher">
                 <button
                   className="role-switcher-btn"
-                  onClick={() => { setSwRoleOpen((v) => !v); setSwPlanOpen(false) }}
+                  onClick={() => { setSwRoleOpen((v) => !v); setSwPlanOpen(false); setSwAccentOpen(false) }}
                 >
                   {user.icon} {user.role} <ChevronDown size={14} />
                 </button>
