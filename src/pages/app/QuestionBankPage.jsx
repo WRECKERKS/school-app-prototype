@@ -4,14 +4,24 @@ import { Panel, PageHeader, StatCard, useToast } from '../../components/ui'
 import { questionBank } from '../../lib/mock'
 
 const DIFF = {
-  Easy: { color: '#10b981', soft: '#d1fae5' },
-  Medium: { color: '#d97706', soft: '#fef3c7' },
-  Hard: { color: '#ef4444', soft: '#fee2e2' },
+  Easy: { color: 'var(--good)', soft: 'var(--good-soft)' },
+  Medium: { color: 'var(--warn)', soft: 'var(--warn-soft)' },
+  Hard: { color: 'var(--danger)', soft: 'var(--danger-soft)' },
 }
+
+const SUBJECTS = [...new Set(questionBank.map((q) => q.subject))]
+const DIFFS = ['Easy', 'Medium', 'Hard']
 
 export default function QuestionBankPage() {
   const toast = useToast()
   const [selected, setSelected] = useState([])
+  const [subject, setSubject] = useState('all')
+  const [diff, setDiff] = useState('all')
+
+  const visible = questionBank.filter((q) =>
+    (subject === 'all' || q.subject === subject) &&
+    (diff === 'all' || q.difficulty === diff)
+  )
 
   const toggle = (id) => {
     setSelected((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]))
@@ -45,10 +55,20 @@ export default function QuestionBankPage() {
       </div>
 
       <Panel title={`Selected (${selected.length}) — build a test now`} icon={FilePlus2} actions={
-        <button className="btn btn-primary" onClick={buildTest}><CheckCircle2 size={15} /> Build test ({selected.length})</button>
+        <>
+          <select className="select-ghost" value={subject} onChange={(e) => setSubject(e.target.value)} aria-label="Filter by subject">
+            <option value="all">All subjects</option>
+            {SUBJECTS.map((s) => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <select className="select-ghost" value={diff} onChange={(e) => setDiff(e.target.value)} aria-label="Filter by difficulty">
+            <option value="all">All difficulties</option>
+            {DIFFS.map((d) => <option key={d} value={d}>{d}</option>)}
+          </select>
+          <button className="btn btn-primary" onClick={buildTest}><CheckCircle2 size={15} /> Build test ({selected.length})</button>
+        </>
       }>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {questionBank.map((q) => {
+          {visible.map((q) => {
             const on = selected.includes(q.id)
             return (
               <div key={q.id} className={`qb-question ${on ? 'selected' : ''}`} onClick={() => toggle(q.id)} style={{ cursor: 'pointer' }}>
@@ -66,6 +86,9 @@ export default function QuestionBankPage() {
               </div>
             )
           })}
+          {visible.length === 0 && (
+            <div style={{ padding: 24, textAlign: 'center', color: 'var(--ink-muted)' }}>No questions match your filters.</div>
+          )}
         </div>
       </Panel>
     </>

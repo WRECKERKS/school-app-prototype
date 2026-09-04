@@ -38,6 +38,7 @@
   --primary-soft: #eef2ff;
   --warn-soft: #fef3c7;
   --danger-soft: #fee2e2;
+  --good-soft: #d1fae5;
 
   --font: 'Plus Jakarta Sans', system-ui, sans-serif;
 
@@ -92,6 +93,7 @@ html[data-theme='dark'] {
   --primary-soft: #2b2850;
   --warn-soft: #3a3210;
   --danger-soft: #3a1f26;
+  --good-soft: #123524;
 
   --clay: 7px 7px 0 0 rgba(0, 0, 0, 0.35), 14px 16px 32px -10px rgba(0, 0, 0, 0.5),
     inset 0 2px 0 rgba(255, 255, 255, 0.05), inset 0 -4px 0 rgba(0, 0, 0, 0.3);
