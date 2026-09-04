@@ -1,4 +1,5 @@
-import { FileBarChart2, PlayCircle, Eye, Plus, Trophy } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { FileBarChart2, PlayCircle, Eye, Plus, Trophy, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { Panel, PageHeader, useToast } from '../../components/ui'
 import { testSeries } from '../../lib/mock'
@@ -7,6 +8,14 @@ export default function TestsPage() {
   const { user } = useAuth()
   const isStudent = user.roleId === 'student'
   const toast = useToast()
+  const [filter, setFilter] = useState('all')
+  const [q, setQ] = useState('')
+
+  const visible = useMemo(() =>
+    testSeries.filter((t) =>
+      (filter === 'all' || t.status === filter) &&
+      (t.name + t.subject + t.cls).toLowerCase().includes(q.toLowerCase())
+    ), [filter, q])
 
   if (isStudent) {
     return (
@@ -41,11 +50,24 @@ export default function TestsPage() {
       <PageHeader
         title="Tests & Results"
         sub="Create tests, enter marks, and track performance per class and topic."
-        actions={<button className="btn btn-primary" onClick={() => toast('Test T-119 "Weekly Test — Science" created for Class 10A.', 'success')}><Plus size={16} /> New test</button>}
+        actions={
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <div className="login-input" style={{ minWidth: 190 }}>
+              <Search size={15} />
+              <input placeholder="Search tests…" value={q} onChange={(e) => setQ(e.target.value)} style={{ padding: '9px 0' }} />
+            </div>
+            <select className="select-ghost" value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="Filter by status">
+              <option value="all">All status</option>
+              <option value="Upcoming">Upcoming</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <button className="btn btn-primary" onClick={() => toast('Test T-119 "Weekly Test — Science" created for Class 10A.', 'success')}><Plus size={16} /> New test</button>
+          </div>
+        }
       />
 
       <div className="grid-cards">
-        {testSeries.map((t) => (
+        {visible.map((t) => (
           <div className="fcard" key={t.id}>
             <div className="fcard-top">
               <span className="stat-icon" style={{ background: t.status === 'Upcoming' ? '#8b5cf6' : '#10b981' }}><FileBarChart2 size={18} /></span>
@@ -61,6 +83,9 @@ export default function TestsPage() {
             </div>
           </div>
         ))}
+        {visible.length === 0 && (
+          <div className="fcard" style={{ textAlign: 'center', color: 'var(--ink-muted)' }}>No tests match your filters.</div>
+        )}
       </div>
     </>
   )
