@@ -4,7 +4,7 @@ import {
   CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine
 } from 'lucide-react'
 import { PLANS } from '../lib/registry'
-import { img, StockImg } from '../components/ui'
+import { img, StockImg, useToast } from '../components/ui'
 import CountUp from '../components/CountUp'
 import LazySection from '../components/LazySection'
 import { usePrefersReducedMotion } from '../lib/useReducedMotion'
@@ -35,6 +35,7 @@ const TESTIMONIALS = [
 
 export default function Landing() {
   const reducedMotion = usePrefersReducedMotion()
+  const toast = useToast()
   const scrollToPlans = (e) => {
     e.preventDefault()
     const el = document.getElementById('plans')
@@ -205,10 +206,38 @@ export default function Landing() {
       <LazySection className="cta-band" as="div">
         <div className="cta-band-inner">
           <div>
-            <h2>Ready to see it live?</h2>
-            <p>Open a fresh demo — pick a plan, choose a role, and explore the full app in under 30 seconds.</p>
+            <h2>Take EduSuite everywhere</h2>
+            <p>Get the native Android app for staff and parents. Open a fresh demo — pick a plan, choose a role, and explore the full app in under 30 seconds.</p>
+            <div className="store-badges">
+              <a className="store-badge" href="https://github.com/WRECKERKS/school-app-prototype/releases/download/v1.0.0/app-debug.apk">
+                <span className="store-ico">▶</span>
+                <span><small>Get it on</small><b>Google Play</b></span>
+              </a>
+              <button className="store-badge" onClick={() => toast('Android APK (debug build) is ready — v1.0.0. The iOS build is in private beta.', 'info')}>
+                <span className="store-ico">🍎</span>
+                <span><small>Download on the</small><b>App Store</b></span>
+              </button>
+            </div>
           </div>
-          <Link to="/start" className="btn btn-white btn-lg"><Star size={18} /> Start Demo now</Link>
+          <div className="phone-mock">
+            <div className="phone-notch" />
+            <div className="phone-screen">
+              <div className="pm-appbar"><span>EduSuite Pro</span></div>
+              <div className="pm-hello">
+                <b>Good morning, Arjun 👋</b>
+                <small>Class 10A • 87% attendance</small>
+              </div>
+              <div className="pm-cards">
+                <div className="pm-card p1"><b>Fees</b><small>₹8,500 due</small></div>
+                <div className="pm-card p2"><b>Homework</b><small>3 pending</small></div>
+                <div className="pm-card p3"><b>Results</b><small>Avg 88%</small></div>
+              </div>
+              <div className="pm-row">
+                <div className="pm-chip c1">Attendance 87%</div>
+                <div className="pm-chip c2">Fees 92%</div>
+              </div>
+            </div>
+          </div>
         </div>
       </LazySection>
 
