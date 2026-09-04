@@ -453,7 +453,7 @@ html {
 
 .btn-danger {
   background: var(--card);
-  border-color: #f0c7c7;
+  border-color: var(--danger-soft);
   color: var(--danger);
   box-shadow: 4px 4px 0 0 rgba(239, 68, 68, 0.15);
 }
@@ -896,7 +896,7 @@ html {
   padding: 6px 14px;
   border-radius: 100px;
   background: var(--accent-soft);
-  color: #047857;
+  color: var(--accent-dark);
   font-size: 12.5px;
   font-weight: 800;
   text-transform: uppercase;
@@ -1849,7 +1849,7 @@ html {
   font-weight: 600;
   padding: 10px 14px;
   border-radius: var(--radius-xs);
-  border: 2px solid #f0c7c7;
+  border: 2px solid var(--danger-soft);
   margin-bottom: 14px;
 }
 
@@ -2958,15 +2958,15 @@ html {
 
 .schedule-item.live {
   border-color: var(--good);
-  background: #f6fef9;
+  background: var(--good-soft);
 }
 
 .live-tag {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: var(--accent-soft);
-  color: #047857;
+  background: var(--good-soft);
+  color: var(--good-dark);
   font-size: 11px;
   font-weight: 800;
   padding: 3px 10px;
