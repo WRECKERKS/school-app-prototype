@@ -2584,7 +2584,7 @@ html {
 
 .timetable td.break {
   background: var(--warn-soft);
-  color: #b45309;
+  color: var(--warn-dark);
 }
 
 .timetable td.active {
@@ -2592,6 +2592,43 @@ html {
   border-color: var(--primary-dark);
   color: #fff;
   box-shadow: 3px 3px 0 0 rgba(30, 27, 75, 0.2);
+}
+
+.timetable th.tb-today {
+  color: var(--primary);
+}
+.timetable td.tb-active {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--ink);
+}
+
+.day-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.day-tab {
+  padding: 8px 14px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--card-soft);
+  color: var(--ink-soft);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.day-tab:hover {
+  border-color: var(--primary);
+  color: var(--ink);
+}
+.day-tab.active {
+  background: var(--primary);
+  border-color: var(--primary-dark);
+  color: #fff;
+  box-shadow: 3px 3px 0 0 rgba(30, 27, 75, 0.15);
 }
 
 /* Activity feed */
