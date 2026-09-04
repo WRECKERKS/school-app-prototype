@@ -4,10 +4,11 @@ import {
   PolarAngleAxis, PolarRadiusAxis, Radar, Legend
 } from 'recharts'
 import { ChartNoAxesCombined, Trophy, AlertTriangle } from 'lucide-react'
-import { Panel, PageHeader, StatCard, Progress } from '../../components/ui'
+import { Panel, PageHeader, StatCard, Progress, chartTheme } from '../../components/ui'
 import { chartTopicData, chartTrendData, chartBatchData, chartSkillData } from '../../lib/mock'
 
 export default function AnalyticsPage() {
+  const c = chartTheme()
   return (
     <>
       <PageHeader
@@ -27,11 +28,11 @@ export default function AnalyticsPage() {
           <div className="chart-wrap">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartTopicData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e3ddf5" />
-                <XAxis dataKey="topic" tick={{ fontSize: 12, fill: '#7c88ad' }} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: '#7c88ad' }} />
-                <Tooltip cursor={{ fill: '#eef2ff' }} />
-                <Bar dataKey="score" name="Score" fill="#6366f1" radius={[8, 8, 0, 0]} barSize={26} />
+                <CartesianGrid strokeDasharray="3 3" stroke={c.grid} />
+                <XAxis dataKey="topic" tick={{ fontSize: 12, fill: c.tick }} />
+                <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: c.tick }} />
+                <Tooltip cursor={{ fill: c.tooltipFill }} />
+                <Bar dataKey="score" name="Score" fill={c.primary} radius={[8, 8, 0, 0]} barSize={26} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -41,11 +42,11 @@ export default function AnalyticsPage() {
           <div className="chart-wrap">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartTrendData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e3ddf5" />
-                <XAxis dataKey="month" tick={{ fontSize: 12, fill: '#7c88ad' }} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: '#7c88ad' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke={c.grid} />
+                <XAxis dataKey="month" tick={{ fontSize: 12, fill: c.tick }} />
+                <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: c.tick }} />
                 <Tooltip />
-                <Line type="monotone" dataKey="score" name="Avg score" stroke="#10b981" strokeWidth={3} dot={{ r: 5, fill: '#10b981' }} />
+                <Line type="monotone" dataKey="score" name="Avg score" stroke={c.good} strokeWidth={3} dot={{ r: 5, fill: c.good }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -55,13 +56,13 @@ export default function AnalyticsPage() {
           <div className="chart-wrap">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartBatchData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#e3ddf5" />
-                <XAxis dataKey="batch" tick={{ fontSize: 12, fill: '#7c88ad' }} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: '#7c88ad' }} />
-                <Tooltip cursor={{ fill: '#eef2ff' }} />
-                <Legend />
-                <Bar dataKey="math" name="Math" fill="#6366f1" radius={[6, 6, 0, 0]} barSize={14} />
-                <Bar dataKey="science" name="Science" fill="#f59e0b" radius={[6, 6, 0, 0]} barSize={14} />
+                <CartesianGrid strokeDasharray="3 3" stroke={c.grid} />
+                <XAxis dataKey="batch" tick={{ fontSize: 12, fill: c.tick }} />
+                <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: c.tick }} />
+                <Tooltip cursor={{ fill: c.tooltipFill }} />
+                <Legend wrapperStyle={{ fontSize: 12, color: c.tick }} />
+                <Bar dataKey="math" name="Math" fill={c.primary} radius={[6, 6, 0, 0]} barSize={14} />
+                <Bar dataKey="science" name="Science" fill={c.warn} radius={[6, 6, 0, 0]} barSize={14} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -71,12 +72,12 @@ export default function AnalyticsPage() {
           <div className="chart-wrap">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart data={chartSkillData}>
-                <PolarGrid stroke="#cfc6ea" />
-                <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: '#4b5578' }} />
+                <PolarGrid stroke={c.polar} />
+                <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: c.polarTick }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} />
-                <Radar name="Term 1" dataKey="term1" stroke="#818cf8" fill="#818cf8" fillOpacity={0.35} />
-                <Radar name="Term 2" dataKey="term2" stroke="#10b981" fill="#10b981" fillOpacity={0.4} />
-                <Legend />
+                <Radar name="Term 1" dataKey="term1" stroke={c.primary} fill={c.primary} fillOpacity={0.35} />
+                <Radar name="Term 2" dataKey="term2" stroke={c.good} fill={c.good} fillOpacity={0.4} />
+                <Legend wrapperStyle={{ fontSize: 12, color: c.tick }} />
                 <Tooltip />
               </RadarChart>
             </ResponsiveContainer>
@@ -88,11 +89,11 @@ export default function AnalyticsPage() {
         <Panel title="Top Performers" icon={Trophy}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {[
-              { name: 'Ananya Iyer', rank: 1, avg: 93, color: '#f59e0b' },
+              { name: 'Ananya Iyer', rank: 1, avg: 93, color: c.warn },
               { name: 'Aarav Sharma', rank: 2, avg: 92, color: '#8b8b8b' },
-              { name: 'Priya Nair', rank: 3, avg: 91, color: '#cd7f32' },
-              { name: 'Sara Khan', rank: 4, avg: 90, color: '#6366f1' },
-              { name: 'Arjun Patel', rank: 5, avg: 88, color: '#10b981' },
+              { name: 'Priya Nair', rank: 3, avg: 91, color: c.accent },
+              { name: 'Sara Khan', rank: 4, avg: 90, color: c.primary },
+              { name: 'Arjun Patel', rank: 5, avg: 88, color: c.good },
             ].map((s) => (
               <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span className="status-badge" style={{ background: s.color, color: '#fff' }}>#{s.rank}</span>

@@ -97,6 +97,28 @@ export function Progress({ value, color }) {
   )
 }
 
+/* Read a CSS variable as an RGB string (for recharts props) */
+function cssVar(name, fallback) {
+  if (typeof window === 'undefined') return fallback
+  const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+  return v || fallback
+}
+
+/* Theme-aware chart colors that adapt to light / dark mode */
+export function chartTheme() {
+  return {
+    grid: cssVar('--line', '#e3ddf5'),
+    tick: cssVar('--ink-muted', '#7c88ad'),
+    tooltipFill: cssVar('--card-soft', '#eef2ff'),
+    polar: cssVar('--line-dark', '#cfc6ea'),
+    polarTick: cssVar('--ink-soft', '#4b5578'),
+    primary: cssVar('--primary', '#6366f1'),
+    accent: cssVar('--accent', '#8b5cf6'),
+    good: cssVar('--good', '#10b981'),
+    warn: cssVar('--warn', '#d97706'),
+  }
+}
+
 /* Semantic progression color for percentage values (theme-consistent, not neon) */
 export function pctColor(value, { hi = 90, mid = 75 } = {}) {
   if (value >= hi) return 'var(--good)'
