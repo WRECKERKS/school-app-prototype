@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { HelpCircle, Plus, CheckCircle2 } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { HelpCircle, Plus, CheckCircle2, ArrowUp } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { Panel, PageHeader, useToast } from '../../components/ui'
 import { doubts } from '../../lib/mock'
@@ -7,11 +7,25 @@ import { doubts } from '../../lib/mock'
 export default function DoubtsPage() {
   const { user } = useAuth()
   const toast = useToast()
-  const [list, setList] = useState(doubts)
+  const [list, setList] = useState(doubts.map((d, i) => ({ ...d, votes: 3 + (i % 5) })))
+  const [voted, setVoted] = useState([])
+  const [filter, setFilter] = useState('all')
   const [resolving, setResolving] = useState(null)
   const [solution, setSolution] = useState('')
   const canResolve = user.plan === 'premium' && ['principal', 'admin'].includes(user.roleId)
   const isStudent = user.roleId === 'student'
+
+  const visible = useMemo(() =>
+    list.filter((d) => filter === 'all' || d.status === filter),
+    [list, filter])
+
+  const upvote = (id) => {
+    setVoted((v) => {
+      const on = v.includes(id)
+      setList((l) => l.map((d) => d.id === id ? { ...d, votes: d.votes + (on ? -1 : 1) } : d))
+      return on ? v.filter((x) => x !== id) : [...v, id]
+    })
+  }
 
   const resolveDoubt = () => {
     setList((l) => l.map((d) => (d.id === resolving.id ? { ...d, status: 'Resolved', solution } : d)))
@@ -21,6 +35,7 @@ export default function DoubtsPage() {
   }
 
   const askDoubt = () => {
+    setList((l) => [{ id: 'D-20', student: user.name || 'Arjun Patel', subject: 'Mathematics', question: 'New doubt submitted for review.', status: 'Pending', raised: 'Today, now', votes: 0 }, ...l])
     toast('Doubt submitted to your Maths teacher — you\'ll get an update shortly.', 'success')
   }
 
@@ -31,12 +46,21 @@ export default function DoubtsPage() {
         sub={isStudent ? 'Ask any subject doubt and track the solution once your teacher answers.'
           : canResolve ? 'Resolve pending doubts and send solutions straight to students.'
             : 'Track student doubts across subjects (resolution needs the Premium plan).'}
-        actions={isStudent ? (
-          <button className="btn btn-primary" onClick={askDoubt}><Plus size={15} /> Ask a doubt</button>
-        ) : undefined}
+        actions={
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <select className="select-ghost" value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="Filter by status">
+              <option value="all">All doubts</option>
+              <option value="Pending">Pending</option>
+              <option value="Resolved">Resolved</option>
+            </select>
+            {isStudent && (
+              <button className="btn btn-primary" onClick={askDoubt}><Plus size={15} /> Ask a doubt</button>
+            )}
+          </div>
+        }
       />
 
-      {list.map((d) => (
+      {visible.map((d) => (
         <Panel
           key={d.id}
           title={`${d.subject} • ${d.student}`}
@@ -49,8 +73,15 @@ export default function DoubtsPage() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
             <span style={{ fontSize: 12.5, color: 'var(--ink-muted)' }}>{d.id} • Raised {d.raised}</span>
             <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              <button
+                className={`btn btn-ghost btn-sm ${voted.includes(d.id) ? 'voted' : ''}`}
+                onClick={() => upvote(d.id)}
+                title="Upvote this doubt"
+              >
+                <ArrowUp size={14} /> {d.votes}
+              </button>
               {d.status === 'Resolved' && d.solution && (
-                <span style={{ fontSize: 12.5, color: '#15803d', fontWeight: 700, maxWidth: 360 }}>✓ {d.solution}</span>
+                <span style={{ fontSize: 12.5, color: 'var(--good-dark)', fontWeight: 700, maxWidth: 360 }}>✓ {d.solution}</span>
               )}
               {d.status === 'Pending' && canResolve && (
                 <button className="btn btn-primary btn-sm" onClick={() => { setResolving(d); setSolution('') }}>Resolve</button>
@@ -59,6 +90,10 @@ export default function DoubtsPage() {
           </div>
         </Panel>
       ))}
+
+      {visible.length === 0 && (
+        <Panel title="No doubts" icon={HelpCircle}><p style={{ color: 'var(--ink-muted)' }}>No doubts match your filter.</p></Panel>
+      )}
 
       {resolving && (
         <div className="dialog-overlay" onClick={() => setResolving(null)}>
