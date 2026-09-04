@@ -18,8 +18,8 @@ export default function AnalyticsPage() {
 
       <div className="stat-row">
         <StatCard icon={ChartNoAxesCombined} color="#6366f1" value="87%" label="Overall term score" change="+6 vs last term" />
-        <StatCard icon={ChartNoAxesCombined} color="#10b981" value="24" label="Top performers" change="above 90%" />
-        <StatCard icon={ChartNoAxesCombined} color="#d97706" value="3" label="Need attention" change="weak topics" changeTone="negative" />
+        <StatCard icon={ChartNoAxesCombined} color="#4f46e5" value="24" label="Top performers" change="above 90%" />
+        <StatCard icon={ChartNoAxesCombined} color="#7c3aed" value="3" label="Need attention" change="weak topics" changeTone="negative" />
         <StatCard icon={ChartNoAxesCombined} color="#8b5cf6" value="40,247" label="Question bank" change="11 subjects" />
       </div>
 
@@ -46,7 +46,7 @@ export default function AnalyticsPage() {
                 <XAxis dataKey="month" tick={{ fontSize: 12, fill: c.tick }} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: c.tick }} />
                 <Tooltip />
-                <Line type="monotone" dataKey="score" name="Avg score" stroke={c.good} strokeWidth={3} dot={{ r: 5, fill: c.good }} />
+                <Line type="monotone" dataKey="score" name="Avg score" stroke={c.primary} strokeWidth={3} dot={{ r: 5, fill: c.primary }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -62,7 +62,7 @@ export default function AnalyticsPage() {
                 <Tooltip cursor={{ fill: c.tooltipFill }} />
                 <Legend wrapperStyle={{ fontSize: 12, color: c.tick }} />
                 <Bar dataKey="math" name="Math" fill={c.primary} radius={[6, 6, 0, 0]} barSize={14} />
-                <Bar dataKey="science" name="Science" fill={c.warn} radius={[6, 6, 0, 0]} barSize={14} />
+                <Bar dataKey="science" name="Science" fill={c.accent} radius={[6, 6, 0, 0]} barSize={14} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -76,7 +76,7 @@ export default function AnalyticsPage() {
                 <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: c.polarTick }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} />
                 <Radar name="Term 1" dataKey="term1" stroke={c.primary} fill={c.primary} fillOpacity={0.35} />
-                <Radar name="Term 2" dataKey="term2" stroke={c.good} fill={c.good} fillOpacity={0.4} />
+                <Radar name="Term 2" dataKey="term2" stroke={c.accent} fill={c.accent} fillOpacity={0.4} />
                 <Legend wrapperStyle={{ fontSize: 12, color: c.tick }} />
                 <Tooltip />
               </RadarChart>
@@ -89,11 +89,11 @@ export default function AnalyticsPage() {
         <Panel title="Top Performers" icon={Trophy}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {[
-              { name: 'Ananya Iyer', rank: 1, avg: 93, color: c.warn },
-              { name: 'Aarav Sharma', rank: 2, avg: 92, color: '#8b8b8b' },
-              { name: 'Priya Nair', rank: 3, avg: 91, color: c.accent },
-              { name: 'Sara Khan', rank: 4, avg: 90, color: c.primary },
-              { name: 'Arjun Patel', rank: 5, avg: 88, color: c.good },
+              { name: 'Ananya Iyer', rank: 1, avg: 93, color: '#4f46e5' },
+              { name: 'Aarav Sharma', rank: 2, avg: 92, color: '#8b5cf6' },
+              { name: 'Priya Nair', rank: 3, avg: 91, color: '#7c3aed' },
+              { name: 'Sara Khan', rank: 4, avg: 90, color: '#6366f1' },
+              { name: 'Arjun Patel', rank: 5, avg: 88, color: '#6d28d9' },
             ].map((s) => (
               <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span className="status-badge" style={{ background: s.color, color: '#fff' }}>#{s.rank}</span>
