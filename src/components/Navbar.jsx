@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { GraduationCap, LogOut } from 'lucide-react'
+import { GraduationCap, LogOut, Sun, Moon } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import { useTheme } from '../lib/useTheme'
 
 const navItems = [
   { path: '/', label: 'Home' },
@@ -12,6 +13,7 @@ export default function Navbar() {
   const location = useLocation()
   const navigate = useNavigate()
   const { user, logout } = useAuth()
+  const { theme, toggle: toggleTheme } = useTheme()
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -37,6 +39,9 @@ export default function Navbar() {
         </Link>
 
         <div className="nav-links">
+          <button className="btn btn-ghost btn-sm theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} aria-label="Toggle theme">
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
           {navItems.map((item) => (
             <Link
               key={item.path}

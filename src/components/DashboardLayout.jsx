@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { Link, Navigate, Outlet, useLocation } from 'react-router-dom'
 import {
-  GraduationCap, LogOut, Menu, X, ChevronDown, Check, RefreshCw, Lock
+  GraduationCap, LogOut, Menu, X, ChevronDown, Check, RefreshCw, Lock, Sun, Moon
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { PLANS, moduleById, modulesFor } from '../lib/registry'
 import { appName } from '../lib/registry'
+import { useTheme } from '../lib/useTheme'
 
 export default function DashboardLayout() {
   const { user, switchRole, switchPlan, logout, rolesForPlan: rolesFn } = useAuth()
+  const { theme, toggle: toggleTheme } = useTheme()
   const location = useLocation()
   const [swRoleOpen, setSwRoleOpen] = useState(false)
   const [swPlanOpen, setSwPlanOpen] = useState(false)
@@ -86,6 +88,10 @@ export default function DashboardLayout() {
           <div className="tb-actions">
             <button className="btn btn-ghost btn-sm nav-hamburger" onClick={() => setMobileNav((v) => !v)}>
               {mobileNav ? <X size={18} /> : <Menu size={18} />}
+            </button>
+
+            <button className="btn btn-ghost btn-sm theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}>
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
             {/* Plan switcher */}
