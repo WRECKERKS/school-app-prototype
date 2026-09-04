@@ -334,6 +334,88 @@ html {
   color: var(--primary);
 }
 
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(10, 10, 30, 0.5);
+  backdrop-filter: blur(3px);
+  animation: fadeIn 0.18s ease;
+}
+.modal {
+  width: 100%;
+  max-width: 460px;
+  max-height: 86vh;
+  overflow: auto;
+  background: var(--card);
+  border: 3px solid var(--line-dark);
+  border-radius: var(--radius);
+  box-shadow: var(--clay);
+  animation: popIn 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 18px;
+  border-bottom: 2px solid var(--line);
+}
+.modal-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.modal-close {
+  border: 0;
+  background: var(--ink-06);
+  color: var(--ink-muted);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.modal-close:hover {
+  background: var(--ink-12);
+  color: var(--ink);
+}
+.modal-body {
+  padding: 18px;
+}
+.modal-foot {
+  padding: 14px 18px;
+  border-top: 2px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+.detail-grid dt {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--ink-muted);
+}
+.detail-grid dd {
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 2px;
+  font-size: 14px;
+}
+
 .btn-danger {
   background: var(--card);
   border-color: #f0c7c7;
@@ -602,6 +684,15 @@ html {
 @keyframes gradShift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes popIn {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .hero-sub {

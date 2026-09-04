@@ -199,3 +199,19 @@ export function personCell(name, sub) {
     </div>
   )
 }
+
+export function Modal({ open, onClose, title, icon: Icon, children, footer }) {
+  if (!open) return null
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-head">
+          <span className="modal-title">{Icon && <Icon size={18} />}{title}</span>
+          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+        </div>
+        <div className="modal-body">{children}</div>
+        {footer && <div className="modal-foot">{footer}</div>}
+      </div>
+    </div>
+  )
+}
