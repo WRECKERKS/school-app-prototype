@@ -3304,6 +3304,9 @@ html {
 .qr-scan-line { will-change: transform; }
 .route-fade { will-change: opacity, translate; }
 
+.empty-note { color: var(--ink-muted); font-size: 14px; text-align: center; padding: 22px 0; }
+.empty-note b { color: var(--ink); }
+
 /* Cap GPU layers on entry-level / integrated graphics */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
