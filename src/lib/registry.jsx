@@ -40,7 +40,7 @@ export const ROLES = [
   { id: 'teacher', name: 'Teacher', icon: '📚', plan: 'standard', color: '#6366f1', email: 'teacher@demoschool.edu', desc: 'Classes, grades & attendance' },
   { id: 'parent', name: 'Parent', icon: '👨‍👩‍👧', plan: 'standard', color: '#3b82f6', email: 'parent@demoschool.edu', desc: 'Fees, homework & updates' },
   { id: 'student', name: 'Student', icon: '🎓', plan: 'standard', color: '#10b981', email: 'student@demoschool.edu', desc: 'Assignments & results' },
-  { id: 'accounts', name: 'Accounts', icon: '💰', plan: 'standard', color: '#0ea5e9', email: 'accounts@demoschool.edu', desc: 'Fees & receipts' },
+  { id: 'accounts', name: 'Accounts', icon: '💰', plan: 'standard', color: '#8b5cf6', email: 'accounts@demoschool.edu', desc: 'Fees & receipts' },
 ]
 
 export const ROLES_BY_PLAN = {

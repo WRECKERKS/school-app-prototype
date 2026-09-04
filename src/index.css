@@ -1589,6 +1589,42 @@ html {
   margin-bottom: 10px;
 }
 
+.login-plan-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 10px 12px;
+  border-radius: var(--radius-xs);
+  background: var(--card-soft);
+  border: 2px solid var(--line);
+  font-size: 12.5px;
+  flex-wrap: wrap;
+}
+.login-plan-summary .lps-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.login-plan-summary .lps-name {
+  font-weight: 800;
+  color: var(--ink);
+}
+.login-plan-summary .lps-tag {
+  color: var(--ink-muted);
+  flex: 1;
+  min-width: 120px;
+}
+.login-plan-summary .lps-roles {
+  font-weight: 800;
+  color: var(--primary);
+  background: var(--primary-soft);
+  padding: 3px 9px;
+  border-radius: 100px;
+  font-size: 11px;
+}
+
 .login-role-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

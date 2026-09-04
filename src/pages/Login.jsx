@@ -91,7 +91,7 @@ export default function Login() {
 
           {/* Plan selector */}
           <div className="login-step-label">Step 1 — Demo plan</div>
-          <div className="chip-row" style={{ marginBottom: 18 }}>
+          <div className="chip-row" style={{ marginBottom: 10 }}>
             {Object.values(PLANS).map((p) => (
               <button
                 key={p.id}
@@ -103,6 +103,12 @@ export default function Login() {
                 {p.name} • {p.price}
               </button>
             ))}
+          </div>
+          <div className="login-plan-summary">
+            <span className="lps-dot" style={{ background: activePlan.color }} />
+            <span className="lps-name">{activePlan.name}</span>
+            <span className="lps-tag">{activePlan.tagline}</span>
+            <span className="lps-roles">{roles.length} roles</span>
           </div>
 
           {/* Role selector */}
