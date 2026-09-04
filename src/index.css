@@ -1326,6 +1326,19 @@ html {
   font-weight: 800;
 }
 
+.store-badge.store-install {
+  background: rgba(99, 102, 241, 0.45);
+  border-color: rgba(165, 180, 252, 0.7);
+}
+.store-badge.store-install .store-ico {
+  color: #c7d2fe;
+}
+.installed-pill {
+  align-self: center;
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
 .phone-mock {
   position: relative;
   width: 210px;

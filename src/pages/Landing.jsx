@@ -1,7 +1,8 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   GraduationCap, Star, ListChecks, Check, ArrowRight, Users,
-  CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine
+  CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine, Download
 } from 'lucide-react'
 import { PLANS } from '../lib/registry'
 import { img, StockImg, useToast } from '../components/ui'
@@ -36,6 +37,31 @@ const TESTIMONIALS = [
 export default function Landing() {
   const reducedMotion = usePrefersReducedMotion()
   const toast = useToast()
+  const [installPrompt, setInstallPrompt] = useState(null)
+  const [installed, setInstalled] = useState(false)
+
+  useEffect(() => {
+    const onPrompt = (e) => {
+      e.preventDefault()
+      setInstallPrompt(e)
+    }
+    const onInstalled = () => setInstalled(true)
+    window.addEventListener('beforeinstallprompt', onPrompt)
+    window.addEventListener('appinstalled', onInstalled)
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onPrompt)
+      window.removeEventListener('appinstalled', onInstalled)
+    }
+  }, [])
+
+  const installApp = async () => {
+    if (!installPrompt) return
+    installPrompt.prompt()
+    const { outcome } = await installPrompt.userChoice
+    setInstallPrompt(null)
+    if (outcome === 'accepted') { setInstalled(true); toast('Installed — EduSuite Pro is now on your device.', 'success') }
+  }
+
   const scrollToPlans = (e) => {
     e.preventDefault()
     const el = document.getElementById('plans')
@@ -217,6 +243,15 @@ export default function Landing() {
                 <span className="store-ico">🍎</span>
                 <span><small>Download on the</small><b>App Store</b></span>
               </button>
+              {installPrompt && !installed && (
+                <button className="store-badge store-install" onClick={installApp}>
+                  <span className="store-ico"><Download size={15} /></span>
+                  <span><small>Or add to your device</small><b>Install the app</b></span>
+                </button>
+              )}
+              {installed && (
+                <span className="badge status-success installed-pill">Installed on this device</span>
+              )}
             </div>
           </div>
           <div className="phone-mock">

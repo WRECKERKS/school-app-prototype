@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { syncThemeColor } from './meta-color'
 
 export const ACCENT_NAMES = {
   indigo: 'Indigo',
@@ -31,7 +32,8 @@ export function useTheme() {
     } catch {
       // storage unavailable
     }
-  }, [theme])
+    syncThemeColor(theme, accent)
+  }, [theme, accent])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-accent', accent)
@@ -40,7 +42,8 @@ export function useTheme() {
     } catch {
       // storage unavailable
     }
-  }, [accent])
+    syncThemeColor(theme, accent)
+  }, [accent, theme])
 
   const toggle = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
 
