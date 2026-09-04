@@ -159,6 +159,20 @@ export default function DashboardLayout() {
           {allowedHere ? <Outlet /> : <AccessLocked plan={plan} currentLabel={current?.label} />}
         </div>
       </div>
+
+      {/* Mobile bottom navigation */}
+      <nav className="app-bottomnav" aria-label="Primary navigation">
+        {modules.slice(0, 5).map((m) => {
+          const Icon = m.icon
+          const active = m.path === location.pathname
+          return (
+            <Link key={m.id} to={m.path} className={`bn-item ${active ? 'active' : ''}`} onClick={() => setMobileNav(false)}>
+              <Icon size={20} />
+              <span>{m.short || m.label.split(' ')[0]}</span>
+            </Link>
+          )
+        })}
+      </nav>
     </div>
   )
 }
