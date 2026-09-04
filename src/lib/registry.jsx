@@ -35,12 +35,12 @@ export const PLANS = {
 }
 
 export const ROLES = [
-  { id: 'principal', name: 'Principal', icon: '🏫', plan: 'premium', color: '#7c3aed', email: 'principal@demoschool.edu', desc: 'Full school oversight' },
-  { id: 'admin', name: 'Admin', icon: '🛡️', plan: 'standard', color: '#3b82f6', email: 'admin@demoschool.edu', desc: 'Staff & student management' },
-  { id: 'teacher', name: 'Teacher', icon: '📚', plan: 'standard', color: '#8b5cf6', email: 'teacher@demoschool.edu', desc: 'Classes, grades & attendance' },
-  { id: 'parent', name: 'Parent', icon: '👨‍👩‍👧', plan: 'standard', color: '#f59e0b', email: 'parent@demoschool.edu', desc: 'Fees, homework & updates' },
-  { id: 'student', name: 'Student', icon: '🎓', plan: 'standard', color: '#22c55e', email: 'student@demoschool.edu', desc: 'Assignments & results' },
-  { id: 'accounts', name: 'Accounts', icon: '💰', plan: 'standard', color: '#14b8a6', email: 'accounts@demoschool.edu', desc: 'Fees & receipts' },
+  { id: 'principal', name: 'Principal', icon: '🏫', plan: 'premium', color: '#4f46e5', email: 'principal@demoschool.edu', desc: 'Full school oversight' },
+  { id: 'admin', name: 'Admin', icon: '🛡️', plan: 'standard', color: '#7c3aed', email: 'admin@demoschool.edu', desc: 'Staff & student management' },
+  { id: 'teacher', name: 'Teacher', icon: '📚', plan: 'standard', color: '#6366f1', email: 'teacher@demoschool.edu', desc: 'Classes, grades & attendance' },
+  { id: 'parent', name: 'Parent', icon: '👨‍👩‍👧', plan: 'standard', color: '#3b82f6', email: 'parent@demoschool.edu', desc: 'Fees, homework & updates' },
+  { id: 'student', name: 'Student', icon: '🎓', plan: 'standard', color: '#10b981', email: 'student@demoschool.edu', desc: 'Assignments & results' },
+  { id: 'accounts', name: 'Accounts', icon: '💰', plan: 'standard', color: '#0ea5e9', email: 'accounts@demoschool.edu', desc: 'Fees & receipts' },
 ]
 
 export const ROLES_BY_PLAN = {

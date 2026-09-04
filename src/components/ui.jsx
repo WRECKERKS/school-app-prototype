@@ -98,7 +98,7 @@ export function Progress({ value, color }) {
 }
 
 /* ---- Avatar initials ---- */
-const AVATAR_COLORS = ['#6366f1', '#8b5cf6', '#10b981', '#f59e0b', '#ec4899', '#06b6d4']
+const AVATAR_COLORS = ['#6366f1', '#8b5cf6', '#4f46e5', '#3b82f6', '#0ea5e9', '#10b981']
 
 export function Avatar({ name }) {
   const initials = name
