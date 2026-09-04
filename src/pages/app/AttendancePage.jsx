@@ -1,16 +1,25 @@
 import { useRef, useState } from 'react'
-import { CalendarCheck, MapPin, ScanLine, FileDown, RotateCcw } from 'lucide-react'
+import { CalendarCheck, MapPin, ScanLine, FileDown, RotateCcw, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { Panel, PageHeader, Progress, pctColor, useToast } from '../../components/ui'
 import { classes } from '../../lib/mock'
+
+const STATUS_META = { excellent: 'Excellent', good: 'Good', review: 'Needs review' }
 
 export default function AttendancePage() {
   const { user } = useAuth()
   const pre = user.plan === 'premium'
   const [rows, setRows] = useState(classes)
+  const [filter, setFilter] = useState('all')
+  const [query, setQuery] = useState('')
   const toast = useToast()
 
   const toggle = (name) => {
+    const row = rows.find((r) => r.name === name)
+    if (row.absent === 0) {
+      toast(`${name} is already 100% present — nothing to mark.`, 'info')
+      return
+    }
     setRows((r) => r.map((row) => {
       if (row.name !== name || row.absent === 0) return row
       const present = row.present + 1
@@ -18,6 +27,14 @@ export default function AttendancePage() {
     }))
     toast(`Marked one student present in ${name} — SMS sent to parent.`)
   }
+
+  const statusOf = (row) => (row.pct >= 95 ? 'excellent' : row.pct >= 92 ? 'good' : 'review')
+
+  const visible = rows.filter((row) => {
+    const matchStatus = filter === 'all' || statusOf(row) === filter
+    const matchQuery = row.name.toLowerCase().includes(query.toLowerCase())
+    return matchStatus && matchQuery
+  })
 
   return (
     <>
@@ -36,6 +53,20 @@ export default function AttendancePage() {
         icon={CalendarCheck}
         actions={
           <>
+            <div className="inline-search">
+              <Search size={14} />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search class…"
+              />
+            </div>
+            <select className="select-ghost" value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="Filter by status">
+              <option value="all">All classes</option>
+              <option value="excellent">Excellent</option>
+              <option value="good">Good</option>
+              <option value="review">Needs review</option>
+            </select>
             <button className="btn btn-ghost btn-sm">Yesterday</button>
             <button className="btn btn-primary btn-sm">Today, 1 Sep</button>
             <button className="btn btn-soft btn-sm" onClick={() => toast('CSV exported for Sep 1 register.', 'success')}><FileDown size={14} /> Export CSV</button>
@@ -46,12 +77,12 @@ export default function AttendancePage() {
           <table className="data-table">
             <thead><tr><th>Class</th><th>Total</th><th>Present</th><th>Absent</th><th>Attendance %</th><th>Status</th></tr></thead>
             <tbody>
-              {rows.map((row) => (
+              {visible.map((row) => (
                 <tr key={row.name} className="clickable-row" onClick={() => toggle(row.name)}>
                   <td className="strong">{row.name}</td>
                   <td>{row.total}</td>
-                  <td style={{ color: '#15803d', fontWeight: 800 }}>{row.present}</td>
-                  <td style={{ color: '#b91c1c', fontWeight: 800 }}>{row.absent}</td>
+                  <td style={{ color: 'var(--good-dark)', fontWeight: 800 }}>{row.present}</td>
+                  <td style={{ color: 'var(--danger-dark)', fontWeight: 800 }}>{row.absent}</td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 150 }}>
                       <div style={{ flex: 1 }}><Progress value={row.pct} color={pctColor(row.pct, { hi: 95, mid: 92 })} /></div>
@@ -65,6 +96,9 @@ export default function AttendancePage() {
                   </td>
                 </tr>
               ))}
+              {visible.length === 0 && (
+                <tr><td colSpan={6} style={{ textAlign: 'center', padding: 24, color: 'var(--ink-muted)' }}>No classes match your filter.</td></tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -120,7 +154,7 @@ function AttendanceTools() {
             <span className={`pulse-dot ${gpsState !== 'verified' ? '' : ''}`} style={{ background: gpsState === 'verified' ? '#10b981' : '#6366f1' }} />
             {gpsState === 'idle' && <span style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--ink-muted)' }}>Locate 10A within 50m</span>}
             {gpsState === 'locating' && <span style={{ fontSize: 12.5, fontWeight: 800, color: '#6366f1' }}>Verifying radius…</span>}
-            {gpsState === 'verified' && <span style={{ fontSize: 12.5, fontWeight: 800, color: '#15803d' }}>Verified ✓ 48.2m from school gates</span>}
+            {gpsState === 'verified' && <span style={{ fontSize: 12.5, fontWeight: 800, color: 'var(--good-dark)' }}>Verified ✓ 48.2m from school gates</span>}
           </div>
           <button className="btn btn-accent" onClick={startGps} disabled={gpsState === 'locating'}>
             {gpsState === 'locating' ? 'Verifying…' : 'Verify location'}

@@ -275,6 +275,39 @@ html {
   color: var(--ink);
 }
 
+.inline-search {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-xs);
+  color: var(--ink-muted);
+  background: var(--card-soft);
+}
+.inline-search input {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 13px;
+  width: 120px;
+}
+.inline-search input::placeholder {
+  color: var(--ink-muted);
+}
+
+.select-ghost {
+  padding: 9px 12px;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-xs);
+  background: var(--card-soft);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .btn-danger {
   background: var(--card);
   border-color: #f0c7c7;
