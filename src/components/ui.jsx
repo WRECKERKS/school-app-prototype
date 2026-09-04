@@ -127,7 +127,7 @@ export function pctColor(value, { hi = 90, mid = 75 } = {}) {
 }
 
 /* ---- Avatar initials ---- */
-const AVATAR_COLORS = ['#6366f1', '#8b5cf6', '#4f46e5', '#3b82f6', '#0ea5e9', '#10b981']
+const AVATAR_COLORS = ['#6366f1', '#8b5cf6', '#4f46e5', '#7c3aed', '#6d28d9', '#4338ca']
 
 export function Avatar({ name }) {
   const initials = name
