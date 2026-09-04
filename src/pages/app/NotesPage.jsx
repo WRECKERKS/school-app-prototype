@@ -3,7 +3,7 @@ import { BookOpen, Upload, Download, FileText, Search } from 'lucide-react'
 import { PageHeader, useToast } from '../../components/ui'
 import { notes as seed } from '../../lib/mock'
 
-const ICONS = ['#6366f1', '#8b5cf6', '#10b981', '#d97706']
+const ICONS = ['#6366f1', '#8b5cf6', '#4f46e5', '#7c3aed']
 const SUBJECTS = [...new Set(seed.map((n) => n.subject))]
 const TYPES = [...new Set(seed.map((n) => n.type))]
 

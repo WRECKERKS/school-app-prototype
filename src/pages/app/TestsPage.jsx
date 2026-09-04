@@ -70,7 +70,7 @@ export default function TestsPage() {
         {visible.map((t) => (
           <div className="fcard" key={t.id}>
             <div className="fcard-top">
-              <span className="stat-icon" style={{ background: t.status === 'Upcoming' ? '#8b5cf6' : '#10b981' }}><FileBarChart2 size={18} /></span>
+              <span className="stat-icon" style={{ background: t.status === 'Upcoming' ? '#8b5cf6' : '#6366f1' }}><FileBarChart2 size={18} /></span>
               {t.status === 'Upcoming' ? <span className="badge status-info">{t.date}</span> : <span className="badge status-paid">Avg {t.avg}</span>}
             </div>
             <h4>{t.name}</h4>
