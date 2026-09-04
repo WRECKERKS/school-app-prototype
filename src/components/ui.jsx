@@ -97,6 +97,13 @@ export function Progress({ value, color }) {
   )
 }
 
+/* Semantic progression color for percentage values (theme-consistent, not neon) */
+export function pctColor(value, { hi = 90, mid = 75 } = {}) {
+  if (value >= hi) return 'var(--good)'
+  if (value >= mid) return 'var(--primary)'
+  return 'var(--warn)'
+}
+
 /* ---- Avatar initials ---- */
 const AVATAR_COLORS = ['#6366f1', '#8b5cf6', '#4f46e5', '#3b82f6', '#0ea5e9', '#10b981']
 

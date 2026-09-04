@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { CalendarCheck, MapPin, ScanLine, FileDown, RotateCcw } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { Panel, PageHeader, Progress, useToast } from '../../components/ui'
+import { Panel, PageHeader, Progress, pctColor, useToast } from '../../components/ui'
 import { classes } from '../../lib/mock'
 
 export default function AttendancePage() {
@@ -54,7 +54,7 @@ export default function AttendancePage() {
                   <td style={{ color: '#b91c1c', fontWeight: 800 }}>{row.absent}</td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 150 }}>
-                      <div style={{ flex: 1 }}><Progress value={row.pct} color={row.pct >= 95 ? '#22c55e' : row.pct >= 92 ? '#6366f1' : '#f59e0b'} /></div>
+                      <div style={{ flex: 1 }}><Progress value={row.pct} color={pctColor(row.pct, { hi: 95, mid: 92 })} /></div>
                       <span style={{ fontWeight: 800, fontSize: 13 }}>{row.pct}%</span>
                     </div>
                   </td>

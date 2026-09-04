@@ -4,7 +4,7 @@ import {
   ArrowRight, TrendingUp, School
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { StatCard, Panel, Progress } from '../../components/ui'
+import { StatCard, Panel, Progress, pctColor } from '../../components/ui'
 import { classes, schedule, subjectPerformance, recentTasks, activityLog } from '../../lib/mock'
 
 export default function DashboardPage() {
@@ -89,8 +89,8 @@ function LeadershipDash() {
         <QuickActions actions={[
           { label: 'Mark attendance', desc: 'QR, GPS or manual for any class', to: '/app/attendance', icon: CalendarCheck, color: '#6366f1' },
           { label: 'Record a fee', desc: 'UPI, Card or Wallet payment', to: '/app/fees', icon: Wallet, color: '#10b981' },
-          { label: 'Assign homework', desc: 'Any batch, any subject', to: '/app/homework', icon: ListTodo, color: '#f59e0b' },
-          { label: 'Post announcement', desc: 'With High / Medium / Low priority', to: '/app/announcements', icon: Megaphone, color: '#ec4899' },
+          { label: 'Assign homework', desc: 'Any batch, any subject', to: '/app/homework', icon: ListTodo, color: '#d97706' },
+          { label: 'Post announcement', desc: 'With High / Medium / Low priority', to: '/app/announcements', icon: Megaphone, color: '#8b5cf6' },
         ]} />
       </div>
       <Panel title="Class Attendance This Week" icon={Users}>
@@ -98,7 +98,7 @@ function LeadershipDash() {
           {classes.map((c) => (
             <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
               <span style={{ width: 78, fontWeight: 800, fontSize: 13.5, color: 'var(--ink)' }}>{c.name}</span>
-              <div style={{ flex: 1 }}><Progress value={c.pct} color={c.pct >= 95 ? '#22c55e' : c.pct >= 92 ? '#6366f1' : '#f59e0b'} /></div>
+              <div style={{ flex: 1 }}><Progress value={c.pct} color={pctColor(c.pct, { hi: 95, mid: 92 })} /></div>
               <span style={{ width: 44, textAlign: 'right', fontWeight: 800, fontSize: 13.5 }}>{c.pct}%</span>
             </div>
           ))}
@@ -114,7 +114,7 @@ function StatRow() {
     { icon: Users, color: '#6366f1', value: '245', label: 'Students', change: '+12 this term', changeTone: 'positive' },
     { icon: School, color: '#8b5cf6', value: '18', label: 'Teachers', change: '+2 this year' },
     { icon: CalendarCheck, color: '#10b981', value: '87%', label: 'Attendance', change: '+3% vs last' },
-    { icon: Wallet, color: '#f59e0b', value: '₹4.85L', label: 'Fees collected', change: '92% collected' },
+    { icon: Wallet, color: '#d97706', value: '₹4.85L', label: 'Fees collected', change: '92% collected' },
   ]
   return (
     <div className="stat-row">
@@ -131,14 +131,14 @@ function TeacherDash() {
       <div className="stat-row">
         <StatCard icon={Users} color="#6366f1" value="85" label="My students" change="3 classes" />
         <StatCard icon={CalendarCheck} color="#10b981" value="3" label="Classes today" change="9A, 10A, 10B" />
-        <StatCard icon={ListTodo} color="#f59e0b" value="12" label="Reviews pending" change="2 overdue" changeTone="negative" />
-        <StatCard icon={FileBarChart2} color="#ec4899" value="5" label="Doubts to answer" change="2 new today" />
+        <StatCard icon={ListTodo} color="#d97706" value="12" label="Reviews pending" change="2 overdue" changeTone="negative" />
+        <StatCard icon={FileBarChart2} color="#8b5cf6" value="5" label="Doubts to answer" change="2 new today" />
       </div>
       <div className="grid-2">
         <TodaySchedule />
         <QuickActions actions={[
           { label: 'Mark attendance', desc: 'For today’s classes', to: '/app/attendance', icon: CalendarCheck, color: '#6366f1' },
-          { label: 'Review homework', desc: '12 submissions to grade', to: '/app/homework', icon: ListTodo, color: '#f59e0b' },
+          { label: 'Review homework', desc: '12 submissions to grade', to: '/app/homework', icon: ListTodo, color: '#d97706' },
           { label: 'Set a test', desc: 'From saved question sets', to: '/app/tests', icon: FileBarChart2, color: '#10b981' },
           { label: 'Upload notes', desc: 'Share with any batch', to: '/app/notes', icon: FileBarChart2, color: '#8b5cf6' },
         ]} />
@@ -172,10 +172,10 @@ function StudentDash() {
         </div>
       </Panel>
       <div className="stat-row">
-        <StatCard icon={CalendarCheck} color="#22c55e" value="92%" label="Attendance" change="+4% this month" />
+        <StatCard icon={CalendarCheck} color="#10b981" value="92%" label="Attendance" change="+4% this month" />
         <StatCard icon={FileBarChart2} color="#6366f1" value="88" label="Avg score" change="Top 5%" />
-        <StatCard icon={ListTodo} color="#f59e0b" value="3" label="Pending tasks" change="1 overdue" changeTone="negative" />
-        <StatCard icon={TrendingUp} color="#ec4899" value="#5" label="Class rank" change="up from #8" />
+        <StatCard icon={ListTodo} color="#d97706" value="3" label="Pending tasks" change="1 overdue" changeTone="negative" />
+        <StatCard icon={TrendingUp} color="#8b5cf6" value="#5" label="Class rank" change="up from #8" />
       </div>
       <div className="grid-2">
         <Panel title="My Subject Performance" icon={TrendingUp}>
@@ -269,7 +269,7 @@ function AccountsDash() {
     <>
       <div className="stat-row">
         <StatCard icon={Wallet} color="#10b981" value="₹4.85L" label="Collected (Sep)" change="+8% vs Aug" />
-        <StatCard icon={Wallet} color="#f59e0b" value="₹1.2L" label="Pending" change="38 invoices" />
+        <StatCard icon={Wallet} color="#d97706" value="₹1.2L" label="Pending" change="38 invoices" />
         <StatCard icon={Wallet} color="#ef4444" value="₹32K" label="Overdue" change="7 invoices" changeTone="negative" />
         <StatCard icon={TrendingUp} color="#6366f1" value="92%" label="Collection rate" change="target 90%" />
       </div>

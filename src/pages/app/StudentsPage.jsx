@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Users, Search, Filter } from 'lucide-react'
-import { Panel, PageHeader, personCell, Progress, useToast } from '../../components/ui'
+import { Panel, PageHeader, personCell, Progress, pctColor, useToast } from '../../components/ui'
 import { students } from '../../lib/mock'
 
 export default function StudentsPage() {
@@ -36,7 +36,7 @@ export default function StudentsPage() {
                   <td>{s.roll}</td>
                   <td>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 110 }}>
-                      <div style={{ flex: 1 }}><Progress value={s.attendance} color={s.attendance >= 95 ? '#22c55e' : s.attendance >= 88 ? '#6366f1' : '#f59e0b'} /></div>
+                      <div style={{ flex: 1 }}><Progress value={s.attendance} color={pctColor(s.attendance, { hi: 95, mid: 88 })} /></div>
                       <span style={{ fontWeight: 800, fontSize: 12.5 }}>{s.attendance}%</span>
                     </div>
                   </td>
