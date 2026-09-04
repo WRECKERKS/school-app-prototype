@@ -1744,6 +1744,21 @@ html {
   font-size: 14.5px;
 }
 
+.input-suffix-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: var(--primary-soft);
+  color: var(--primary);
+  width: 24px;
+  height: 24px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.input-suffix-btn:hover { background: var(--primary); color: #fff; }
+
 .login-error {
   display: flex;
   align-items: center;

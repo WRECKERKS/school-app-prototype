@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import {
   GraduationCap, Mail, Lock, LogIn, Sparkles, ChevronRight,
-  ShieldCheck, Zap, Users2, ArrowRight, PlayCircle, X, RefreshCw
+  ShieldCheck, Zap, Users2, ArrowRight, PlayCircle, X, RefreshCw, KeyRound
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { PLANS, rolesForPlan } from '../lib/registry'
@@ -51,6 +51,11 @@ export default function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault()
+    const pw = password.trim()
+    if (pw && pw !== 'demo123') {
+      setError('That password is wrong — the demo password is demo123.')
+      return
+    }
     if (!email.trim()) {
       setError('Please enter an email address.')
       return
@@ -151,7 +156,12 @@ export default function Login() {
               <span>Password</span>
               <div className="login-input">
                 <Lock size={16} />
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" />
+                <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setError('') }} placeholder="••••••••" />
+                {password !== 'demo123' && (
+                  <button type="button" className="input-suffix-btn" title="Fill the demo password" onClick={() => setPassword('demo123')}>
+                    <KeyRound size={14} />
+                  </button>
+                )}
               </div>
             </label>
             {error && <div className="login-error"><X size={13} /> {error}</div>}
