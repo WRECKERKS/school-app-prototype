@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Wallet, Plus, BellRing, Inbox } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { Panel, PageHeader, StatCard, useToast } from '../../components/ui'
@@ -10,8 +10,13 @@ export default function FeesPage() {
   const [list, setList] = useState(fees)
   const [paying, setPaying] = useState(null)
   const [method, setMethod] = useState('UPI')
+  const [filter, setFilter] = useState('all')
 
   const isParent = user.roleId === 'parent'
+
+  const visible = useMemo(() =>
+    isParent ? list : list.filter((f) => filter === 'all' || f.status === filter),
+    [list, filter, isParent])
 
   const record = () => {
     setList((l) => l.map((f) => (f.id === paying.id ? { ...f, status: 'Paid', method, date: '01 Sep' } : f)))
@@ -43,12 +48,23 @@ export default function FeesPage() {
         </div>
       )}
 
-      <Panel title="Fee Register" icon={Wallet} actions={<button className="btn btn-soft btn-sm" onClick={() => toast('CSV exported — fee register Sep 2026.', 'success')}>Export</button>}>
+      <Panel title="Fee Register" icon={Wallet} actions={
+        <>
+          <select className="select-ghost" value={filter} onChange={(e) => setFilter(e.target.value)} aria-label="Filter by status">
+            <option value="all">All statuses</option>
+            <option value="Paid">Paid</option>
+            <option value="Due">Due</option>
+            <option value="Pending">Pending</option>
+            <option value="Overdue">Overdue</option>
+          </select>
+          <button className="btn btn-soft btn-sm" onClick={() => toast('CSV exported — fee register Sep 2026.', 'success')}>Export</button>
+        </>
+      }>
         <div className="table-wrap">
           <table className="data-table">
             <thead><tr><th>Invoice</th><th>Student</th><th>Class</th><th>Fee</th><th>Amount</th><th>Method</th><th>Status</th>{!isParent && <th></th>}</tr></thead>
             <tbody>
-              {list.map((f) => (
+              {visible.map((f) => (
                 <tr key={f.id}>
                   <td className="strong">{f.id}</td>
                   <td className="strong">{f.student}</td>
@@ -68,6 +84,9 @@ export default function FeesPage() {
                   )}
                 </tr>
               ))}
+              {visible.length === 0 && (
+                <tr><td colSpan={8} style={{ textAlign: 'center', padding: 24, color: 'var(--ink-muted)' }}>No invoices match your filter.</td></tr>
+              )}
             </tbody>
           </table>
         </div>
