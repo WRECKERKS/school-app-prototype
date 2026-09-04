@@ -2326,7 +2326,7 @@ html {
 
 .input:focus, .select:focus, .textarea:focus {
   border-color: var(--primary);
-  background: #fff;
+  background: var(--card);
 }
 
 .textarea {
