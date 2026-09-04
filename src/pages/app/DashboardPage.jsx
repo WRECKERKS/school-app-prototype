@@ -66,7 +66,7 @@ function RecentActivity({ limit = 4 }) {
       <div className="activity-feed">
         {activityLog.slice(0, limit).map((a, i) => (
           <div key={i} className="activity-item">
-            <span className="activity-ico" style={{ background: a.tone === 'success' ? '#dcfce7' : a.tone === 'warn' ? '#fef3c7' : '#dbeafe', color: a.tone === 'success' ? '#15803d' : a.tone === 'warn' ? '#b45309' : '#1d4ed8' }}>
+            <span className="activity-ico" style={{ background: a.tone === 'success' ? 'var(--good-soft)' : a.tone === 'warn' ? 'var(--warn-soft)' : 'var(--info-soft)', color: a.tone === 'success' ? 'var(--good-dark)' : a.tone === 'warn' ? 'var(--warn-dark)' : 'var(--info-dark)' }}>
               {a.tone === 'success' ? <CalendarCheck size={16} /> : <FileBarChart2 size={16} />}
             </span>
             <div>
@@ -191,7 +191,7 @@ function StudentDash() {
           <div className="activity-feed">
             {recentTasks.map((t, i) => (
               <div key={i} className="activity-item">
-                <span className="activity-ico" style={{ background: t.done ? '#dcfce7' : '#fef3c7', color: t.done ? '#15803d' : '#b45309' }}>
+                <span className="activity-ico" style={{ background: t.done ? 'var(--good-soft)' : 'var(--warn-soft)', color: t.done ? 'var(--good-dark)' : 'var(--warn-dark)' }}>
                   <ListTodo size={16} />
                 </span>
                 <div>
@@ -252,7 +252,7 @@ function ParentDash() {
               { t: 'PTM invite — Sat 20 Sep', w: '01 Sep' },
             ].map((n, i) => (
               <div key={i} className="activity-item">
-                <span className="activity-ico" style={{ background: '#dbeafe', color: '#1d4ed8' }}><FileBarChart2 size={16} /></span>
+                <span className="activity-ico" style={{ background: 'var(--info-soft)', color: 'var(--info-dark)' }}><FileBarChart2 size={16} /></span>
                 <div><b>{n.t}</b><span>{n.w}</span></div>
               </div>
             ))}

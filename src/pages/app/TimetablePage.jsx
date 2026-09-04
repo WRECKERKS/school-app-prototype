@@ -86,7 +86,7 @@ export default function TimetablePage() {
         <div style={{ marginTop: 14, display: 'flex', gap: 10 }}>
           {['Break', 'Selected day'].map((k) => (
             <span key={k} className="badge" style={{ background: 'var(--bg-soft)', color: 'var(--ink-muted)' }}>
-              <span style={{ width: 12, height: 12, borderRadius: 3, background: k === 'Break' ? '#fef3c7' : 'var(--primary)', display: 'inline-block' }} /> {k}
+              <span style={{ width: 12, height: 12, borderRadius: 3, background: k === 'Break' ? 'var(--warn-soft)' : 'var(--primary)', display: 'inline-block' }} /> {k}
             </span>
           ))}
         </div>

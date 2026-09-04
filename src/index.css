@@ -1749,7 +1749,7 @@ html {
   align-items: center;
   gap: 8px;
   background: var(--danger-soft);
-  color: #b91c1c;
+  color: var(--danger-dark);
   font-size: 13.5px;
   font-weight: 600;
   padding: 10px 14px;

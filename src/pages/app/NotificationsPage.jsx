@@ -3,10 +3,10 @@ import { Panel, PageHeader, StatCard, useToast } from '../../components/ui'
 import { notifHistory } from '../../lib/mock'
 
 const CHANNEL = {
-  SMS: { icon: MessageCircle, color: '#6366f1', soft: '#e0e7ff' },
-  WhatsApp: { icon: MessageCircle, color: '#10b981', soft: '#d1fae5' },
-  Email: { icon: Send, color: '#d97706', soft: '#fef3c7' },
-  Call: { icon: Phone, color: '#8b5cf6', soft: '#ede9fe' },
+  SMS: { icon: MessageCircle, color: 'var(--primary)', soft: 'var(--primary-soft)' },
+  WhatsApp: { icon: MessageCircle, color: 'var(--good)', soft: 'var(--good-soft)' },
+  Email: { icon: Send, color: 'var(--warn)', soft: 'var(--warn-soft)' },
+  Call: { icon: Phone, color: 'var(--accent)', soft: 'var(--primary-soft)' },
 }
 
 export default function NotificationsPage() {
