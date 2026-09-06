@@ -661,16 +661,19 @@ html[data-theme='dark'] .btn-danger:hover {
   font-weight: 600;
   font-size: 13.5px;
   color: var(--ink-soft);
+  transition: transform var(--transition), background var(--transition), color var(--transition);
 }
 
 .nav-link:hover {
   background: var(--primary-soft);
   color: var(--primary-deep);
+  transform: translateY(-1px);
 }
 
 .nav-link.active {
   background: var(--primary-soft);
   color: var(--primary-deep);
+  box-shadow: inset 0 0 0 1.5px var(--line-dark);
 }
 
 .nav-link.active::after {
@@ -994,7 +997,10 @@ html[data-theme='dark'] .badge {
 .hero-stat b {
   display: block;
   font-size: 24px;
-  color: var(--ink);
+  background: linear-gradient(120deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .hero-stat span {
@@ -2887,17 +2893,20 @@ html[data-theme='dark'] .chip.active {
 
 /* Resource / note / doubt cards */
 .fcard {
-  background: var(--card);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--card-soft) 0%, var(--card) 100%);
   border: 3px solid var(--line);
   border-radius: var(--radius-sm);
   box-shadow: var(--clay-sm);
   padding: 18px;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
 .fcard:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px) scale(1.01);
   box-shadow: var(--clay);
+  border-color: var(--line-dark);
 }
 
 .fcard .fcard-top {
@@ -3045,15 +3054,27 @@ html[data-theme='dark'] .chip.active {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--card);
+  background: linear-gradient(180deg, var(--card-soft) 0%, var(--card) 100%);
   border: 3px solid var(--line-dark);
   border-radius: var(--radius-sm);
-  box-shadow: var(--clay);
+  box-shadow: var(--clay), 0 18px 30px -12px rgba(30, 27, 75, 0.35);
   padding: 14px 18px;
   font-size: 13.5px;
   font-weight: 700;
   color: var(--ink);
   animation: toastIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.toast::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  top: 5px;
+  width: 20%;
+  height: 16%;
+  border-radius: 100px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.05));
+  filter: blur(2px);
 }
 
 .toast::after {
@@ -3096,11 +3117,24 @@ html[data-theme='dark'] .chip.active {
   height: 30px;
   border-radius: 9px;
   flex: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .toast.success .toast-ico { background: var(--good-soft); color: var(--good-dark); }
 .toast.info .toast-ico { background: var(--info-soft); color: var(--info-dark); }
 .toast.warn .toast-ico { background: var(--warn-soft); color: var(--warn-dark); }
+
+html[data-theme='dark'] .toast {
+  background: linear-gradient(180deg, #23213f 0%, #1f1d3b 100%);
+  box-shadow: var(--clay), 0 18px 30px -12px rgba(0, 0, 0, 0.5);
+  border-color: var(--line);
+}
+html[data-theme='dark'] .toast::before {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
+}
+html[data-theme='dark'] .toast .toast-ico {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
 
 @keyframes toastIn {
   from { transform: translateX(40px); opacity: 0; }
