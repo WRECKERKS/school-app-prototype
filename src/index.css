@@ -256,6 +256,7 @@ html {
    Buttons
    ============================================================ */
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -269,6 +270,7 @@ html {
   cursor: pointer;
   border: 2.5px solid transparent;
   white-space: nowrap;
+  overflow: hidden;
   -webkit-tap-highlight-color: transparent;
   transition: transform var(--transition), box-shadow var(--transition),
     background var(--transition), border-color var(--transition), color var(--transition);
@@ -285,36 +287,80 @@ html {
 }
 
 .btn-primary {
-  background: var(--primary);
-  border-color: var(--primary-dark);
+  background: linear-gradient(180deg, #818cf8 0%, var(--primary) 45%, var(--primary-dark) 100%);
+  border-color: var(--primary-deep);
   color: #fff;
+  box-shadow: 0 5px 0 0 var(--primary-deep), 0 12px 20px -8px rgba(79, 70, 229, 0.55),
+    inset 0 2px 0 rgba(255, 255, 255, 0.35);
+}
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  top: 4px;
+  width: 24%;
+  height: 40%;
+  border-radius: 100px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.08));
+  filter: blur(2px);
 }
 
 .btn-primary:hover {
-  background: var(--secondary);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 0 var(--primary-deep), 0 16px 24px -8px rgba(79, 70, 229, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+.btn-primary:active {
+  box-shadow: 0 2px 0 0 var(--primary-deep), inset 0 2px 4px rgba(30, 27, 75, 0.18);
+  transform: translateY(2px) scale(0.99);
 }
 
 .btn-accent {
-  background: var(--accent);
+  background: linear-gradient(180deg, #a78bfa 0%, var(--accent) 45%, var(--accent-dark) 100%);
   border-color: var(--accent-dark);
   color: #fff;
+  box-shadow: 0 5px 0 0 var(--accent-dark), 0 12px 20px -8px rgba(124, 58, 237, 0.55),
+    inset 0 2px 0 rgba(255, 255, 255, 0.35);
+}
+.btn-accent::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  top: 4px;
+  width: 24%;
+  height: 40%;
+  border-radius: 100px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.08));
+  filter: blur(2px);
 }
 
 .btn-accent:hover {
-  background: var(--secondary);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 0 var(--accent-dark), 0 16px 24px -8px rgba(124, 58, 237, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.4);
+}
+.btn-accent:active {
+  box-shadow: 0 2px 0 0 var(--accent-dark), inset 0 2px 4px rgba(30, 27, 75, 0.18);
+  transform: translateY(2px) scale(0.99);
 }
 
 .btn-soft {
-  background: var(--primary-soft);
-  border-color: #d7d5fb;
+  background: linear-gradient(180deg, #ffffff 0%, var(--primary-soft) 100%);
+  border-color: var(--line-dark);
   color: var(--primary-deep);
+  box-shadow: 0 4px 0 0 var(--line-dark), 0 10px 16px -8px rgba(67, 56, 202, 0.3),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9);
 }
 
 .btn-soft:hover {
-  background: #e4e7ff;
-  transform: translateY(-1px);
+  background: linear-gradient(180deg, #ffffff 0%, #e4e7ff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 var(--line-dark), 0 14px 20px -8px rgba(67, 56, 202, 0.35),
+    inset 0 2px 0 #ffffff;
+}
+.btn-soft:active {
+  box-shadow: 0 1px 0 0 var(--line-dark), inset 0 2px 4px rgba(30, 27, 75, 0.08);
+  transform: translateY(2px) scale(0.99);
 }
 
 .btn-ghost {
@@ -327,6 +373,46 @@ html {
 .btn-ghost:hover {
   background: var(--ink-06);
   color: var(--ink);
+}
+
+html[data-theme='dark'] .btn-primary {
+  background: linear-gradient(180deg, #6366f1 0%, var(--primary-dark) 50%, var(--primary-deep) 100%);
+  box-shadow: 0 5px 0 0 rgba(0, 0, 0, 0.55), 0 14px 22px -8px rgba(0, 0, 0, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.16);
+}
+html[data-theme='dark'] .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.55), 0 18px 26px -8px rgba(0, 0, 0, 0.65),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+html[data-theme='dark'] .btn-primary::after {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+}
+html[data-theme='dark'] .btn-accent {
+  background: linear-gradient(180deg, #8b5cf6 0%, var(--accent-dark) 50%, #6d28d9 100%);
+  box-shadow: 0 5px 0 0 rgba(0, 0, 0, 0.55), 0 14px 22px -8px rgba(0, 0, 0, 0.6),
+    inset 0 2px 0 rgba(255, 255, 255, 0.16);
+}
+html[data-theme='dark'] .btn-accent:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 0 rgba(0, 0, 0, 0.55), 0 18px 26px -8px rgba(0, 0, 0, 0.65),
+    inset 0 2px 0 rgba(255, 255, 255, 0.2);
+}
+html[data-theme='dark'] .btn-accent::after {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.05));
+}
+html[data-theme='dark'] .btn-soft {
+  background: linear-gradient(180deg, #262441 0%, var(--primary-soft) 100%);
+  color: var(--secondary);
+  box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.5), 0 12px 18px -8px rgba(0, 0, 0, 0.5),
+    inset 0 2px 0 rgba(255, 255, 255, 0.06);
+}
+html[data-theme='dark'] .btn-soft:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.5), 0 16px 22px -8px rgba(0, 0, 0, 0.55);
+}
+html[data-theme='dark'] .btn-soft:active {
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 .inline-search {
@@ -471,14 +557,31 @@ html {
 }
 
 .btn-danger {
-  background: var(--card);
+  background: linear-gradient(180deg, #ffffff 0%, var(--card-soft) 100%);
   border-color: var(--danger-soft);
   color: var(--danger);
-  box-shadow: 4px 4px 0 0 rgba(239, 68, 68, 0.15);
+  box-shadow: 0 4px 0 0 var(--danger-soft), 0 10px 16px -8px rgba(239, 68, 68, 0.35),
+    inset 0 2px 0 rgba(255, 255, 255, 0.9);
 }
 
 .btn-danger:hover {
   background: var(--danger-soft);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 var(--danger-soft), 0 14px 18px -8px rgba(239, 68, 68, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.8);
+}
+.btn-danger:active {
+  box-shadow: 0 1px 0 0 var(--danger-soft), inset 0 2px 4px rgba(239, 68, 68, 0.15);
+  transform: translateY(2px) scale(0.99);
+}
+html[data-theme='dark'] .btn-danger {
+  background: linear-gradient(180deg, #23213f 0%, var(--card-soft) 100%);
+  box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.5), 0 12px 18px -8px rgba(0, 0, 0, 0.5),
+    inset 0 2px 0 rgba(255, 255, 255, 0.05);
+}
+html[data-theme='dark'] .btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.5), 0 16px 20px -8px rgba(0, 0, 0, 0.55);
 }
 
 .btn-sm {
@@ -1493,16 +1596,23 @@ html {
 .pm-chip.c2 { background: var(--warn-soft); color: var(--warn-dark); }
 
 .btn-white {
-  background: var(--card);
-  border-color: #e0e0ff;
+  background: linear-gradient(180deg, #ffffff 0%, var(--card-soft) 100%);
+  border-color: var(--line-dark);
   color: var(--primary-deep);
+  box-shadow: 0 4px 0 0 var(--line-dark), 0 10px 16px -8px rgba(30, 27, 75, 0.25),
+    inset 0 2px 0 rgba(255, 255, 255, 0.95);
   transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
 .btn-white:hover {
   background: var(--primary-soft);
   transform: translateY(-2px);
-  box-shadow: 3px 3px 0 0 rgba(30, 27, 75, 0.18), 8px 10px 20px -8px rgba(30, 27, 75, 0.2);
+  box-shadow: 0 6px 0 0 var(--line-dark), 0 14px 20px -8px rgba(30, 27, 75, 0.3),
+    inset 0 2px 0 #ffffff;
+}
+.btn-white:active {
+  box-shadow: 0 1px 0 0 var(--line-dark), inset 0 2px 4px rgba(30, 27, 75, 0.08);
+  transform: translateY(2px) scale(0.99);
 }
 
 /* Footer */
