@@ -21,6 +21,7 @@
   --warn-dark: #b45309;
   --danger: #ef4444;
   --danger-dark: #b91c1c;
+  --dots-rgb: 99, 102, 241;
 
   --bg: #f6f5ff;
   --bg-soft: #eef1ff;
@@ -77,6 +78,7 @@ html[data-theme='dark'] {
   --warn-dark: #f59e0b;
   --danger: #f87171;
   --danger-dark: #ef4444;
+  --dots-rgb: 129, 140, 248;
 
   --bg: #14132a;
   --bg-soft: #1d1b38;
@@ -156,6 +158,19 @@ body {
   overflow-x: hidden;
 }
 
+/* Crafted film grain — a fine, barely-there noise layer over everything */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+  opacity: 0.028;
+}
+html[data-theme='dark'] body::before { opacity: 0.05; }
+
 h1, h2, h3, h4 {
   color: var(--ink);
   font-weight: 800;
@@ -226,11 +241,13 @@ html {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
+  background-image:
+    radial-gradient(rgba(var(--dots-rgb), 0.14) 1.2px, transparent 1.3px),
     radial-gradient(600px 400px at 8% 12%, rgba(109, 92, 255, 0.16), transparent 60%),
     radial-gradient(500px 380px at 92% 6%, rgba(139, 92, 246, 0.16), transparent 60%),
     radial-gradient(620px 480px at 85% 96%, rgba(99, 102, 241, 0.14), transparent 60%),
     radial-gradient(480px 360px at 12% 92%, rgba(124, 58, 237, 0.12), transparent 60%);
+  background-size: 30px 30px, auto, auto, auto, auto;
 }
 
 /* ============================================================
