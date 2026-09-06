@@ -1646,7 +1646,7 @@ html[data-theme='dark'] .badge {
   border-color: rgba(165, 180, 252, 0.7);
 }
 .store-badge.store-install .store-ico {
-  color: #c7d2fe;
+  color: var(--secondary);
 }
 .installed-pill {
   align-self: center;
@@ -2188,7 +2188,7 @@ html[data-theme='dark'] .badge {
   font-size: 13px;
   color: var(--ink-muted);
   background: var(--primary-soft);
-  border: 2px solid #d7d5fb;
+  border: 2px solid var(--line-dark);
   border-radius: var(--radius-xs);
   padding: 10px 14px;
   font-weight: 600;
