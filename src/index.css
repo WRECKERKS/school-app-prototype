@@ -1018,6 +1018,8 @@ html[data-theme='dark'] .badge {
 }
 
 .hero-img {
+  position: relative;
+  z-index: 1;
   border-radius: var(--radius);
   border: 4px solid #fff;
   box-shadow: 14px 16px 0 0 rgba(67, 56, 202, 0.08), 22px 26px 48px -14px rgba(67, 56, 202, 0.35);
@@ -1036,19 +1038,25 @@ html[data-theme='dark'] .badge {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--card);
-  border: 3px solid var(--line);
+  background: linear-gradient(180deg, #ffffff 0%, var(--card-soft) 100%);
+  border: 3px solid var(--line-dark);
   border-radius: var(--radius-sm);
-  box-shadow: var(--clay-sm);
+  box-shadow: 6px 7px 0 0 rgba(30, 27, 75, 0.14), 0 14px 22px -10px rgba(30, 27, 75, 0.35),
+    inset 0 2px 0 rgba(255, 255, 255, 0.95);
   padding: 12px 16px;
   font-size: 13px;
   font-weight: 700;
   color: var(--ink);
+  z-index: 2;
+  transition: transform var(--transition);
 }
+
+.hero-img-badge:hover { transform: scale(1.05); }
 
 .hero-img-badge.top {
   top: 16px;
   left: -22px;
+  transform: rotate(-3deg);
   animation: floatA 5.5s ease-in-out infinite;
   will-change: translate;
 }
@@ -1056,6 +1064,7 @@ html[data-theme='dark'] .badge {
 .hero-img-badge.bottom {
   bottom: 16px;
   right: -18px;
+  transform: rotate(2.5deg);
   animation: floatB 6.5s ease-in-out 0.6s infinite;
   will-change: translate;
 }
@@ -1063,6 +1072,7 @@ html[data-theme='dark'] .badge {
 .hero-img-badge.mid {
   top: 46%;
   right: -30px;
+  transform: rotate(-2deg);
   animation: floatC 5s ease-in-out 0.3s infinite;
   will-change: translate;
 }
@@ -1085,11 +1095,70 @@ html[data-theme='dark'] .badge {
 .hero-img-badge .h-ico {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: var(--radius-xs);
   background: var(--primary);
+  border: 2px solid rgba(30, 27, 75, 0.08);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 42%);
   color: #fff;
+  box-shadow: 3px 3px 0 0 rgba(30, 27, 75, 0.16), inset 0 -3px 0 rgba(30, 27, 75, 0.18);
+}
+
+.hero-img-badge.top::after {
+  content: '';
+  position: absolute;
+  right: -10px;
+  top: -12px;
+  width: 18px;
+  height: 18px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpath d='M20 4 C22 13 27 18 36 20 C27 22 22 27 20 36 C18 27 13 22 4 20 C13 18 18 13 20 4 Z' fill='%23a78bfa'/%3E%3C/svg%3E");
+  background-size: cover;
+}
+
+/* Canva-style round drop stickers and dashed orbit ring */
+.stick-orb {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  color: #fff;
+  border: 3px solid var(--card);
+  box-shadow: 4px 5px 0 0 rgba(30, 27, 75, 0.15), 0 12px 18px -6px rgba(30, 27, 75, 0.3),
+    inset 0 -3px 0 rgba(30, 27, 75, 0.18);
+  z-index: 3;
+}
+.sb-1 {
+  top: -20px;
+  right: 30px;
+  background: linear-gradient(135deg, #a5b4fc 0%, var(--primary-dark) 100%);
+  transform: rotate(10deg);
+  animation: floatC 5s ease-in-out infinite;
+  will-change: translate;
+}
+.sb-2 {
+  bottom: -22px;
+  left: -18px;
+  background: linear-gradient(135deg, #c4b5fd 0%, var(--accent-dark) 100%);
+  transform: rotate(-12deg);
+  animation: floatB 6s ease-in-out 0.4s infinite;
+  will-change: translate;
+}
+
+.hero-ring {
+  position: absolute;
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  border: 3px dashed var(--accent);
+  opacity: 0.7;
+  bottom: -34px;
+  right: 7%;
+  z-index: 0;
+  animation: doodleSpin 22s linear infinite;
+  pointer-events: none;
 }
 
 .section {

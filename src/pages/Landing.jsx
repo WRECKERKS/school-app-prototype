@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   GraduationCap, Star, ListChecks, Check, ArrowRight, Users,
-  CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine, Download
+  CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine, Download,
+  Sparkles, Activity
 } from 'lucide-react'
 import { PLANS } from '../lib/registry'
 import { img, StockImg, useToast } from '../components/ui'
@@ -107,6 +108,7 @@ export default function Landing() {
         </div>
 
         <div className="hero-visual">
+          <div className="hero-ring" />
           <StockImg
             src={img('hero')}
             alt="Students in a classroom"
@@ -116,6 +118,8 @@ export default function Landing() {
             height={900}
             style={{ width: '100%' }}
           />
+          <div className="stick-orb sb-1"><Sparkles size={20} /></div>
+          <div className="stick-orb sb-2"><Activity size={20} /></div>
           <div className="hero-img-badge top">
             <span className="h-ico"><Users size={16} /></span>
             245 students • 18 staff
