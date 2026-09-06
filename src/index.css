@@ -3824,3 +3824,65 @@ html[data-theme='dark'] .chip.active {
     will-change: auto !important;
   }
 }
+
+/* ============================================================
+   Dark mode craft — tailored clay, soft glows, balanced surfaces
+   ============================================================ */
+html[data-theme='dark'] .hero-eyebrow {
+  background: linear-gradient(180deg, #23213f 0%, var(--primary-soft) 100%);
+  border-color: var(--line);
+  box-shadow: var(--clay-sm), inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme='dark'] .hero-img-badge {
+  background: linear-gradient(180deg, #23213f 0%, #201e3b 100%);
+  border-color: var(--line);
+  box-shadow: 6px 7px 0 0 rgba(0, 0, 0, 0.4), 0 16px 24px -10px rgba(0, 0, 0, 0.55),
+    inset 0 2px 0 rgba(255, 255, 255, 0.05);
+}
+
+html[data-theme='dark'] .hero-visual::before {
+  background: radial-gradient(60% 60% at 30% 40%, rgba(99, 102, 241, 0.16), transparent 70%),
+    radial-gradient(50% 50% at 75% 70%, rgba(139, 92, 246, 0.14), transparent 70%);
+}
+
+html[data-theme='dark'] .hero-img {
+  border-color: #28264a;
+  box-shadow: 14px 16px 0 0 rgba(0, 0, 0, 0.45), 22px 26px 48px -14px rgba(0, 0, 0, 0.6);
+}
+
+html[data-theme='dark'] .panel:hover,
+html[data-theme='dark'] .stat-card:hover {
+  box-shadow: var(--clay), 0 18px 34px -14px rgba(99, 102, 241, 0.3);
+}
+
+html[data-theme='dark'] .panel::after {
+  background: radial-gradient(circle, var(--primary-soft), transparent 70%);
+  opacity: 0.35;
+}
+
+html[data-theme='dark'] .avatar {
+  border-color: #28264a;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 46%);
+  box-shadow: 2px 3px 0 0 rgba(0, 0, 0, 0.4), inset 0 -2px 0 rgba(0, 0, 0, 0.25);
+}
+
+html[data-theme='dark'] .avatar-img {
+  border-color: #28264a;
+}
+
+html[data-theme='dark'] .stat-icon,
+html[data-theme='dark'] .feature-icon {
+  border-color: rgba(0, 0, 0, 0.35);
+  box-shadow: 4px 4px 0 0 rgba(0, 0, 0, 0.4), 0 10px 16px -6px rgba(0, 0, 0, 0.5),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 44%);
+}
+
+html[data-theme='dark'] .plan-card {
+  box-shadow: 8px 8px 0 0 rgba(0, 0, 0, 0.4), 16px 18px 34px -12px rgba(0, 0, 0, 0.55);
+}
+
+html[data-theme='dark'] .plan-card.featured::before {
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.4), 0 0 22px rgba(99, 102, 241, 0.45);
+}
