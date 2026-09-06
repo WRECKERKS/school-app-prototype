@@ -726,6 +726,7 @@ html[data-theme='dark'] .btn-danger:hover {
   font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 0.02em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 1px 2px rgba(30, 27, 75, 0.08);
 }
 
 .tier-badge {
@@ -759,6 +760,17 @@ html[data-theme='dark'] .btn-danger:hover {
   border-radius: 100px;
   font-size: 11.5px;
   font-weight: 800;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 1px 2px rgba(30, 27, 75, 0.08);
+}
+
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+  background: currentColor;
+  box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent);
 }
 
 .status-present, .status-paid {
@@ -776,6 +788,11 @@ html[data-theme='dark'] .btn-danger:hover {
 .status-info, .status-late {
   background: var(--info-soft);
   color: var(--info-dark);
+}
+
+html[data-theme='dark'] .status-badge,
+html[data-theme='dark'] .badge {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 /* ============================================================
@@ -2651,9 +2668,8 @@ html[data-theme='dark'] .btn-danger:hover {
 
 /* Avatars */
 .avatar {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-grid;
+  place-items: center;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -2661,6 +2677,9 @@ html[data-theme='dark'] .btn-danger:hover {
   font-weight: 800;
   color: #fff;
   flex: none;
+  border: 2px solid var(--card);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 46%);
+  box-shadow: 2px 3px 0 0 rgba(30, 27, 75, 0.14), inset 0 -2px 0 rgba(30, 27, 75, 0.14);
 }
 
 .avatar-img {
@@ -2668,7 +2687,8 @@ html[data-theme='dark'] .btn-danger:hover {
   height: 34px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--line-dark);
+  border: 2px solid var(--card);
+  box-shadow: 2px 3px 0 0 rgba(30, 27, 75, 0.12);
 }
 
 .person-cell {
@@ -2698,22 +2718,27 @@ html[data-theme='dark'] .btn-danger:hover {
 .chip {
   padding: 8px 15px;
   border-radius: 100px;
-  background: var(--card);
-  border: 2.5px solid var(--line);
-  box-shadow: 3px 3px 0 0 var(--ink-06);
+  background: linear-gradient(180deg, #ffffff 0%, var(--card-soft) 100%);
+  border: 2.5px solid var(--line-dark);
+  box-shadow: 0 3px 0 0 var(--line), inset 0 1px 0 rgba(255, 255, 255, 0.9);
   font-weight: 700;
   font-size: 13px;
   color: var(--ink-soft);
+  transition: transform var(--transition), box-shadow var(--transition),
+    background var(--transition), color var(--transition), border-color var(--transition);
 }
 
 .chip:hover {
+  transform: translateY(-2px);
   border-color: var(--primary);
   color: var(--primary-deep);
+  box-shadow: 0 5px 0 0 var(--line), inset 0 1px 0 #ffffff;
 }
 
 .chip:active,
 .role-switcher-btn:active {
   transform: translateY(1px);
+  box-shadow: 0 1px 0 0 var(--line);
 }
 
 .chip:focus-visible,
@@ -2725,9 +2750,24 @@ html[data-theme='dark'] .btn-danger:hover {
 }
 
 .chip.active {
-  background: var(--primary);
-  border-color: var(--primary-dark);
+  background: linear-gradient(180deg, #818cf8 0%, var(--primary) 45%, var(--primary-dark) 100%);
+  border-color: var(--primary-deep);
   color: #fff;
+  box-shadow: 0 4px 0 0 var(--primary-deep), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+}
+
+html[data-theme='dark'] .chip {
+  background: linear-gradient(180deg, #23213f 0%, var(--card-soft) 100%);
+  box-shadow: 0 3px 0 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+html[data-theme='dark'] .chip:hover {
+  box-shadow: 0 5px 0 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+html[data-theme='dark'] .chip:active {
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.5);
+}
+html[data-theme='dark'] .chip.active {
+  box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.55), inset 0 2px 0 rgba(255, 255, 255, 0.18);
 }
 
 /* Two-col grid pages */
