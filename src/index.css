@@ -2407,17 +2407,45 @@ html[data-theme='dark'] .btn-danger:hover {
 }
 
 .panel {
-  background: var(--card);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--card-soft) 0%, var(--card) 100%);
   border: 3px solid var(--line);
   border-radius: var(--radius);
   box-shadow: var(--clay-sm);
-  padding: 22px;
-  transition: box-shadow var(--transition), transform var(--transition);
+  padding: 24px;
+  transition: box-shadow var(--transition), transform var(--transition), border-color var(--transition);
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  right: 55%;
+  top: -1px;
+  height: 4px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0.9;
 }
 
 .panel:hover {
   box-shadow: var(--clay);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: var(--line-dark);
+}
+
+.panel::after {
+  content: '';
+  position: absolute;
+  right: -14px;
+  bottom: -14px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--primary-soft), transparent 70%);
+  opacity: 0.55;
+  pointer-events: none;
 }
 
 .panel-header {
@@ -2439,11 +2467,13 @@ html[data-theme='dark'] .btn-danger:hover {
 .panel-title .p-ico {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--radius-xs);
-  background: var(--primary-soft);
+  background: linear-gradient(180deg, #ffffff 0%, var(--primary-soft) 100%);
+  border: 2px solid var(--line-dark);
   color: var(--primary-deep);
+  box-shadow: 3px 3px 0 0 rgba(30, 27, 75, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.9);
 }
 
 .panel-actions {
@@ -2460,7 +2490,9 @@ html[data-theme='dark'] .btn-danger:hover {
 }
 
 .stat-card {
-  background: var(--card);
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--card-soft) 0%, var(--card) 100%);
   border: 3px solid var(--line);
   border-radius: var(--radius-sm);
   box-shadow: var(--clay-sm);
@@ -2468,14 +2500,26 @@ html[data-theme='dark'] .btn-danger:hover {
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
+.stat-card::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  right: 45%;
+  top: -1px;
+  height: 4px;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0.85;
+}
+
 .stat-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) rotate(-0.5deg);
   box-shadow: var(--clay);
   border-color: var(--line-dark);
 }
 
 .stat-card:hover .stat-icon {
-  transform: scale(1.1) rotate(-4deg);
+  transform: scale(1.12) rotate(-5deg);
 }
 
 .stat-card .sc-top {
@@ -2486,14 +2530,30 @@ html[data-theme='dark'] .btn-danger:hover {
 }
 
 .stat-icon {
+  position: relative;
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-xs);
   color: #fff;
-  box-shadow: 3px 3px 0 0 rgba(30, 27, 75, 0.14), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  border: 2px solid rgba(30, 27, 75, 0.08);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0) 42%);
+  box-shadow: 4px 4px 0 0 rgba(30, 27, 75, 0.16), 0 8px 14px -6px rgba(30, 27, 75, 0.3),
+    inset 0 -3px 0 rgba(30, 27, 75, 0.18);
   transition: transform var(--transition);
+}
+
+.stat-icon::after {
+  content: '';
+  position: absolute;
+  left: 22%;
+  top: 6px;
+  width: 26%;
+  height: 22%;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.55);
+  filter: blur(3px);
 }
 
 .stat-value {
