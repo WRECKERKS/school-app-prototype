@@ -17,10 +17,10 @@ export default function AnalyticsPage() {
       />
 
       <div className="stat-row">
-        <StatCard icon={ChartNoAxesCombined} color="#6366f1" value="87%" label="Overall term score" change="+6 vs last term" />
-        <StatCard icon={ChartNoAxesCombined} color="#4f46e5" value="24" label="Top performers" change="above 90%" />
-        <StatCard icon={ChartNoAxesCombined} color="#7c3aed" value="3" label="Need attention" change="weak topics" changeTone="negative" />
-        <StatCard icon={ChartNoAxesCombined} color="#8b5cf6" value="40,247" label="Question bank" change="11 subjects" />
+        <StatCard icon={ChartNoAxesCombined} color="#1e3a8a" value="87%" label="Overall term score" change="+6 vs last term" />
+        <StatCard icon={ChartNoAxesCombined} color="#172554" value="24" label="Top performers" change="above 90%" />
+        <StatCard icon={ChartNoAxesCombined} color="#065f46" value="3" label="Need attention" change="weak topics" changeTone="negative" />
+        <StatCard icon={ChartNoAxesCombined} color="#059669" value="40,247" label="Question bank" change="11 subjects" />
       </div>
 
       <div className="grid-2">
@@ -89,11 +89,11 @@ export default function AnalyticsPage() {
         <Panel title="Top Performers" icon={Trophy}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {[
-              { name: 'Ananya Iyer', rank: 1, avg: 93, color: '#4f46e5' },
-              { name: 'Aarav Sharma', rank: 2, avg: 92, color: '#8b5cf6' },
-              { name: 'Priya Nair', rank: 3, avg: 91, color: '#7c3aed' },
-              { name: 'Sara Khan', rank: 4, avg: 90, color: '#6366f1' },
-              { name: 'Arjun Patel', rank: 5, avg: 88, color: '#6d28d9' },
+              { name: 'Ananya Iyer', rank: 1, avg: 93, color: '#172554' },
+              { name: 'Aarav Sharma', rank: 2, avg: 92, color: '#059669' },
+              { name: 'Priya Nair', rank: 3, avg: 91, color: '#065f46' },
+              { name: 'Sara Khan', rank: 4, avg: 90, color: '#1e3a8a' },
+              { name: 'Arjun Patel', rank: 5, avg: 88, color: '#065f46' },
             ].map((s) => (
               <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 <span className="status-badge" style={{ background: s.color, color: '#fff' }}>#{s.rank}</span>

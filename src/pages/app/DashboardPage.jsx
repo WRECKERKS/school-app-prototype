@@ -87,10 +87,10 @@ function LeadershipDash() {
       <div className="grid-2">
         <TodaySchedule />
         <QuickActions actions={[
-          { label: 'Mark attendance', desc: 'QR, GPS or manual for any class', to: '/app/attendance', icon: CalendarCheck, color: '#6366f1' },
-          { label: 'Record a fee', desc: 'UPI, Card or Wallet payment', to: '/app/fees', icon: Wallet, color: '#4f46e5' },
-          { label: 'Assign homework', desc: 'Any batch, any subject', to: '/app/homework', icon: ListTodo, color: '#7c3aed' },
-          { label: 'Post announcement', desc: 'With High / Medium / Low priority', to: '/app/announcements', icon: Megaphone, color: '#8b5cf6' },
+          { label: 'Mark attendance', desc: 'QR, GPS or manual for any class', to: '/app/attendance', icon: CalendarCheck, color: '#1e3a8a' },
+          { label: 'Record a fee', desc: 'UPI, Card or Wallet payment', to: '/app/fees', icon: Wallet, color: '#172554' },
+          { label: 'Assign homework', desc: 'Any batch, any subject', to: '/app/homework', icon: ListTodo, color: '#065f46' },
+          { label: 'Post announcement', desc: 'With High / Medium / Low priority', to: '/app/announcements', icon: Megaphone, color: '#059669' },
         ]} />
       </div>
       <Panel title="Class Attendance This Week" icon={Users}>
@@ -111,10 +111,10 @@ function LeadershipDash() {
 
 function StatRow() {
   const stats = [
-    { icon: Users, color: '#6366f1', value: '245', label: 'Students', change: '+12 this term', changeTone: 'positive' },
-    { icon: School, color: '#4f46e5', value: '18', label: 'Teachers', change: '+2 this year' },
-    { icon: CalendarCheck, color: '#8b5cf6', value: '87%', label: 'Attendance', change: '+3% vs last' },
-    { icon: Wallet, color: '#7c3aed', value: '₹4.85L', label: 'Fees collected', change: '92% collected' },
+    { icon: Users, color: '#1e3a8a', value: '245', label: 'Students', change: '+12 this term', changeTone: 'positive' },
+    { icon: School, color: '#172554', value: '18', label: 'Teachers', change: '+2 this year' },
+    { icon: CalendarCheck, color: '#059669', value: '87%', label: 'Attendance', change: '+3% vs last' },
+    { icon: Wallet, color: '#065f46', value: '₹4.85L', label: 'Fees collected', change: '92% collected' },
   ]
   return (
     <div className="stat-row">
@@ -129,18 +129,18 @@ function TeacherDash() {
   return (
     <>
       <div className="stat-row">
-        <StatCard icon={Users} color="#6366f1" value="85" label="My students" change="3 classes" />
-        <StatCard icon={CalendarCheck} color="#4f46e5" value="3" label="Classes today" change="9A, 10A, 10B" />
-        <StatCard icon={ListTodo} color="#7c3aed" value="12" label="Reviews pending" change="2 overdue" changeTone="negative" />
-        <StatCard icon={FileBarChart2} color="#8b5cf6" value="5" label="Doubts to answer" change="2 new today" />
+        <StatCard icon={Users} color="#1e3a8a" value="85" label="My students" change="3 classes" />
+        <StatCard icon={CalendarCheck} color="#172554" value="3" label="Classes today" change="9A, 10A, 10B" />
+        <StatCard icon={ListTodo} color="#065f46" value="12" label="Reviews pending" change="2 overdue" changeTone="negative" />
+        <StatCard icon={FileBarChart2} color="#059669" value="5" label="Doubts to answer" change="2 new today" />
       </div>
       <div className="grid-2">
         <TodaySchedule />
         <QuickActions actions={[
-          { label: 'Mark attendance', desc: 'For today’s classes', to: '/app/attendance', icon: CalendarCheck, color: '#6366f1' },
-          { label: 'Review homework', desc: '12 submissions to grade', to: '/app/homework', icon: ListTodo, color: '#7c3aed' },
-          { label: 'Set a test', desc: 'From saved question sets', to: '/app/tests', icon: FileBarChart2, color: '#4f46e5' },
-          { label: 'Upload notes', desc: 'Share with any batch', to: '/app/notes', icon: FileBarChart2, color: '#8b5cf6' },
+          { label: 'Mark attendance', desc: 'For today’s classes', to: '/app/attendance', icon: CalendarCheck, color: '#1e3a8a' },
+          { label: 'Review homework', desc: '12 submissions to grade', to: '/app/homework', icon: ListTodo, color: '#065f46' },
+          { label: 'Set a test', desc: 'From saved question sets', to: '/app/tests', icon: FileBarChart2, color: '#172554' },
+          { label: 'Upload notes', desc: 'Share with any batch', to: '/app/notes', icon: FileBarChart2, color: '#059669' },
         ]} />
       </div>
       <Panel title="Class Performance" icon={TrendingUp}>
@@ -172,10 +172,10 @@ function StudentDash() {
         </div>
       </Panel>
       <div className="stat-row">
-        <StatCard icon={CalendarCheck} color="#4f46e5" value="92%" label="Attendance" change="+4% this month" />
-        <StatCard icon={FileBarChart2} color="#6366f1" value="88" label="Avg score" change="Top 5%" />
-        <StatCard icon={ListTodo} color="#7c3aed" value="3" label="Pending tasks" change="1 overdue" changeTone="negative" />
-        <StatCard icon={TrendingUp} color="#8b5cf6" value="#5" label="Class rank" change="up from #8" />
+        <StatCard icon={CalendarCheck} color="#172554" value="92%" label="Attendance" change="+4% this month" />
+        <StatCard icon={FileBarChart2} color="#1e3a8a" value="88" label="Avg score" change="Top 5%" />
+        <StatCard icon={ListTodo} color="#065f46" value="3" label="Pending tasks" change="1 overdue" changeTone="negative" />
+        <StatCard icon={TrendingUp} color="#059669" value="#5" label="Class rank" change="up from #8" />
       </div>
       <div className="grid-2">
         <Panel title="My Subject Performance" icon={TrendingUp}>
@@ -223,8 +223,8 @@ function ParentDash() {
       </Panel>
       <div className="grid-cards">
         {[
-          { name: 'Arjun Patel', cls: 'Class 10A', att: 92, score: 88, color: '#6366f1' },
-          { name: 'Meera Patel', cls: 'Class 7B', att: 96, score: 91, color: '#8b5cf6' },
+          { name: 'Arjun Patel', cls: 'Class 10A', att: 92, score: 88, color: '#1e3a8a' },
+          { name: 'Meera Patel', cls: 'Class 7B', att: 96, score: 91, color: '#059669' },
         ].map((w) => (
           <div className="fcard" key={w.name}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
@@ -268,10 +268,10 @@ function AccountsDash() {
   return (
     <>
       <div className="stat-row">
-        <StatCard icon={Wallet} color="#4f46e5" value="₹4.85L" label="Collected (Sep)" change="+8% vs Aug" />
-        <StatCard icon={Wallet} color="#7c3aed" value="₹1.2L" label="Pending" change="38 invoices" />
+        <StatCard icon={Wallet} color="#172554" value="₹4.85L" label="Collected (Sep)" change="+8% vs Aug" />
+        <StatCard icon={Wallet} color="#065f46" value="₹1.2L" label="Pending" change="38 invoices" />
         <StatCard icon={Wallet} color="#ef4444" value="₹32K" label="Overdue" change="7 invoices" changeTone="negative" />
-        <StatCard icon={TrendingUp} color="#6366f1" value="92%" label="Collection rate" change="target 90%" />
+        <StatCard icon={TrendingUp} color="#1e3a8a" value="92%" label="Collection rate" change="target 90%" />
       </div>
       <Panel title="Outstanding Summary" icon={Wallet}>
         <div className="table-wrap">

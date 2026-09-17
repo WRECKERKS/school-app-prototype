@@ -109,11 +109,11 @@ export function chartTheme() {
   return {
     grid: cssVar('--line', '#e3ddf5'),
     tick: cssVar('--ink-muted', '#7c88ad'),
-    tooltipFill: cssVar('--card-soft', '#eef2ff'),
+    tooltipFill: cssVar('--card-soft', '#e8eef7'),
     polar: cssVar('--line-dark', '#cfc6ea'),
     polarTick: cssVar('--ink-soft', '#4b5578'),
-    primary: cssVar('--primary', '#6366f1'),
-    accent: cssVar('--accent', '#8b5cf6'),
+    primary: cssVar('--primary', '#1e3a8a'),
+    accent: cssVar('--accent', '#059669'),
     good: cssVar('--good', '#10b981'),
     warn: cssVar('--warn', '#d97706'),
   }
@@ -127,7 +127,7 @@ export function pctColor(value, { hi = 90, mid = 75 } = {}) {
 }
 
 /* ---- Avatar initials ---- */
-const AVATAR_COLORS = ['#6366f1', '#8b5cf6', '#4f46e5', '#7c3aed', '#6d28d9', '#4338ca']
+const AVATAR_COLORS = ['#1e3a8a', '#059669', '#172554', '#065f46', '#0f172a', '#2f4f96']
 
 export function Avatar({ name }) {
   const initials = name

@@ -148,10 +148,10 @@ function AttendanceTools() {
       <Panel title="GPS Attendance" icon={MapPin}>
         <div className="qr-widget">
           <div className="qr-box" style={{ flexDirection: 'column', gap: 10, background: 'var(--card-soft)' }}>
-            <MapPin size={44} style={{ color: gpsState === 'verified' ? '#10b981' : '#6366f1' }} />
-            <span className={`pulse-dot ${gpsState !== 'verified' ? '' : ''}`} style={{ background: gpsState === 'verified' ? '#10b981' : '#6366f1' }} />
+            <MapPin size={44} style={{ color: gpsState === 'verified' ? '#10b981' : '#1e3a8a' }} />
+            <span className={`pulse-dot ${gpsState !== 'verified' ? '' : ''}`} style={{ background: gpsState === 'verified' ? '#10b981' : '#1e3a8a' }} />
             {gpsState === 'idle' && <span style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--ink-muted)' }}>Locate 10A within 50m</span>}
-            {gpsState === 'locating' && <span style={{ fontSize: 12.5, fontWeight: 800, color: '#6366f1' }}>Verifying radius…</span>}
+            {gpsState === 'locating' && <span style={{ fontSize: 12.5, fontWeight: 800, color: '#1e3a8a' }}>Verifying radius…</span>}
             {gpsState === 'verified' && <span style={{ fontSize: 12.5, fontWeight: 800, color: 'var(--good-dark)' }}>Verified ✓ 48.2m from school gates</span>}
           </div>
           <button className="btn btn-accent" onClick={startGps} disabled={gpsState === 'locating'}>

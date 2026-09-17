@@ -1,4 +1,4 @@
-﻿import {
+import {
   LayoutDashboard, CalendarCheck, CalendarDays, Users, BookOpen,
   Wallet, ListTodo, FileBarChart2, Clock, HelpCircle,
   Megaphone, BellRing, ChartNoAxesCombined, Database, ScrollText, UserCog
@@ -10,8 +10,8 @@ export const PLANS = {
     name: 'Basic',
     price: '₹25,000',
     perYear: true,
-    color: '#818cf8',
-    soft: '#eef2ff',
+    color: '#2f4f96',
+    soft: '#e8eef7',
     tagline: 'For small schools that need the essentials, done right.',
   },
   standard: {
@@ -19,8 +19,8 @@ export const PLANS = {
     name: 'Standard',
     price: '₹50,000',
     perYear: true,
-    color: '#6366f1',
-    soft: '#e0e7ff',
+    color: '#1e3a8a',
+    soft: '#e8eef7',
     tagline: 'Complete daily school operations with parent engagement.',
   },
   premium: {
@@ -28,19 +28,19 @@ export const PLANS = {
     name: 'Premium',
     price: '₹96,000',
     perYear: true,
-    color: '#4f46e5',
-    soft: '#ddd5f7',
+    color: '#172554',
+    soft: '#d1fae5',
     tagline: 'Everything, supercharged with analytics, AI and audit tools.',
   },
 }
 
 export const ROLES = [
-  { id: 'principal', name: 'Principal', icon: '🏫', plan: 'premium', color: '#3730a3', email: 'principal@demoschool.edu', desc: 'Full school oversight' },
-  { id: 'admin', name: 'Admin', icon: '🛡️', plan: 'standard', color: '#7c3aed', email: 'admin@demoschool.edu', desc: 'Staff & student management' },
-  { id: 'teacher', name: 'Teacher', icon: '📚', plan: 'standard', color: '#6366f1', email: 'teacher@demoschool.edu', desc: 'Classes, grades & attendance' },
-  { id: 'parent', name: 'Parent', icon: '👨‍👩‍👧', plan: 'standard', color: '#8b5cf6', email: 'parent@demoschool.edu', desc: 'Fees, homework & updates' },
-  { id: 'student', name: 'Student', icon: '🎓', plan: 'standard', color: '#4f46e5', email: 'student@demoschool.edu', desc: 'Assignments & results' },
-  { id: 'accounts', name: 'Accounts', icon: '💰', plan: 'standard', color: '#6d28d9', email: 'accounts@demoschool.edu', desc: 'Fees & receipts' },
+  { id: 'principal', name: 'Principal', icon: '🏫', plan: 'premium', color: '#0f172a', email: 'principal@demoschool.edu', desc: 'Full school oversight' },
+  { id: 'admin', name: 'Admin', icon: '🛡️', plan: 'standard', color: '#065f46', email: 'admin@demoschool.edu', desc: 'Staff & student management' },
+  { id: 'teacher', name: 'Teacher', icon: '📚', plan: 'standard', color: '#1e3a8a', email: 'teacher@demoschool.edu', desc: 'Classes, grades & attendance' },
+  { id: 'parent', name: 'Parent', icon: '👨‍👩‍👧', plan: 'standard', color: '#059669', email: 'parent@demoschool.edu', desc: 'Fees, homework & updates' },
+  { id: 'student', name: 'Student', icon: '🎓', plan: 'standard', color: '#172554', email: 'student@demoschool.edu', desc: 'Assignments & results' },
+  { id: 'accounts', name: 'Accounts', icon: '💰', plan: 'standard', color: '#065f46', email: 'accounts@demoschool.edu', desc: 'Fees & receipts' },
 ]
 
 export const ROLES_BY_PLAN = {
@@ -199,7 +199,7 @@ export const modulesFor = (planId, roleId) =>
   )
 
 export const rolesForPlan = (planId) =>
-  ROLES_BY_PLAN[planId].map((id) => ROLES.find((r) => r.id === id))
+  (ROLES_BY_PLAN[planId] || []).map((id) => ROLES.find((r) => r.id === id))
 
 export const roleById = (id) => ROLES.find((r) => r.id === id)
 

@@ -21,12 +21,12 @@ function HeroStat({ value, suffix, label }) {
 }
 
 const LANDFEATURES = [
-  { icon: Users, color: '#6366f1', title: 'Multi-role portals', desc: 'Principal, admin, teacher, student, parent and accounts — each with their own view.' },
-  { icon: CalendarCheck, color: '#4f46e5', title: 'Live attendance', desc: 'QR, GPS-secured or manual marking with instant parent SMS alerts.' },
-  { icon: Wallet, color: '#8b5cf6', title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
-  { icon: FileBarChart2, color: '#7c3aed', title: 'Tests & results', desc: 'Question bank of 40,000+ items, AI difficulty balancing and deep analytics.' },
-  { icon: MessageSquareWarning, color: '#6d28d9', title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
-  { icon: ScanLine, color: '#4338ca', title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
+  { icon: Users, color: '#1e3a8a', title: 'Multi-role portals', desc: 'Principal, admin, teacher, student, parent and accounts — each with their own view.' },
+  { icon: CalendarCheck, color: '#172554', title: 'Live attendance', desc: 'QR, GPS-secured or manual marking with instant parent SMS alerts.' },
+  { icon: Wallet, color: '#059669', title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
+  { icon: FileBarChart2, color: '#065f46', title: 'Tests & results', desc: 'Question bank of 40,000+ items, AI difficulty balancing and deep analytics.' },
+  { icon: MessageSquareWarning, color: '#065f46', title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
+  { icon: ScanLine, color: '#172554', title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
 ]
 
 const TESTIMONIALS = [
@@ -125,11 +125,11 @@ export default function Landing() {
             245 students • 18 staff
           </div>
           <div className="hero-img-badge bottom">
-            <span className="h-ico" style={{ background: '#4f46e5' }}><Check size={16} /></span>
+            <span className="h-ico" style={{ background: '#172554' }}><Check size={16} /></span>
             Attendance 87% • Fees 92%
           </div>
           <div className="hero-img-badge mid">
-            <span className="h-ico" style={{ background: '#8b5cf6' }}><ScanLine size={16} /></span>
+            <span className="h-ico" style={{ background: '#059669' }}><ScanLine size={16} /></span>
             QR attendance live
           </div>
         </div>

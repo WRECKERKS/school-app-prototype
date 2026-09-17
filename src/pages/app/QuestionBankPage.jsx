@@ -48,10 +48,10 @@ export default function QuestionBankPage() {
       />
 
       <div className="stat-row">
-        <StatCard icon={Database} color="#6366f1" value="40,247" label="Questions" change="+124 this week" />
-        <StatCard icon={Database} color="#4f46e5" value="11" label="Subjects" change="all grades" />
-        <StatCard icon={Database} color="#7c3aed" value="6,210" label="Hard questions" change="AI tagged" />
-        <StatCard icon={FilePlus2} color="#8b5cf6" value="23" label="Tests built" change="this term" />
+        <StatCard icon={Database} color="#1e3a8a" value="40,247" label="Questions" change="+124 this week" />
+        <StatCard icon={Database} color="#172554" value="11" label="Subjects" change="all grades" />
+        <StatCard icon={Database} color="#065f46" value="6,210" label="Hard questions" change="AI tagged" />
+        <StatCard icon={FilePlus2} color="#059669" value="23" label="Tests built" change="this term" />
       </div>
 
       <Panel title={`Selected (${selected.length}) — build a test now`} icon={FilePlus2} actions={

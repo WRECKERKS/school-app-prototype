@@ -115,10 +115,10 @@ export const recentTasks = [
 ]
 
 export const subjectPerformance = [
-  { subject: 'Mathematics', score: 88, color: '#6366f1' },
-  { subject: 'Physics', score: 92, color: '#8b5cf6' },
-  { subject: 'Chemistry', score: 85, color: '#4f46e5' },
-  { subject: 'Biology', score: 90, color: '#7c3aed' },
+  { subject: 'Mathematics', score: 88, color: '#1e3a8a' },
+  { subject: 'Physics', score: 92, color: '#059669' },
+  { subject: 'Chemistry', score: 85, color: '#172554' },
+  { subject: 'Biology', score: 90, color: '#065f46' },
 ]
 
 export const chartTopicData = [

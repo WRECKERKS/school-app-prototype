@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route, useLocation, useSearchParams } from 'react-r
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
 import BackToTop from './components/BackToTop'
+import ErrorBoundary from './components/ErrorBoundary'
 import { ToastProvider } from './components/ui'
 import { AuthProvider } from './context/AuthContext'
 
@@ -67,8 +68,9 @@ function App() {
           <PublicNav />
           <BackToTop />
           <Suspense fallback={<PageLoader />}>
-            <AnimatedRoutes>
-              <Routes>
+            <ErrorBoundary>
+              <AnimatedRoutes>
+                <Routes>
               <Route path="/" element={<Landing />} />
               <Route path="/start" element={<StartDemo />} />
               <Route path="/login" element={<LoginRoute />} />
@@ -92,7 +94,8 @@ function App() {
               </Route>
               <Route path="*" element={<NotFound />} />
               </Routes>
-            </AnimatedRoutes>
+              </AnimatedRoutes>
+            </ErrorBoundary>
           </Suspense>
         </HashRouter>
       </ToastProvider>

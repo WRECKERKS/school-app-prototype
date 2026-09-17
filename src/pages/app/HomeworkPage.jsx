@@ -63,7 +63,7 @@ export default function HomeworkPage() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
             <span className="badge" style={{ background: 'var(--bg-soft)', color: 'var(--ink)' }}>Submissions {h.submissions}/{h.total}</span>
-            <div style={{ flex: 1, minWidth: 140 }}><div className="progress-bar"><div className="progress-fill" style={{ width: `${(h.submissions / h.total) * 100}%`, background: h.status === 'Reviewed' ? '#10b981' : '#6366f1' }} /></div></div>
+            <div style={{ flex: 1, minWidth: 140 }}><div className="progress-bar"><div className="progress-fill" style={{ width: `${(h.submissions / h.total) * 100}%`, background: h.status === 'Reviewed' ? '#10b981' : '#1e3a8a' }} /></div></div>
             {h.status === 'Active' ? (
               <button className="btn btn-soft btn-sm" onClick={() => { setReviewing(h); setMarks('') }}>
                 <Clock size={14} /> Review submissions
