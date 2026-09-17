@@ -1,12 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   GraduationCap, Star, ListChecks, Check, ArrowRight, Users,
   CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine, Download,
-  Sparkles, Activity
+  TrendingUp
 } from 'lucide-react'
 import { PLANS } from '../lib/registry'
-import { img, StockImg, useToast } from '../components/ui'
+import { StockImg, useToast } from '../components/ui'
 import CountUp from '../components/CountUp'
 import LazySection from '../components/LazySection'
 import { usePrefersReducedMotion } from '../lib/useReducedMotion'
@@ -38,8 +38,39 @@ const TESTIMONIALS = [
 export default function Landing() {
   const reducedMotion = usePrefersReducedMotion()
   const toast = useToast()
+  const stageRef = useRef(null)
   const [installPrompt, setInstallPrompt] = useState(null)
   const [installed, setInstalled] = useState(false)
+
+  useEffect(() => {
+    if (reducedMotion) return
+    const hero = document.querySelector('.hero')
+    const stage = stageRef.current
+    if (!hero || !stage) return
+    let raf = 0
+    const onMove = (e) => {
+      cancelAnimationFrame(raf)
+      raf = requestAnimationFrame(() => {
+        const r = hero.getBoundingClientRect()
+        const px = (e.clientX - r.left) / r.width - 0.5
+        const py = (e.clientY - r.top) / r.height - 0.5
+        stage.style.setProperty('--rx', `${-py * 7}deg`)
+        stage.style.setProperty('--ry', `${px * 9}deg`)
+      })
+    }
+    const onLeave = () => {
+      cancelAnimationFrame(raf)
+      stage.style.setProperty('--rx', '0deg')
+      stage.style.setProperty('--ry', '0deg')
+    }
+    hero.addEventListener('mousemove', onMove, { passive: true })
+    hero.addEventListener('mouseleave', onLeave)
+    return () => {
+      hero.removeEventListener('mousemove', onMove)
+      hero.removeEventListener('mouseleave', onLeave)
+      cancelAnimationFrame(raf)
+    }
+  }, [reducedMotion])
 
   useEffect(() => {
     const onPrompt = (e) => {
@@ -107,30 +138,56 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="hero-visual">
-          <div className="hero-ring" />
-          <StockImg
-            src={img('hero')}
-            alt="Students in a classroom"
-            className="hero-img"
-            priority
-            width={1200}
-            height={900}
-            style={{ width: '100%' }}
-          />
-          <div className="stick-orb sb-1"><Sparkles size={20} /></div>
-          <div className="stick-orb sb-2"><Activity size={20} /></div>
-          <div className="hero-img-badge top">
-            <span className="h-ico"><Users size={16} /></span>
-            245 students • 18 staff
-          </div>
-          <div className="hero-img-badge bottom">
-            <span className="h-ico" style={{ background: '#172554' }}><Check size={16} /></span>
-            Attendance 87% • Fees 92%
-          </div>
-          <div className="hero-img-badge mid">
-            <span className="h-ico" style={{ background: '#059669' }}><ScanLine size={16} /></span>
-            QR attendance live
+        <div className="hero-visual3d">
+          <div className="glow3d" />
+          <div className="mock-stage3d" ref={stageRef}>
+            <div className="ring3d" />
+            <div className="cube3d cube-a">
+              <i /><i /><i /><i /><i /><i />
+            </div>
+            <div className="cube3d cube-b">
+              <i /><i /><i /><i /><i /><i />
+            </div>
+
+            <div className="dash3d">
+              <div className="d3-top">
+                <div className="d3-dots"><i /><i /><i /></div>
+                <span className="d3-title">EduSuite Pro — Live dashboard</span>
+                <span className="d3-live"><i />Live</span>
+              </div>
+              <div className="d3-row">
+                <div className="d3-nav">
+                  <span className="d3-nav-ico active"><GraduationCap size={16} /></span>
+                  <span className="d3-nav-ico"><Users size={16} /></span>
+                  <span className="d3-nav-ico"><CalendarCheck size={16} /></span>
+                  <span className="d3-nav-ico"><Wallet size={16} /></span>
+                </div>
+                <div className="d3-body">
+                  <div className="d3-kpis">
+                    <div className="d3-kpi k-1"><b>40247</b><span>Q-bank items</span></div>
+                    <div className="d3-kpi k-2"><b>92%</b><span>Fees collected</span></div>
+                    <div className="d3-kpi k-3"><b>245</b><span>Students</span></div>
+                  </div>
+                  <div className="d3-chart">
+                    {[38, 52, 66, 48, 74, 60, 88].map((h, i) => (
+                      <span key={i} style={{ height: `${h}%` }} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="p3-card pc-1">
+              <span className="p3-ico"><ScanLine size={15} /></span>
+              <div><b>QR attendance live</b><small>87% marked today</small></div>
+            </div>
+            <div className="p3-card pc-2">
+              <span className="p3-ico emerald"><Check size={15} /></span>
+              <div><b>Fees 92% • on track</b><small>Last 7 days</small></div>
+            </div>
+            <div className="p3-chip">
+              <TrendingUp size={13} /><b>+12</b> parent alerts this hour
+            </div>
           </div>
         </div>
       </header>
