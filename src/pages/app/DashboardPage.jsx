@@ -11,8 +11,8 @@ export default function DashboardPage() {
   const { user } = useAuth()
   const role = user.roleId
 
-  if (role === 'parent') return <ParentDash />
-  if (role === 'student') return <StudentDash />
+  if (role === 'parent') return <ParentDash user={user} />
+  if (role === 'student') return <StudentDash user={user} />
   if (role === 'accounts') return <AccountsDash />
   if (role === 'teacher') return <TeacherDash />
   return <LeadershipDash />
@@ -159,7 +159,7 @@ function TeacherDash() {
   )
 }
 
-function StudentDash() {
+function StudentDash({ user }) {
   return (
     <>
       <Panel>
@@ -209,7 +209,7 @@ function StudentDash() {
   )
 }
 
-function ParentDash() {
+function ParentDash({ user }) {
   return (
     <>
       <Panel>
