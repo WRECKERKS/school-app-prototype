@@ -1,6 +1,6 @@
 /* oxlint-disable react/only-export-components -- shared UI helpers module */
 import { createContext, useCallback, useContext, useState } from 'react'
-import { CheckCircle2, Info, AlertTriangle } from 'lucide-react'
+import { CheckCircle2, Info, AlertTriangle, X } from 'lucide-react'
 
 /* ---- Stock images (Unsplash, remote) ---- */
 const UNSPLASH = {
@@ -38,6 +38,23 @@ export function StockImg({ src, alt, className, style, priority, width, height }
   )
 }
 
+/* ---- Tones -------------------------------------------------------------
+   The only colour vocabulary in the app. Components take a tone name and
+   resolve it to a CSS class, so no component ever hardcodes a hex value. */
+const TONE_CLASS = {
+  neutral: '',
+  accent: 'accent',
+  good: 'good',
+  warn: 'warn',
+  info: 'info',
+  success: 'good',
+  danger: 'accent',
+  positive: 'positive',
+  negative: 'negative',
+}
+
+const toneClass = (tone) => TONE_CLASS[tone] ?? ''
+
 /* ---- Page header ---- */
 export function PageHeader({ title, sub, actions }) {
   return (
@@ -56,31 +73,33 @@ export function Panel({ title, icon, actions, children, className, style }) {
   const TitleIcon = icon
   return (
     <section className={`panel ${className || ''}`} style={style}>
-      <div className="panel-header">
-        <h3 className="panel-title">
-          {TitleIcon && (
-            <span className="p-ico">
-              <TitleIcon size={17} />
-            </span>
-          )}
-          {title}
-        </h3>
-        {actions && <div className="panel-actions">{actions}</div>}
-      </div>
+      {title && (
+        <div className="panel-header">
+          <h3 className="panel-title">
+            {TitleIcon && (
+              <span className="p-ico">
+                <TitleIcon size={15} />
+              </span>
+            )}
+            {title}
+          </h3>
+          {actions && <div className="panel-actions">{actions}</div>}
+        </div>
+      )}
       {children}
     </section>
   )
 }
 
-/* ---- Stat card ---- */
-export function StatCard({ icon: Icon, color, value, label, change, changeTone = 'positive' }) {
+/* ---- Stat card: monochrome by default, tone only for real state ---- */
+export function StatCard({ icon: Icon, tone = 'neutral', value, label, change, changeTone = 'positive' }) {
   return (
     <div className="stat-card">
       <div className="sc-top">
-        <span className="stat-icon" style={{ background: color }}>
-          <Icon size={19} />
+        <span className={`stat-icon ${toneClass(tone)}`}>
+          <Icon size={17} />
         </span>
-        {change && <span className={`stat-change ${changeTone}`}>{change}</span>}
+        {change && <span className={`stat-change ${toneClass(changeTone)}`}>{change}</span>}
       </div>
       <div className="stat-value">{value}</div>
       <div className="stat-label">{label}</div>
@@ -88,56 +107,58 @@ export function StatCard({ icon: Icon, color, value, label, change, changeTone =
   )
 }
 
-/* ---- Progress ---- */
-export function Progress({ value, color }) {
+/* ---- Progress: tone-driven, never a raw colour ---- */
+export function Progress({ value, tone = 'neutral' }) {
   return (
     <div className="progress-bar">
-      <div className="progress-fill" style={{ width: `${value}%`, background: color }} />
+      <div className={`progress-fill ${toneClass(tone)}`} style={{ width: `${Math.min(100, Math.max(0, value))}%` }} />
     </div>
   )
 }
 
-/* Read a CSS variable as an RGB string (for recharts props) */
+/* Semantic tone for a percentage — restrained, not neon */
+export function pctTone(value, { hi = 90, mid = 75 } = {}) {
+  if (value >= hi) return 'good'
+  if (value >= mid) return 'neutral'
+  return 'warn'
+}
+
+/* Read a CSS variable as a raw string (for recharts props) */
 function cssVar(name, fallback) {
   if (typeof window === 'undefined') return fallback
   const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim()
   return v || fallback
 }
 
-/* Theme-aware chart colors that adapt to light / dark mode */
+/* Theme-aware chart colours that adapt to light / dark mode */
 export function chartTheme() {
   return {
-    grid: cssVar('--line', '#e3ddf5'),
-    tick: cssVar('--ink-muted', '#7c88ad'),
-    tooltipFill: cssVar('--card-soft', '#e8eef7'),
-    polar: cssVar('--line-dark', '#cfc6ea'),
-    polarTick: cssVar('--ink-soft', '#4b5578'),
-    primary: cssVar('--primary', '#1e3a8a'),
-    accent: cssVar('--accent', '#059669'),
-    good: cssVar('--good', '#10b981'),
-    warn: cssVar('--warn', '#d97706'),
+    grid: cssVar('--rule-soft', '#e8e2d7'),
+    tick: cssVar('--ink-muted', '#6b655c'),
+    tooltipFill: cssVar('--paper-raised', '#fdfbf7'),
+    polar: cssVar('--rule', '#ddd6c9'),
+    polarTick: cssVar('--ink-soft', '#45403a'),
+    primary: cssVar('--ink', '#1a1815'),
+    accent: cssVar('--accent', '#8c2f26'),
+    good: cssVar('--good', '#2c6550'),
+    warn: cssVar('--warn', '#85611c'),
   }
 }
 
-/* Semantic progression color for percentage values (theme-consistent, not neon) */
-export function pctColor(value, { hi = 90, mid = 75 } = {}) {
-  if (value >= hi) return 'var(--good)'
-  if (value >= mid) return 'var(--primary)'
-  return 'var(--warn)'
-}
-
-/* ---- Avatar initials ---- */
-const AVATAR_COLORS = ['#1e3a8a', '#059669', '#172554', '#065f46', '#0f172a', '#2f4f96']
-
-export function Avatar({ name }) {
+/* ---- Avatar: initials on paper. No per-person colour. ---- */
+export function Avatar({ name, size }) {
   const initials = name
     .split(' ')
     .map((p) => p[0])
+    .filter(Boolean)
     .slice(0, 2)
     .join('')
     .toUpperCase()
-  const color = AVATAR_COLORS[(name.charCodeAt(0) || 0) % AVATAR_COLORS.length]
-  return <span className="avatar" style={{ background: color }}>{initials}</span>
+  return (
+    <span className="avatar" style={size ? { width: size, height: size } : undefined}>
+      {initials}
+    </span>
+  )
 }
 
 /* ---- Toast system ---- */
@@ -171,7 +192,7 @@ export function ToastProvider({ children }) {
   return (
     <ToastCtx.Provider value={push}>
       {children}
-      <div className="toast-stack">
+      <div className="toast-stack" role="status" aria-live="polite">
         {toasts.map((t) => (
           <div key={t.id} className={`toast ${t.type} ${leaving[t.id] ? 'leaving' : ''}`}>
             <span className="toast-ico">{TOAST_ICONS[t.type]}</span>
@@ -194,7 +215,7 @@ export function personCell(name, sub) {
       <Avatar name={name} />
       <div>
         <b>{name}</b>
-        <span>{sub}</span>
+        {sub && <span>{sub}</span>}
       </div>
     </div>
   )
@@ -204,10 +225,21 @@ export function Modal({ open, onClose, title, icon: Icon, children, footer }) {
   if (!open) return null
   return (
     <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label={typeof title === 'string' ? title : undefined}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-head">
-          <span className="modal-title">{Icon && <Icon size={18} />}{title}</span>
-          <button className="modal-close" onClick={onClose} aria-label="Close">✕</button>
+          <span className="modal-title">
+            {Icon && <Icon size={18} />}
+            {title}
+          </span>
+          <button type="button" className="modal-close" onClick={onClose} aria-label="Close dialog">
+            <X size={16} />
+          </button>
         </div>
         <div className="modal-body">{children}</div>
         {footer && <div className="modal-foot">{footer}</div>}
@@ -215,3 +247,5 @@ export function Modal({ open, onClose, title, icon: Icon, children, footer }) {
     </div>
   )
 }
+
+export { toneClass }

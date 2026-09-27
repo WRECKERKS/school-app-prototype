@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { GraduationCap, LogOut, Sun, Moon } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
+import { PLANS, roleById } from '../lib/registry'
 import { useTheme } from '../lib/useTheme'
 
 const navItems = [
@@ -28,20 +29,30 @@ export default function Navbar() {
     navigate('/')
   }
 
+  const RoleIcon = user ? (roleById(user.roleId) || {}).icon : null
+  const planName = user ? (PLANS[user.plan] || PLANS.basic).name : ''
+
   return (
     <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
       <div className="navbar-inner">
         <Link to="/" className="logo">
           <span className="logo-icon">
-            <GraduationCap size={20} color="#fff" />
+            <GraduationCap size={17} />
           </span>
           EduSuite Pro
         </Link>
 
         <div className="nav-links">
-          <button className="btn btn-ghost btn-sm theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`} aria-label="Toggle theme">
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm theme-toggle"
+            onClick={toggleTheme}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+            aria-label="Toggle theme"
+          >
             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
           </button>
+
           {navItems.map((item) => (
             <Link
               key={item.path}
@@ -51,15 +62,18 @@ export default function Navbar() {
               {item.label}
             </Link>
           ))}
+
           <div className="nav-user">
             {user ? (
               <>
-                <Link to="/app" className="user-chip" style={{ borderColor: user.color }}>
-                  <span style={{ fontSize: 15 }}>{user.icon}</span>
-                  <span style={{ maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</span>
-                  <span className="tier-badge badge" style={{ background: 'var(--bg-soft)' }}>{user.plan}</span>
+                <Link to="/app/home" className="user-chip">
+                  <span className="nav-ico">
+                    {RoleIcon ? <RoleIcon size={14} /> : null}
+                  </span>
+                  <span className="user-chip-name">{user.name}</span>
+                  <span className="tier-badge badge">{planName}</span>
                 </Link>
-                <button onClick={handleLogout} className="btn btn-ghost btn-sm" title="Logout">
+                <button type="button" onClick={handleLogout} className="btn btn-ghost btn-sm" title="Logout">
                   <LogOut size={15} /> Logout
                 </button>
               </>

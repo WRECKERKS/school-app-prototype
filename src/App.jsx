@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { HashRouter, Routes, Route, useLocation, useSearchParams } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate, useLocation, useSearchParams } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import ScrollToTop from './components/ScrollToTop'
 import BackToTop from './components/BackToTop'
@@ -12,6 +12,7 @@ const StartDemo = lazy(() => import('./pages/StartDemo'))
 const Login = lazy(() => import('./pages/Login'))
 const NotFound = lazy(() => import('./pages/NotFound'))
 const DashboardLayout = lazy(() => import('./components/DashboardLayout'))
+const HomePage = lazy(() => import('./pages/app/HomePage'))
 const DashboardPage = lazy(() => import('./pages/app/DashboardPage'))
 const AttendancePage = lazy(() => import('./pages/app/AttendancePage'))
 const TimetablePage = lazy(() => import('./pages/app/TimetablePage'))
@@ -75,7 +76,9 @@ function App() {
               <Route path="/start" element={<StartDemo />} />
               <Route path="/login" element={<LoginRoute />} />
               <Route path="/app" element={<DashboardLayout />}>
-                <Route index element={<DashboardPage />} />
+                <Route index element={<Navigate to="/app/home" replace />} />
+                <Route path="home" element={<HomePage />} />
+                <Route path="overview" element={<DashboardPage />} />
                 <Route path="attendance" element={<AttendancePage />} />
                 <Route path="timetable" element={<TimetablePage />} />
                 <Route path="staff" element={<StaffPage />} />

@@ -17,9 +17,7 @@ function makeUser(roleId, planId, isDemo = true) {
     name: DEMO_NAMES[role.id] || role.name,
     role: role.name,
     roleId: role.id,
-    icon: role.icon,
     plan: planId,
-    color: role.color,
     email: role.email,
     isDemo,
   }
@@ -33,11 +31,14 @@ export function AuthProvider({ children }) {
       const raw = localStorage.getItem('edusuite_user')
       if (!raw) return null
       const saved = JSON.parse(raw)
-      if (saved && !rolesForPlan(saved.plan).some((r) => r.id === saved.roleId)) {
+      if (!saved || !roleById(saved.roleId)) return null
+      if (!rolesForPlan(saved.plan).some((r) => r.id === saved.roleId)) {
         const okRole = rolesForPlan(saved.plan)[0]
-        return { ...saved, roleId: okRole.id, role: okRole.name, icon: okRole.icon, color: okRole.color, email: okRole.email }
+        return { ...saved, ...pickRoleFields(okRole.id) }
       }
-      return saved
+      // Drop fields the old design used to cache (icon, color) — they are gone.
+      const { icon: _icon, color: _color, ...clean } = saved
+      return clean
     } catch {
       return null
     }
@@ -98,7 +99,7 @@ export function AuthProvider({ children }) {
 
 function pickRoleFields(roleId) {
   const role = roleById(roleId)
-  return { roleId: role.id, role: role.name, icon: role.icon, color: role.color, email: role.email }
+  return { roleId: role.id, role: role.name, email: role.email }
 }
 
 export function useAuth() {

@@ -1,7 +1,8 @@
 import {
-  LayoutDashboard, CalendarCheck, CalendarDays, Users, BookOpen,
+  Home, LayoutDashboard, CalendarCheck, CalendarDays, Users, BookOpen,
   Wallet, ListTodo, FileBarChart2, Clock, HelpCircle,
-  Megaphone, BellRing, ChartNoAxesCombined, Database, ScrollText, UserCog
+  Megaphone, BellRing, ChartNoAxesCombined, Database, ScrollText, UserCog,
+  Building2, ShieldCheck, GraduationCap, UserRound, Baby, IndianRupee
 } from 'lucide-react'
 
 export const PLANS = {
@@ -10,8 +11,6 @@ export const PLANS = {
     name: 'Basic',
     price: '₹25,000',
     perYear: true,
-    color: '#2f4f96',
-    soft: '#e8eef7',
     tagline: 'For small schools that need the essentials, done right.',
   },
   standard: {
@@ -19,8 +18,6 @@ export const PLANS = {
     name: 'Standard',
     price: '₹50,000',
     perYear: true,
-    color: '#1e3a8a',
-    soft: '#e8eef7',
     tagline: 'Complete daily school operations with parent engagement.',
   },
   premium: {
@@ -28,19 +25,41 @@ export const PLANS = {
     name: 'Premium',
     price: '₹96,000',
     perYear: true,
-    color: '#172554',
-    soft: '#d1fae5',
     tagline: 'Everything, supercharged with analytics, AI and audit tools.',
   },
 }
 
 export const ROLES = [
-  { id: 'principal', name: 'Principal', icon: '🏫', plan: 'premium', color: '#0f172a', email: 'principal@demoschool.edu', desc: 'Full school oversight' },
-  { id: 'admin', name: 'Admin', icon: '🛡️', plan: 'standard', color: '#065f46', email: 'admin@demoschool.edu', desc: 'Staff & student management' },
-  { id: 'teacher', name: 'Teacher', icon: '📚', plan: 'standard', color: '#1e3a8a', email: 'teacher@demoschool.edu', desc: 'Classes, grades & attendance' },
-  { id: 'parent', name: 'Parent', icon: '👨‍👩‍👧', plan: 'standard', color: '#059669', email: 'parent@demoschool.edu', desc: 'Fees, homework & updates' },
-  { id: 'student', name: 'Student', icon: '🎓', plan: 'standard', color: '#172554', email: 'student@demoschool.edu', desc: 'Assignments & results' },
-  { id: 'accounts', name: 'Accounts', icon: '💰', plan: 'standard', color: '#065f46', email: 'accounts@demoschool.edu', desc: 'Fees & receipts' },
+  {
+    id: 'principal', name: 'Principal', icon: Building2, plan: 'premium',
+    email: 'principal@demoschool.edu', desc: 'Full school oversight',
+    blurb: 'Whole-school oversight, staff and results.',
+  },
+  {
+    id: 'admin', name: 'Admin', icon: ShieldCheck, plan: 'standard',
+    email: 'admin@demoschool.edu', desc: 'Staff & student management',
+    blurb: 'Students, staff records and admissions.',
+  },
+  {
+    id: 'teacher', name: 'Teacher', icon: GraduationCap, plan: 'standard',
+    email: 'teacher@demoschool.edu', desc: 'Classes, grades & attendance',
+    blurb: 'Your classes, attendance and grading.',
+  },
+  {
+    id: 'parent', name: 'Parent', icon: UserRound, plan: 'standard',
+    email: 'parent@demoschool.edu', desc: 'Fees, homework & updates',
+    blurb: "Your wards' fees, attendance and results.",
+  },
+  {
+    id: 'student', name: 'Student', icon: Baby, plan: 'standard',
+    email: 'student@demoschool.edu', desc: 'Assignments & results',
+    blurb: 'Homework, tests and your class rank.',
+  },
+  {
+    id: 'accounts', name: 'Accounts', icon: IndianRupee, plan: 'standard',
+    email: 'accounts@demoschool.edu', desc: 'Fees & receipts',
+    blurb: 'Invoices, collections and receipts.',
+  },
 ]
 
 export const ROLES_BY_PLAN = {
@@ -51,11 +70,21 @@ export const ROLES_BY_PLAN = {
 
 export const MODULES = [
   {
-    id: 'dashboard',
+    id: 'home',
+    label: 'Home',
+    icon: Home,
+    path: '/app/home',
+    group: 'Start',
+    blurb: 'Today at a glance',
+    plans: ['basic', 'standard', 'premium'],
+  },
+  {
+    id: 'overview',
     label: 'Overview',
     icon: LayoutDashboard,
-    path: '/app',
-    group: 'Overview',
+    path: '/app/overview',
+    group: 'Start',
+    blurb: 'Your role-specific dashboard',
     plans: ['basic', 'standard', 'premium'],
   },
   {
@@ -64,6 +93,7 @@ export const MODULES = [
     icon: CalendarCheck,
     path: '/app/attendance',
     group: 'Academics',
+    blurb: 'QR, GPS or manual marking',
     plans: ['basic', 'standard', 'premium'],
     roles: ['principal', 'admin', 'teacher'],
   },
@@ -73,6 +103,7 @@ export const MODULES = [
     icon: CalendarDays,
     path: '/app/timetable',
     group: 'Academics',
+    blurb: 'Weekly class schedule',
     plans: ['basic', 'standard', 'premium'],
   },
   {
@@ -81,6 +112,7 @@ export const MODULES = [
     icon: ListTodo,
     path: '/app/homework',
     group: 'Academics',
+    blurb: 'Assign, submit and grade',
     plans: ['standard', 'premium'],
     roles: ['principal', 'admin', 'teacher', 'student'],
   },
@@ -90,6 +122,7 @@ export const MODULES = [
     icon: FileBarChart2,
     path: '/app/tests',
     group: 'Academics',
+    blurb: 'Schedule tests, publish results',
     plans: ['standard', 'premium'],
     roles: ['principal', 'admin', 'teacher', 'student'],
   },
@@ -99,6 +132,7 @@ export const MODULES = [
     icon: BookOpen,
     path: '/app/notes',
     group: 'Academics',
+    blurb: 'Share notes with any batch',
     plans: ['standard', 'premium'],
   },
   {
@@ -107,6 +141,7 @@ export const MODULES = [
     icon: HelpCircle,
     path: '/app/doubts',
     group: 'Academics',
+    blurb: 'Ask and answer subject doubts',
     plans: ['standard', 'premium'],
   },
   {
@@ -115,6 +150,7 @@ export const MODULES = [
     icon: Wallet,
     path: '/app/fees',
     group: 'Administration',
+    blurb: 'Invoices, payments, receipts',
     plans: ['standard', 'premium'],
     roles: ['principal', 'admin', 'accounts', 'parent'],
   },
@@ -124,6 +160,7 @@ export const MODULES = [
     icon: Users,
     path: '/app/students',
     group: 'Administration',
+    blurb: 'Rosters and staff records',
     plans: ['standard', 'premium'],
     roles: ['principal', 'admin', 'teacher'],
   },
@@ -133,6 +170,7 @@ export const MODULES = [
     icon: Clock,
     path: '/app/schedule',
     group: 'Administration',
+    blurb: 'Events and meetings',
     plans: ['standard', 'premium'],
   },
   {
@@ -141,6 +179,7 @@ export const MODULES = [
     icon: Megaphone,
     path: '/app/announcements',
     group: 'Administration',
+    blurb: 'Broadcast notices to families',
     plans: ['basic', 'standard', 'premium'],
   },
   {
@@ -149,6 +188,7 @@ export const MODULES = [
     icon: BellRing,
     path: '/app/notifications',
     group: 'Administration',
+    blurb: 'SMS, WhatsApp and email alerts',
     plans: ['standard', 'premium'],
     roles: ['principal', 'admin'],
   },
@@ -158,6 +198,7 @@ export const MODULES = [
     icon: UserCog,
     path: '/app/staff',
     group: 'Administration',
+    blurb: 'Teaching and admin staff',
     plans: ['basic'],
     roles: ['principal', 'admin'],
   },
@@ -167,6 +208,7 @@ export const MODULES = [
     icon: ChartNoAxesCombined,
     path: '/app/analytics',
     group: 'Insights',
+    blurb: 'Deep performance reporting',
     plans: ['premium'],
     roles: ['principal', 'admin'],
   },
@@ -176,6 +218,7 @@ export const MODULES = [
     icon: Database,
     path: '/app/questionbank',
     group: 'Insights',
+    blurb: '40,000+ items with AI builder',
     plans: ['premium'],
     roles: ['principal', 'admin', 'teacher'],
   },
@@ -185,6 +228,7 @@ export const MODULES = [
     icon: ScrollText,
     path: '/app/activity',
     group: 'Insights',
+    blurb: 'Every action, with user and IP',
     plans: ['premium'],
     roles: ['principal', 'admin'],
   },
@@ -204,5 +248,20 @@ export const rolesForPlan = (planId) =>
 export const roleById = (id) => ROLES.find((r) => r.id === id)
 
 export const moduleById = (id) => MODULES.find((m) => m.id === id)
+
+/** Modules a role can actually open, minus the two Start-screen entries. */
+export const workModulesFor = (planId, roleId) =>
+  modulesFor(planId, roleId).filter((m) => m.group !== 'Start')
+
+/** Group modules by their `group` label, preserving declaration order. */
+export const groupModules = (modules) => {
+  const groups = []
+  for (const m of modules) {
+    const g = groups.find((x) => x.name === m.group)
+    if (g) g.items.push(m)
+    else groups.push({ name: m.group, items: [m] })
+  }
+  return groups
+}
 
 export const appName = 'EduSuite Pro'
