@@ -3,10 +3,10 @@ import { Panel, PageHeader, StatCard, useToast } from '../../components/ui'
 import { notifHistory } from '../../lib/mock'
 
 const CHANNEL = {
-  SMS: { icon: MessageCircle, color: '#1e3a8a', soft: 'var(--primary-soft)' },
-  WhatsApp: { icon: MessageCircle, color: '#172554', soft: 'var(--primary-soft)' },
-  Email: { icon: Send, color: '#065f46', soft: 'var(--accent-soft)' },
-  Call: { icon: Phone, color: '#059669', soft: 'var(--primary-soft)' },
+  SMS: MessageCircle,
+  WhatsApp: MessageCircle,
+  Email: Send,
+  Call: Phone,
 }
 
 export default function NotificationsPage() {
@@ -24,20 +24,19 @@ export default function NotificationsPage() {
       />
 
       <div className="stat-row">
-        <StatCard icon={BellRing} color="#1e3a8a" value="12K" label="Messages sent" change="this month" />
-        <StatCard icon={BellRing} color="#172554" value="11.2K" label="Delivered" change="93%" />
-        <StatCard icon={BellRing} color="#065f46" value="9.8K" label="Read" change="87% open" />
-        <StatCard icon={BellRing} color="#059669" value="96%" label="Channel health" change="all OK" />
+        <StatCard icon={BellRing} value="12K" label="Messages sent" change="this month" />
+        <StatCard icon={BellRing} value="11.2K" label="Delivered" change="93%" />
+        <StatCard icon={BellRing} value="9.8K" label="Read" change="87% open" />
+        <StatCard icon={BellRing} value="96%" label="Channel health" change="all OK" />
       </div>
 
       <div className="grid-3">
         {[{ channel: 'SMS', route: 'All parents' }, { channel: 'WhatsApp', route: 'Class 10A parents' }, { channel: 'Email', route: 'Faculty' }, { channel: 'Call', route: 'Overdue fee list' }].map((combo, i) => {
-          const c = CHANNEL[combo.channel]
-          const Icon = c.icon
+          const Icon = CHANNEL[combo.channel]
           return (
-            <button key={i} className="fcard" style={{ textAlign: 'left' }} onClick={() => send(combo.channel, combo.route)}>
+            <button key={i} type="button" className="fcard" style={{ textAlign: 'left' }} onClick={() => send(combo.channel, combo.route)}>
               <div className="fcard-top">
-                <span className="stat-icon" style={{ background: c.color }}><Icon size={18} /></span>
+                <span className="stat-icon"><Icon size={17} /></span>
                 <span className="badge status-paid">Demo send</span>
               </div>
               <h4>Broadcast via {combo.channel}</h4>
@@ -54,7 +53,7 @@ export default function NotificationsPage() {
             <tbody>
               {notifHistory.map((n) => (
                 <tr key={n.message}>
-                  <td><span className="badge" style={{ background: CHANNEL[n.channel].soft, color: CHANNEL[n.channel].color }}>{n.channel}</span></td>
+                  <td><span className="badge">{n.channel}</span></td>
                   <td className="strong">{n.to}</td>
                   <td>{n.message}</td>
                   <td><span className="status-badge status-paid">Sent</span></td>

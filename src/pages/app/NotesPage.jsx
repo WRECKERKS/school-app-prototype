@@ -3,7 +3,6 @@ import { BookOpen, Upload, Download, FileText, Search } from 'lucide-react'
 import { PageHeader, useToast } from '../../components/ui'
 import { notes as seed } from '../../lib/mock'
 
-const ICONS = ['#1e3a8a', '#059669', '#172554', '#065f46']
 const SUBJECTS = [...new Set(seed.map((n) => n.subject))]
 const TYPES = [...new Set(seed.map((n) => n.type))]
 
@@ -69,7 +68,7 @@ export default function NotesPage() {
         {visible.map((n, i) => (
           <div className="fcard" key={i}>
             <div className="fcard-top">
-              <span className="stat-icon" style={{ background: ICONS[i % 4] }}><BookOpen size={18} /></span>
+              <span className="stat-icon"><BookOpen size={17} /></span>
               <span className="file-type">{n.type}</span>
             </div>
             <h4>{n.title}</h4>

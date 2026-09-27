@@ -1,9 +1,20 @@
 import { useMemo, useState } from 'react'
 import { Users, Search, ChevronUp, ChevronDown, Plus } from 'lucide-react'
-import { Panel, PageHeader, personCell, Progress, pctColor, useToast } from '../../components/ui'
+import { Panel, PageHeader, personCell, Progress, pctTone, useToast } from '../../components/ui'
 import { students as seed } from '../../lib/mock'
 
 const CLASSES = [...new Set(seed.map((s) => s.cls))]
+
+function SortHead({ k, children, sortKey, sortDir, onSort }) {
+  const active = sortKey === k
+  return (
+    <th onClick={() => onSort(k)} className="sortable">
+      <span className="sort-inner">
+        {children} {active && (sortDir === 1 ? <ChevronUp size={12} /> : <ChevronDown size={12} />)}
+      </span>
+    </th>
+  )
+}
 
 export default function StudentsPage() {
   const [rows, setRows] = useState(seed)
@@ -34,12 +45,6 @@ export default function StudentsPage() {
     if (sortKey === key) setSortDir((d) => -d)
     else { setSortKey(key); setSortDir(1) }
   }
-
-  const SortHead = ({ k, children }) => (
-    <th onClick={() => toggleSort(k)} className="sortable">
-      <span className="sort-inner">{children} {sortKey === k && (sortDir === 1 ? <ChevronUp size={12} /> : <ChevronDown size={12} />)}</span>
-    </th>
-  )
 
   const addStudent = () => {
     if (!form.name.trim()) { toast('Enter a student name first.', 'info'); return }
@@ -97,16 +102,18 @@ export default function StudentsPage() {
       >
         <div className="table-wrap">
           <table className="data-table">
-            <thead><tr><th>Student</th><SortHead k="roll">Class · Roll</SortHead><SortHead k="attendance">Attendance</SortHead><SortHead k="score">Score</SortHead><th>Fees</th><th>Parent</th></tr></thead>
+            <thead><tr><th>Student</th><SortHead k="roll" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>Class · Roll</SortHead><SortHead k="attendance" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>Attendance</SortHead><SortHead k="score" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort}>Score</SortHead><th>Fees</th><th>Parent</th></tr></thead>
             <tbody>
               {list.map((s) => (
                 <tr key={s.name}>
                   <td>{personCell(s.name)}</td>
                   <td className="strong">{s.cls} · {s.roll}</td>
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 110 }}>
-                      <div style={{ flex: 1 }}><Progress value={s.attendance} color={pctColor(s.attendance, { hi: 95, mid: 88 })} /></div>
-                      <span style={{ fontWeight: 800, fontSize: 12.5 }}>{s.attendance}%</span>
+                    <div className="score-row" style={{ minWidth: 110 }}>
+                      <div className="score-bar">
+                        <Progress value={s.attendance} tone={pctTone(s.attendance, { hi: 95, mid: 88 })} />
+                      </div>
+                      <span className="score-value">{s.attendance}%</span>
                     </div>
                   </td>
                   <td className="strong">{s.score}</td>

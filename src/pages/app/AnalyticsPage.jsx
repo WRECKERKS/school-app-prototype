@@ -4,7 +4,7 @@ import {
   PolarAngleAxis, PolarRadiusAxis, Radar, Legend
 } from 'recharts'
 import { ChartNoAxesCombined, Trophy, AlertTriangle } from 'lucide-react'
-import { Panel, PageHeader, StatCard, Progress, chartTheme } from '../../components/ui'
+import { Panel, PageHeader, StatCard, Progress, pctTone, chartTheme } from '../../components/ui'
 import { chartTopicData, chartTrendData, chartBatchData, chartSkillData } from '../../lib/mock'
 
 export default function AnalyticsPage() {
@@ -17,10 +17,10 @@ export default function AnalyticsPage() {
       />
 
       <div className="stat-row">
-        <StatCard icon={ChartNoAxesCombined} color="#1e3a8a" value="87%" label="Overall term score" change="+6 vs last term" />
-        <StatCard icon={ChartNoAxesCombined} color="#172554" value="24" label="Top performers" change="above 90%" />
-        <StatCard icon={ChartNoAxesCombined} color="#065f46" value="3" label="Need attention" change="weak topics" changeTone="negative" />
-        <StatCard icon={ChartNoAxesCombined} color="#059669" value="40,247" label="Question bank" change="11 subjects" />
+        <StatCard icon={ChartNoAxesCombined} value="87%" label="Overall term score" change="+6 vs last term" />
+        <StatCard icon={ChartNoAxesCombined} value="24" label="Top performers" change="above 90%" />
+        <StatCard icon={ChartNoAxesCombined} tone="accent" value="3" label="Need attention" change="weak topics" changeTone="negative" />
+        <StatCard icon={ChartNoAxesCombined} value="40,247" label="Question bank" change="11 subjects" />
       </div>
 
       <div className="grid-2">
@@ -87,19 +87,23 @@ export default function AnalyticsPage() {
 
       <div className="grid-2">
         <Panel title="Top Performers" icon={Trophy}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div className="score-list">
             {[
-              { name: 'Ananya Iyer', rank: 1, avg: 93, color: '#172554' },
-              { name: 'Aarav Sharma', rank: 2, avg: 92, color: '#059669' },
-              { name: 'Priya Nair', rank: 3, avg: 91, color: '#065f46' },
-              { name: 'Sara Khan', rank: 4, avg: 90, color: '#1e3a8a' },
-              { name: 'Arjun Patel', rank: 5, avg: 88, color: '#065f46' },
+              { name: 'Ananya Iyer', rank: 1, avg: 93 },
+              { name: 'Aarav Sharma', rank: 2, avg: 92 },
+              { name: 'Priya Nair', rank: 3, avg: 91 },
+              { name: 'Sara Khan', rank: 4, avg: 90 },
+              { name: 'Arjun Patel', rank: 5, avg: 88 },
             ].map((s) => (
-              <div key={s.name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span className="status-badge" style={{ background: s.color, color: '#fff' }}>#{s.rank}</span>
-                <span style={{ fontWeight: 800, fontSize: 13.5, color: 'var(--ink)', flex: 1 }}>{s.name}</span>
-                <div style={{ width: 110 }}><Progress value={s.avg} color={s.color} /></div>
-                <span style={{ fontWeight: 800, fontSize: 13, width: 34, textAlign: 'right' }}>{s.avg}</span>
+              <div key={s.name} className="score-row">
+                <span className="status-badge status-info" style={{ width: 34, justifyContent: 'center' }}>
+                  #{s.rank}
+                </span>
+                <span className="score-label" style={{ width: 110, flex: 'none' }}>{s.name}</span>
+                <div className="score-bar">
+                  <Progress value={s.avg} tone={pctTone(s.avg, { hi: 90, mid: 80 })} />
+                </div>
+                <span className="score-value">{s.avg}</span>
               </div>
             ))}
           </div>

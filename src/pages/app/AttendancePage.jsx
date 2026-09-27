@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { CalendarCheck, MapPin, ScanLine, FileDown, RotateCcw, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { Panel, PageHeader, Progress, pctColor, useToast } from '../../components/ui'
+import { Panel, PageHeader, Progress, pctTone, useToast } from '../../components/ui'
 import { classes } from '../../lib/mock'
 
 export default function AttendancePage() {
@@ -79,12 +79,14 @@ export default function AttendancePage() {
                 <tr key={row.name} className="clickable-row" onClick={() => toggle(row.name)}>
                   <td className="strong">{row.name}</td>
                   <td>{row.total}</td>
-                  <td style={{ color: 'var(--good-dark)', fontWeight: 800 }}>{row.present}</td>
-                  <td style={{ color: 'var(--danger-dark)', fontWeight: 800 }}>{row.absent}</td>
+                  <td style={{ color: 'var(--good)', fontWeight: 600 }}>{row.present}</td>
+                  <td style={{ color: 'var(--accent)', fontWeight: 600 }}>{row.absent}</td>
                   <td>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 150 }}>
-                      <div style={{ flex: 1 }}><Progress value={row.pct} color={pctColor(row.pct, { hi: 95, mid: 92 })} /></div>
-                      <span style={{ fontWeight: 800, fontSize: 13 }}>{row.pct}%</span>
+                    <div className="score-row" style={{ minWidth: 150 }}>
+                      <div className="score-bar">
+                        <Progress value={row.pct} tone={pctTone(row.pct, { hi: 95, mid: 92 })} />
+                      </div>
+                      <span className="score-value">{row.pct}%</span>
                     </div>
                   </td>
                   <td>
@@ -138,26 +140,28 @@ function AttendanceTools() {
             <span className="qr-corner bl" /><span className="qr-corner br" />
             <span className="qr-code">{['█▓▒░█▓▒░█▓▒░█▓', '▒░█▓▒░█▓▒░█▓▒', '░█▓▒░█▓▒░█▓▒░'].map((line, i) => <span key={i} style={{ display: 'block' }}>{line}</span>)}</span>
           </div>
-          <button className="btn btn-primary" onClick={startQr} disabled={scanning}>
+          <button type="button" className="btn btn-primary" onClick={startQr} disabled={scanning}>
             {scanning ? 'Scanning…' : 'Start SCAN'}
           </button>
-          <p style={{ fontSize: 12.5, color: 'var(--ink-muted)', textAlign: 'center' }}>Simulated scan — auto-verifies the student card.</p>
+          <p className="widget-note">Simulated scan — auto-verifies the student card.</p>
         </div>
       </Panel>
 
       <Panel title="GPS Attendance" icon={MapPin}>
         <div className="qr-widget">
-          <div className="qr-box" style={{ flexDirection: 'column', gap: 10, background: 'var(--card-soft)' }}>
-            <MapPin size={44} style={{ color: gpsState === 'verified' ? '#10b981' : '#1e3a8a' }} />
-            <span className={`pulse-dot ${gpsState !== 'verified' ? '' : ''}`} style={{ background: gpsState === 'verified' ? '#10b981' : '#1e3a8a' }} />
-            {gpsState === 'idle' && <span style={{ fontSize: 12.5, fontWeight: 700, color: 'var(--ink-muted)' }}>Locate 10A within 50m</span>}
-            {gpsState === 'locating' && <span style={{ fontSize: 12.5, fontWeight: 800, color: '#1e3a8a' }}>Verifying radius…</span>}
-            {gpsState === 'verified' && <span style={{ fontSize: 12.5, fontWeight: 800, color: 'var(--good-dark)' }}>Verified ✓ 48.2m from school gates</span>}
+          <div className="gps-stage">
+            <MapPin size={40} className={gpsState === 'verified' ? 'good' : 'info'} />
+            <span className="pulse-dot" style={{ color: gpsState === 'verified' ? 'var(--good)' : 'var(--info)' }} />
+            {gpsState === 'idle' && <span className="gps-note">Locate 10A within 50m</span>}
+            {gpsState === 'locating' && <span className="gps-note" style={{ color: 'var(--info)' }}>Verifying radius…</span>}
+            {gpsState === 'verified' && (
+              <span className="gps-note" style={{ color: 'var(--good)' }}>Verified — 48.2m from school gates</span>
+            )}
           </div>
-          <button className="btn btn-accent" onClick={startGps} disabled={gpsState === 'locating'}>
+          <button type="button" className="btn btn-accent" onClick={startGps} disabled={gpsState === 'locating'}>
             {gpsState === 'locating' ? 'Verifying…' : 'Verify location'}
           </button>
-          <p style={{ fontSize: 12.5, color: 'var(--ink-muted)', textAlign: 'center' }}>50m radius check — only marks when location is trusted.</p>
+          <p className="widget-note">50m radius check — only marks when location is trusted.</p>
         </div>
       </Panel>
     </div>

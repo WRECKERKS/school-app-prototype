@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ListTodo, Plus, CheckCircle2, Clock, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import { Panel, PageHeader, useToast } from '../../components/ui'
+import { Panel, PageHeader, Progress, useToast } from '../../components/ui'
 import { homework as seed } from '../../lib/mock'
 
 export default function HomeworkPage() {
@@ -62,8 +62,8 @@ export default function HomeworkPage() {
             <span style={{ fontSize: 12.5, color: 'var(--ink-muted)' }}>{h.id} • Assigned {h.assigned} • Due {h.deadline}</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-            <span className="badge" style={{ background: 'var(--bg-soft)', color: 'var(--ink)' }}>Submissions {h.submissions}/{h.total}</span>
-            <div style={{ flex: 1, minWidth: 140 }}><div className="progress-bar"><div className="progress-fill" style={{ width: `${(h.submissions / h.total) * 100}%`, background: h.status === 'Reviewed' ? '#10b981' : '#1e3a8a' }} /></div></div>
+            <span className="badge">Submissions {h.submissions}/{h.total}</span>
+            <div className="score-bar" style={{ minWidth: 140 }}><Progress value={(h.submissions / h.total) * 100} tone={h.status === 'Reviewed' ? 'good' : 'neutral'} /></div>
             {h.status === 'Active' ? (
               <button className="btn btn-soft btn-sm" onClick={() => { setReviewing(h); setMarks('') }}>
                 <Clock size={14} /> Review submissions
@@ -84,14 +84,14 @@ export default function HomeworkPage() {
           <div className="dialog" onClick={(e) => e.stopPropagation()}>
             <h3>Review — Arjun Patel</h3>
             <p className="dialog-sub">{reviewing.subject} • {reviewing.cls} • Submitted today, 07:42 AM</p>
-            <div style={{ background: 'var(--card-soft)', border: '2.5px solid var(--line)', borderRadius: 'var(--radius-xs)', padding: 14, marginBottom: 14 }}>
-              <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--ink)', marginBottom: 6 }}>Student answer</div>
+            <div className="note-box" style={{ marginBottom: 14 }}>
+              <div className="note-box-title">Student answer</div>
               <p style={{ fontSize: 13.5, color: 'var(--ink-soft)' }}>
                 The solution set of the equation is x = 3 and x = -2, obtained by factorising the quadratic into (x-3)(x+2) = 0.
               </p>
               <div style={{ marginTop: 10, display: 'flex', gap: 8 }}>
                 {['hw-a.png', 'hw-b.png'].map((f) => (
-                  <span key={f} className="file-type" style={{ background: 'var(--warn-soft)', color: 'var(--warn-dark)' }}>{f}</span>
+                  <span key={f} className="file-type">{f}</span>
                 ))}
               </div>
             </div>

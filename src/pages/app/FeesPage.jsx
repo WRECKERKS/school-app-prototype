@@ -41,10 +41,10 @@ export default function FeesPage() {
 
       {!isParent && (
         <div className="stat-row">
-          <StatCard icon={Wallet} color="#172554" value="₹4.85L" label="Collected" change="+8% this month" />
-          <StatCard icon={Inbox} color="#065f46" value="₹1.2L" label="Pending" change="38 invoices" />
-          <StatCard icon={Wallet} color="#dc2626" value="₹32K" label="Overdue" change="7 invoices" changeTone="negative" />
-          <StatCard icon={Wallet} color="#1e3a8a" value="92%" label="Collection rate" change="target 90%" />
+          <StatCard icon={Wallet} value="₹4.85L" label="Collected" change="+8% this month" />
+          <StatCard icon={Inbox} value="₹1.2L" label="Pending" change="38 invoices" />
+          <StatCard icon={Wallet} tone="accent" value="₹32K" label="Overdue" change="7 invoices" changeTone="negative" />
+          <StatCard icon={Wallet} value="92%" label="Collection rate" change="target 90%" />
         </div>
       )}
 
@@ -102,7 +102,7 @@ export default function FeesPage() {
                 <button key={m} className={`chip ${method === m ? 'active' : ''}`} onClick={() => setMethod(m)}>{m}</button>
               ))}
             </div>
-            <div style={{ background: 'var(--card-soft)', border: '2.5px dashed var(--line-dark)', borderRadius: 'var(--radius-xs)', padding: 14 }}>
+            <div className="note-box dashed">
               <div className="login-input" style={{ boxShadow: 'none' }}>
                 <Wallet size={16} />
                 <input defaultValue={method === 'UPI' ? 'demo@okaxis' : method === 'Card' ? '•••• 4421' : 'Demo wallet'} style={{ padding: '10px 0' }} readOnly />

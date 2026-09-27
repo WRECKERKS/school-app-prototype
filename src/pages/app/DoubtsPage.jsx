@@ -81,7 +81,7 @@ export default function DoubtsPage() {
                 <ArrowUp size={14} /> {d.votes}
               </button>
               {d.status === 'Resolved' && d.solution && (
-                <span style={{ fontSize: 12.5, color: 'var(--good-dark)', fontWeight: 700, maxWidth: 360 }}>✓ {d.solution}</span>
+                <span className="note-box-solution" style={{ maxWidth: 360 }}>{d.solution}</span>
               )}
               {d.status === 'Pending' && canResolve && (
                 <button className="btn btn-primary btn-sm" onClick={() => { setResolving(d); setSolution('') }}>Resolve</button>
@@ -100,7 +100,7 @@ export default function DoubtsPage() {
           <div className="dialog" onClick={(e) => e.stopPropagation()}>
             <h3>Resolve doubt — {resolving.student}</h3>
             <p className="dialog-sub">{resolving.subject} • {resolving.id}</p>
-            <div style={{ background: 'var(--card-soft)', border: '2.5px dashed var(--line-dark)', borderRadius: 'var(--radius-xs)', padding: 12, marginBottom: 14 }}>
+            <div className="note-box dashed" style={{ marginBottom: 14 }}>
               <p style={{ fontSize: 13.5, color: 'var(--ink-soft)' }}>{resolving.question}</p>
             </div>
             <label className="form-field"><span>Your solution</span>

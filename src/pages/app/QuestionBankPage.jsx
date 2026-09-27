@@ -4,9 +4,9 @@ import { Panel, PageHeader, StatCard, useToast } from '../../components/ui'
 import { questionBank } from '../../lib/mock'
 
 const DIFF = {
-  Easy: { color: 'var(--good)', soft: 'var(--good-soft)' },
-  Medium: { color: 'var(--warn)', soft: 'var(--warn-soft)' },
-  Hard: { color: 'var(--danger)', soft: 'var(--danger-soft)' },
+  Easy: 'status-paid',
+  Medium: 'status-pending',
+  Hard: 'status-overdue',
 }
 
 const SUBJECTS = [...new Set(questionBank.map((q) => q.subject))]
@@ -48,10 +48,10 @@ export default function QuestionBankPage() {
       />
 
       <div className="stat-row">
-        <StatCard icon={Database} color="#1e3a8a" value="40,247" label="Questions" change="+124 this week" />
-        <StatCard icon={Database} color="#172554" value="11" label="Subjects" change="all grades" />
-        <StatCard icon={Database} color="#065f46" value="6,210" label="Hard questions" change="AI tagged" />
-        <StatCard icon={FilePlus2} color="#059669" value="23" label="Tests built" change="this term" />
+        <StatCard icon={Database} value="40,247" label="Questions" change="+124 this week" />
+        <StatCard icon={Database} value="11" label="Subjects" change="all grades" />
+        <StatCard icon={Database} tone="warn" value="6,210" label="Hard questions" change="AI tagged" />
+        <StatCard icon={FilePlus2} value="23" label="Tests built" change="this term" />
       </div>
 
       <Panel title={`Selected (${selected.length}) — build a test now`} icon={FilePlus2} actions={
@@ -72,8 +72,8 @@ export default function QuestionBankPage() {
             const on = selected.includes(q.id)
             return (
               <div key={q.id} className={`qb-question ${on ? 'selected' : ''}`} onClick={() => toggle(q.id)} style={{ cursor: 'pointer' }}>
-                <span className={`avatar ${on ? '' : ''}`} style={{ background: on ? 'var(--primary)' : 'var(--bg-soft)' }}>
-                  {on ? <CheckCircle2 size={16} color="#fff" /> : <span style={{ color: 'var(--primary-deep)', fontWeight: 800 }}>{q.marks}</span>}
+                <span className={`avatar selectable ${on ? 'on' : ''}`}>
+                  {on ? <CheckCircle2 size={16} /> : <span>{q.marks}</span>}
                 </span>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--ink)', marginBottom: 3 }}>{q.text}</div>
@@ -81,8 +81,8 @@ export default function QuestionBankPage() {
                     <span>{q.id}</span><b style={{ color: 'var(--ink-soft)' }}>{q.subject}</b><b style={{ color: 'var(--ink-soft)' }}>{q.topic}</b>
                   </div>
                 </div>
-                <span className="badge" style={{ background: DIFF[q.difficulty].soft, color: DIFF[q.difficulty].color }}>{q.difficulty}</span>
-                <span style={{ fontWeight: 800, color: 'var(--ink-muted)' }}>{q.marks} marks</span>
+                <span className={`status-badge ${DIFF[q.difficulty]}`}>{q.difficulty}</span>
+                <span style={{ fontWeight: 600, color: 'var(--ink-muted)' }}>{q.marks} marks</span>
               </div>
             )
           })}

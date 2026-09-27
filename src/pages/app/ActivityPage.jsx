@@ -4,12 +4,12 @@ import { Panel, PageHeader, useToast } from '../../components/ui'
 import { activityLog } from '../../lib/mock'
 
 const CATEGORY = {
-  Fees: { color: 'var(--good)', soft: 'var(--good-soft)' },
-  Attendance: { color: 'var(--primary)', soft: 'var(--primary-soft)' },
-  Tests: { color: 'var(--accent)', soft: 'var(--primary-soft)' },
-  Homework: { color: 'var(--warn)', soft: 'var(--warn-soft)' },
-  Auth: { color: 'var(--info)', soft: 'var(--info-soft)' },
-  Doubts: { color: 'var(--info)', soft: 'var(--info-soft)' },
+  Fees: 'status-paid',
+  Attendance: 'status-info',
+  Tests: 'status-info',
+  Homework: 'status-pending',
+  Auth: '',
+  Doubts: 'status-info',
 }
 
 export default function ActivityPage() {
@@ -44,7 +44,7 @@ export default function ActivityPage() {
                   <td>{a.user}</td>
                   <td style={{ fontFamily: 'monospace', fontSize: 12.5 }}>{a.ip}</td>
                   <td>
-                    <span className="badge" style={{ background: CATEGORY[a.category].soft, color: CATEGORY[a.category].color }}>{a.category}</span>
+                    <span className={`status-badge ${CATEGORY[a.category]}`}>{a.category}</span>
                   </td>
                   <td style={{ whiteSpace: 'nowrap' }}>{a.time}</td>
                 </tr>

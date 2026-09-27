@@ -71,7 +71,7 @@ export default function TimetablePage() {
             <tbody>
               {schedules.map((p, i) => (
                 <tr key={i}>
-                  <td style={{ textAlign: 'left', fontWeight: 800, color: 'var(--ink-muted)' }}>{p.time}</td>
+                  <td className="time-text">{p.time}</td>
                   {p.subjects.map((s, j) => (
                     <td
                       key={j}
@@ -85,8 +85,8 @@ export default function TimetablePage() {
         </div>
         <div style={{ marginTop: 14, display: 'flex', gap: 10 }}>
           {['Break', 'Selected day'].map((k) => (
-            <span key={k} className="badge" style={{ background: 'var(--bg-soft)', color: 'var(--ink-muted)' }}>
-              <span style={{ width: 12, height: 12, borderRadius: 3, background: k === 'Break' ? 'var(--warn-soft)' : 'var(--primary)', display: 'inline-block' }} /> {k}
+            <span key={k} className="badge">
+              <span className={`subject-dot ${k === 'Break' ? 'break' : ''}`} /> {k}
             </span>
           ))}
         </div>
