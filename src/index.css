@@ -77,21 +77,23 @@
      The canvas used to be #f2f4f7, a near-neutral grey that made the app read as
      flat white. It now carries a faint blue cast, which gives white cards
      something to sit against and quietly ties the whole UI to the primary. */
-  --paper: #e9edf5;
+  --paper: #e4e9f3;
   --paper-raised: #ffffff;
-  --paper-sunk: #e0e6f0;
-  --paper-inset: #d5dce9;
+  --paper-sunk: #dae1ee;
+  --paper-inset: #cfd8e7;
 
-  /* ---- Ink ---- */
+  /* ---- Ink ----
+     --ink-faint is the one that used to be unreadable at 2.6:1. It is only for
+     de-emphasised metadata, but metadata is still text, so it lands at 4.5:1. */
   --ink: #0f172a;
   --ink-soft: #33405a;
-  --ink-muted: #5f6d85;
-  --ink-faint: #94a1b8;
+  --ink-muted: #55637b;
+  --ink-faint: #66748c;
 
   /* ---- Rules (borders) ---- */
-  --rule: #dde3ee;
-  --rule-soft: #e8ecf4;
-  --rule-strong: #c3ccdc;
+  --rule: #d0d9e8;
+  --rule-soft: #e2e8f2;
+  --rule-strong: #b4bfd2;
 
   /* ---- Primary: one friendly blue, used for actions and active state ---- */
   --accent: #3b5bdb;
@@ -106,36 +108,38 @@
      They are deliberately *not* used for status. good/warn/info keep their own
      tokens below because those mean something. These carry identity: module
      tiles, illustrations, and anything that wants to be recognisable. */
-  --hue-teal: #0d9488;
-  --hue-teal-hover: #0b7a70;
-  --hue-teal-soft: #d6f1ee;
-  --hue-teal-rule: #8ad5cb;
+  --hue-teal: #0a6f66;
+  --hue-teal-hover: #085a53;
+  --hue-teal-soft: #d3efec;
+  --hue-teal-rule: #6fc2b9;
 
   --hue-violet: #7c3aed;
   --hue-violet-hover: #6a2fd4;
   --hue-violet-soft: #ece3fd;
   --hue-violet-rule: #c1abf7;
 
-  --hue-amber: #b45309;
-  --hue-amber-hover: #96430a;
-  --hue-amber-soft: #fcecd5;
-  --hue-amber-rule: #eec089;
+  --hue-amber: #92620a;
+  --hue-amber-hover: #774f07;
+  --hue-amber-soft: #fbeed0;
+  --hue-amber-rule: #dcb96e;
 
   --hue-rose: #be123c;
   --hue-rose-hover: #a30f34;
   --hue-rose-soft: #fce0e8;
   --hue-rose-rule: #f4a2b7;
 
-  --hue-cyan: #0e7490;
-  --hue-cyan-hover: #0b5f75;
-  --hue-cyan-soft: #d5eef7;
-  --hue-cyan-rule: #8bcbe1;
+  --hue-cyan: #0a5f75;
+  --hue-cyan-hover: #084c5f;
+  --hue-cyan-soft: #d0ecf5;
+  --hue-cyan-rule: #6fb9d4;
 
-  /* ---- Semantic: these mean something, so they are not part of the family ---- */
-  --good: #0f7a58;
+  /* ---- Semantic: these mean something, so they are not part of the family ----
+     --warn is deliberately red-orange rather than amber, so a warning badge
+     cannot be mistaken for an amber identity tile. */
+  --good: #0b6b4d;
   --good-soft: #d5f1e4;
-  --warn: #b45309;
-  --warn-soft: #fcecd5;
+  --warn: #b23a08;
+  --warn-soft: #fde4d3;
   --info: #175cd3;
   --info-soft: #e1ecfd;
 
@@ -171,21 +175,21 @@
 [data-theme='dark'] {
   /* Surfaces — a touch cooler and bluer than the light canvas, so the hue family
      still reads at night instead of going neutral grey. */
-  --paper: #10141c;
-  --paper-raised: #191f2a;
-  --paper-sunk: #0b0e14;
-  --paper-inset: #222a37;
+  --paper: #0f131b;
+  --paper-raised: #1a212c;
+  --paper-sunk: #0a0d13;
+  --paper-inset: #242c39;
 
   /* Ink */
   --ink: #eef2f8;
-  --ink-soft: #c3cbd9;
-  --ink-muted: #8e99ab;
-  --ink-faint: #6b7688;
+  --ink-soft: #c6cedc;
+  --ink-muted: #98a3b5;
+  --ink-faint: #8a97ab;
 
   /* Rules */
-  --rule: #29313f;
-  --rule-soft: #1f2632;
-  --rule-strong: #3d485a;
+  --rule: #2e3746;
+  --rule-soft: #232b37;
+  --rule-strong: #465164;
 
   /* Hue family, lifted for dark */
   --accent: #7f95f5;
