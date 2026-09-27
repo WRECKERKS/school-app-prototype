@@ -6301,6 +6301,236 @@ li {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- 29. Clay depth -----------------------------------------------
+
+   The visibility problem: a white card on a near-white canvas with a 1px border
+   is legible but flat, and at a glance every surface reads as the same thing.
+   The fix is depth, not contrast — give each surface a lit top edge, a solid rim
+   underneath it, and a soft cast shadow. Three layers is what makes a rectangle
+   read as a solid object.
+
+   The rim is the part people notice. A single drop shadow looks like a
+   rectangle floating; a shadow plus a hard bottom edge looks pressed out of the
+   screen, which is the clay read. */
+
+.panel,
+.stat-card,
+.fcard,
+.tcard,
+.login-card,
+.start-card,
+.modal,
+.dialog,
+.phone-mock,
+.pm-card,
+.pm-row,
+.feature-card,
+.plan-card,
+.app-launch,
+.app-quick,
+.app-tile,
+.app-profile-card,
+.app-hero-card,
+.empty-state,
+.illus-card {
+  box-shadow: var(--clay-1);
+}
+
+.stat-card,
+.fcard,
+.tcard,
+.feature-card,
+.plan-card,
+.app-launch,
+.app-quick,
+.app-tile,
+.app-profile-card,
+.illus-card {
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+/* Lift on hover, but only where hover means something */
+@media (hover: hover) {
+  .stat-card:hover,
+  .fcard:hover,
+  .tcard:hover,
+  .feature-card:hover,
+  .plan-card:hover,
+  .app-launch:hover,
+  .app-quick:hover,
+  .app-tile:hover,
+  button.fcard:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--clay-2);
+  }
+}
+
+/* Pressing a clay surface pushes it in rather than lifting it */
+.app-launch:active,
+.app-quick:active,
+.app-tile:active,
+button.fcard:active,
+.fcard:active {
+  transform: translateY(1px);
+  box-shadow: var(--clay-press);
+}
+
+/* Sunk surfaces get the inverse treatment: shadow inside, light along the
+   bottom lip. This is what makes inputs and wells feel recessed. */
+.login-input,
+.field,
+.input,
+.select,
+.textarea,
+.search-input,
+.seg-control,
+.app-hero-card,
+.app-stat {
+  box-shadow: var(--clay-inset);
+}
+
+/* Buttons are the other thing you press all day, so they get the full treatment */
+.btn {
+  border: 0;
+  box-shadow: var(--clay-1);
+  transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
+}
+
+.btn:hover {
+  box-shadow: var(--clay-2);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--clay-press);
+}
+
+.btn-primary {
+  box-shadow: var(--clay-1), 0 4px 12px -4px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.btn-primary:hover {
+  box-shadow: var(--clay-2), 0 6px 18px -4px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.btn-primary:active {
+  box-shadow: var(--clay-press);
+}
+
+.btn-ghost,
+.btn-quiet {
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+}
+
+/* Chips and badges are small enough that a rim makes them muddy, so they get
+   the inset highlight only. */
+.chip,
+.status-badge,
+.qd-chip,
+.seg-control button.active,
+.stat-change {
+  box-shadow: var(--clay-inset);
+}
+
+/* Tables: header row sits in a well, rows get a hairline, not a shadow */
+.data-table thead th {
+  background: var(--paper-sunk);
+  box-shadow: inset 0 -1px 0 var(--rule-strong);
+}
+
+.data-table tbody tr {
+  transition: background var(--t-fast);
+}
+
+/* Sidebar and app bar are large planes, not objects — a shadow on them would
+   be noise. They get a single edge instead. */
+.app-sidebar,
+.app-topbar {
+  box-shadow: none;
+}
+
+.app-sidebar {
+  border-right: 1px solid var(--rule);
+  background: var(--paper-raised);
+}
+
+.app-topbar {
+  border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper-raised) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(12px);
+}
+
+.app-bottomnav {
+  box-shadow: 0 -2px 0 var(--clay-rim), 0 -8px 20px -8px rgba(15, 23, 42, 0.16);
+}
+
+[data-theme='dark'] .app-bottomnav {
+  box-shadow: 0 -1px 0 var(--rule-strong), 0 -8px 20px -8px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Hue cycling for module tiles -----------------------------------------
+   Rather than hardcoding a colour per module in JS, tiles cycle through the
+   family by position. Every sixth tile lands back on the primary, so a long
+   list never drifts off-palette. */
+.app-launch:nth-child(6n + 1),
+.app-tile:nth-child(6n + 1) {
+  --tile: var(--accent);
+  --tile-soft: var(--accent-soft);
+}
+
+.app-launch:nth-child(6n + 2),
+.app-tile:nth-child(6n + 2) {
+  --tile: var(--hue-teal);
+  --tile-soft: var(--hue-teal-soft);
+}
+
+.app-launch:nth-child(6n + 3),
+.app-tile:nth-child(6n + 3) {
+  --tile: var(--hue-violet);
+  --tile-soft: var(--hue-violet-soft);
+}
+
+.app-launch:nth-child(6n + 4),
+.app-tile:nth-child(6n + 4) {
+  --tile: var(--hue-amber);
+  --tile-soft: var(--hue-amber-soft);
+}
+
+.app-launch:nth-child(6n + 5),
+.app-tile:nth-child(6n + 5) {
+  --tile: var(--hue-rose);
+  --tile-soft: var(--hue-rose-soft);
+}
+
+.app-launch:nth-child(6n + 6),
+.app-tile:nth-child(6n + 6) {
+  --tile: var(--hue-cyan);
+  --tile-soft: var(--hue-cyan-soft);
+}
+
+.app-launch-ico,
+.app-tile-ico {
+  background: var(--tile-soft, var(--accent-soft));
+  color: var(--tile, var(--accent));
+  box-shadow: var(--clay-inset);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.app-quick-ico {
+  background: var(--tile-soft, var(--accent-soft));
+  color: var(--tile, var(--accent));
+  box-shadow: var(--clay-inset);
+}
+
+/* Quick actions use the same cycle, just one column of it */
+.app-quick:nth-child(6n + 1) { --tile: var(--accent); --tile-soft: var(--accent-soft); }
+.app-quick:nth-child(6n + 2) { --tile: var(--hue-teal); --tile-soft: var(--hue-teal-soft); }
+.app-quick:nth-child(6n + 3) { --tile: var(--hue-violet); --tile-soft: var(--hue-violet-soft); }
+.app-quick:nth-child(6n + 4) { --tile: var(--hue-amber); --tile-soft: var(--hue-amber-soft); }
+.app-quick:nth-child(6n + 5) { --tile: var(--hue-rose); --tile-soft: var(--hue-rose-soft); }
+.app-quick:nth-child(6n + 6) { --tile: var(--hue-cyan); --tile-soft: var(--hue-cyan-soft); }
+
 @media print {
   .app-sidebar,
   .app-topbar,
