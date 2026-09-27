@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   GraduationCap, Star, ListChecks, Check, ArrowRight, Users,
-  CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine, Download,
-  TrendingUp
+  CalendarCheck, Wallet, FileBarChart2, MessageSquareWarning, ScanLine, Download
 } from 'lucide-react'
-import { PLANS } from '../lib/registry'
 import { StockImg, useToast } from '../components/ui'
 import CountUp from '../components/CountUp'
 import LazySection from '../components/LazySection'
@@ -21,12 +19,12 @@ function HeroStat({ value, suffix, label }) {
 }
 
 const LANDFEATURES = [
-  { icon: Users, color: '#1e3a8a', title: 'Multi-role portals', desc: 'Principal, admin, teacher, student, parent and accounts — each with their own view.' },
-  { icon: CalendarCheck, color: '#172554', title: 'Live attendance', desc: 'QR, GPS-secured or manual marking with instant parent SMS alerts.' },
-  { icon: Wallet, color: '#059669', title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
-  { icon: FileBarChart2, color: '#065f46', title: 'Tests & results', desc: 'Question bank of 40,000+ items, AI difficulty balancing and deep analytics.' },
-  { icon: MessageSquareWarning, color: '#065f46', title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
-  { icon: ScanLine, color: '#172554', title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
+  { icon: Users, title: 'Multi-role portals', desc: 'Principal, admin, teacher, student, parent and accounts — each with their own view.' },
+  { icon: CalendarCheck, title: 'Live attendance', desc: 'QR, GPS-secured or manual marking with instant parent SMS alerts.' },
+  { icon: Wallet, title: 'Fees & finance', desc: 'UPI, Card or Wallet payments with automatic receipts and reminders.' },
+  { icon: FileBarChart2, title: 'Tests & results', desc: 'Question bank of 40,000+ items, AI difficulty balancing and deep analytics.' },
+  { icon: MessageSquareWarning, title: 'Parent alerts', desc: 'Broadcast notices over SMS, WhatsApp, Email and voice calls.' },
+  { icon: ScanLine, title: 'Board-ready audit', desc: 'Every action logged with user, IP and timestamp for full accountability.' },
 ]
 
 const TESTIMONIALS = [
@@ -38,39 +36,8 @@ const TESTIMONIALS = [
 export default function Landing() {
   const reducedMotion = usePrefersReducedMotion()
   const toast = useToast()
-  const stageRef = useRef(null)
   const [installPrompt, setInstallPrompt] = useState(null)
   const [installed, setInstalled] = useState(false)
-
-  useEffect(() => {
-    if (reducedMotion) return
-    const hero = document.querySelector('.hero')
-    const stage = stageRef.current
-    if (!hero || !stage) return
-    let raf = 0
-    const onMove = (e) => {
-      cancelAnimationFrame(raf)
-      raf = requestAnimationFrame(() => {
-        const r = hero.getBoundingClientRect()
-        const px = (e.clientX - r.left) / r.width - 0.5
-        const py = (e.clientY - r.top) / r.height - 0.5
-        stage.style.setProperty('--rx', `${-py * 7}deg`)
-        stage.style.setProperty('--ry', `${px * 9}deg`)
-      })
-    }
-    const onLeave = () => {
-      cancelAnimationFrame(raf)
-      stage.style.setProperty('--rx', '0deg')
-      stage.style.setProperty('--ry', '0deg')
-    }
-    hero.addEventListener('mousemove', onMove, { passive: true })
-    hero.addEventListener('mouseleave', onLeave)
-    return () => {
-      hero.removeEventListener('mousemove', onMove)
-      hero.removeEventListener('mouseleave', onLeave)
-      cancelAnimationFrame(raf)
-    }
-  }, [reducedMotion])
 
   useEffect(() => {
     const onPrompt = (e) => {
@@ -139,54 +106,29 @@ export default function Landing() {
         </div>
 
         <div className="hero-visual3d">
-          <div className="glow3d" />
-          <div className="mock-stage3d" ref={stageRef}>
-            <div className="ring3d" />
-            <div className="cube3d cube-a">
-              <i /><i /><i /><i /><i /><i />
-            </div>
-            <div className="cube3d cube-b">
-              <i /><i /><i /><i /><i /><i />
-            </div>
-
-            <div className="dash3d">
-              <div className="d3-top">
-                <div className="d3-dots"><i /><i /><i /></div>
-                <span className="d3-title">EduSuite Pro — Live dashboard</span>
-                <span className="d3-live"><i />Live</span>
+          <div className="phone-mock">
+            <div className="phone-notch" />
+            <div className="phone-screen">
+              <div className="pm-appbar">
+                <b>9:41</b>
+                <span className="pm-chip c1">
+                  <GraduationCap size={12} />
+                </span>
               </div>
-              <div className="d3-row">
-                <div className="d3-nav">
-                  <span className="d3-nav-ico active"><GraduationCap size={16} /></span>
-                  <span className="d3-nav-ico"><Users size={16} /></span>
-                  <span className="d3-nav-ico"><CalendarCheck size={16} /></span>
-                  <span className="d3-nav-ico"><Wallet size={16} /></span>
-                </div>
-                <div className="d3-body">
-                  <div className="d3-kpis">
-                    <div className="d3-kpi k-1"><b>40247</b><span>Q-bank items</span></div>
-                    <div className="d3-kpi k-2"><b>92%</b><span>Fees collected</span></div>
-                    <div className="d3-kpi k-3"><b>245</b><span>Students</span></div>
-                  </div>
-                  <div className="d3-chart">
-                    {[38, 52, 66, 48, 74, 60, 88].map((h, i) => (
-                      <span key={i} style={{ height: `${h}%` }} />
-                    ))}
-                  </div>
+              <div className="pm-hello">
+                <span className="avatar">PN</span>
+                <div>
+                  <b>Good morning</b>
+                  <small>Principal desk</small>
                 </div>
               </div>
-            </div>
-
-            <div className="p3-card pc-1">
-              <span className="p3-ico"><ScanLine size={15} /></span>
-              <div><b>QR attendance live</b><small>87% marked today</small></div>
-            </div>
-            <div className="p3-card pc-2">
-              <span className="p3-ico emerald"><Check size={15} /></span>
-              <div><b>Fees 92% • on track</b><small>Last 7 days</small></div>
-            </div>
-            <div className="p3-chip">
-              <TrendingUp size={13} /><b>+12</b> parent alerts this hour
+              <div className="pm-cards">
+                <div className="pm-card p1"><b>245</b><span>Students</span></div>
+                <div className="pm-card p2"><b>92%</b><span>Fees</span></div>
+                <div className="pm-card p3"><b>94%</b><span>Present</span></div>
+              </div>
+              <div className="pm-row"><span className="pm-chip c1"><CalendarCheck size={11} /></span> Mark attendance</div>
+              <div className="pm-row"><span className="pm-chip c2"><Wallet size={11} /></span> Record a fee</div>
             </div>
           </div>
         </div>
@@ -204,7 +146,7 @@ export default function Landing() {
             const Icon = f.icon
             return (
               <div className="feature-card" key={f.title} style={{ '--i': i }}>
-                <span className="feature-icon" style={{ background: f.color }}><Icon size={22} /></span>
+                <span className="feature-icon"><Icon size={21} /></span>
                 <h3>{f.title}</h3>
                 <p>{f.desc}</p>
               </div>
@@ -258,7 +200,7 @@ export default function Landing() {
               <ul className="plan-feats">
                 {p.feats.map((f) => (
                   <li key={f}>
-                    <span className="f-ico" style={{ background: PLANS[p.id].soft, color: PLANS[p.id].color }}><Check size={13} /></span>
+                    <span className="f-ico"><Check size={12} /></span>
                     {f}
                   </li>
                 ))}
@@ -293,23 +235,23 @@ export default function Landing() {
       <LazySection className="cta-band" as="div">
         <div className="cta-band-inner">
           <div>
-            <h2>Take EduSuite everywhere</h2>
-            <p>Get the native Android app for staff and parents. Open a fresh demo — pick a plan, choose a role, and explore the full app in under 30 seconds.</p>
+            <h2>Add it to your home screen</h2>
+            <p>
+              EduSuite Pro installs as a standalone app — full screen, offline shell, and the same
+              demo on every device. No store account needed.
+            </p>
             <div className="store-badges">
-              <a className="store-badge" href="https://github.com/WRECKERKS/school-app-prototype/releases/download/v1.0.0/app-debug.apk">
-                <span className="store-ico">▶</span>
-                <span><small>Get it on</small><b>Google Play</b></span>
-              </a>
-              <button className="store-badge" onClick={() => toast('Android APK (debug build) is ready — v1.0.0. The iOS build is in private beta.', 'info')}>
-                <span className="store-ico">🍎</span>
-                <span><small>Download on the</small><b>App Store</b></span>
-              </button>
               {installPrompt && !installed && (
-                <button className="store-badge store-install" onClick={installApp}>
-                  <span className="store-ico"><Download size={15} /></span>
-                  <span><small>Or add to your device</small><b>Install the app</b></span>
+                <button type="button" className="btn btn-primary" onClick={installApp}>
+                  <Download size={16} /> Install the app
                 </button>
               )}
+              <a
+                className="btn btn-ghost"
+                href="https://github.com/WRECKERKS/school-app-prototype/releases/download/v1.0.0/app-debug.apk"
+              >
+                Android APK
+              </a>
               {installed && (
                 <span className="badge status-success installed-pill">Installed on this device</span>
               )}
@@ -320,7 +262,7 @@ export default function Landing() {
             <div className="phone-screen">
               <div className="pm-appbar"><span>EduSuite Pro</span></div>
               <div className="pm-hello">
-                <b>Good morning, Arjun 👋</b>
+                <b>Good morning, Arjun</b>
                 <small>Class 10A • 87% attendance</small>
               </div>
               <div className="pm-cards">
@@ -339,7 +281,7 @@ export default function Landing() {
 
       <footer className="footer">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span className="logo" style={{ fontSize: 16 }}><span className="logo-icon" style={{ width: 30, height: 30 }}><GraduationCap size={16} color="#fff" /></span>EduSuite Pro</span>
+          <span className="logo" style={{ fontSize: 16 }}><span className="logo-icon" style={{ width: 30, height: 30 }}><GraduationCap size={16} /></span>EduSuite Pro</span>
         </div>
         <div>Interactive prototype for school demos • Built with React + Vite</div>
       </footer>
