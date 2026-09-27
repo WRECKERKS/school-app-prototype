@@ -1,5 +1,5 @@
-const LIGHT_BG = '#f4f6f9'
-const DARK_BG = '#0a1020'
+const LIGHT_BG = '#f2f4f7'
+const DARK_BG = '#0e1116'
 
 export function syncThemeColor(theme) {
   try {
