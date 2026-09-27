@@ -1,23 +1,22 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import {
-  GraduationCap, Mail, Lock, LogIn, Sparkles, ChevronRight,
-  ShieldCheck, Zap, Users2, ArrowRight, PlayCircle, X, RefreshCw, KeyRound
+  GraduationCap, LogIn, Sparkles, ChevronRight,
+  ShieldCheck, Zap, Users2, ArrowRight, X, KeyRound
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { PLANS, rolesForPlan } from '../lib/registry'
 
 const warmApp = () => {
+  const preload = () => {
+    import('../components/DashboardLayout').catch(() => {})
+    import('./app/HomePage').catch(() => {})
+    import('./app/DashboardPage').catch(() => {})
+  }
   if (typeof requestIdleCallback === 'function') {
-    requestIdleCallback(() => {
-      import('../components/DashboardLayout').catch(() => {})
-      import('./app/DashboardPage').catch(() => {})
-    }, { timeout: 1200 })
+    requestIdleCallback(preload, { timeout: 1200 })
   } else {
-    setTimeout(() => {
-      import('../components/DashboardLayout').catch(() => {})
-      import('./app/DashboardPage').catch(() => {})
-    }, 200)
+    setTimeout(preload, 200)
   }
 }
 
@@ -28,8 +27,9 @@ export default function Login() {
 
   useEffect(() => { warmApp() }, [])
 
-  const planHint = user?.plan
-  const selectedPlan = PLANS[planHint] ? planHint : (params.get('plan') || PLANS.basic.id)
+  const selectedPlan = user?.plan && PLANS[user.plan]
+    ? user.plan
+    : (PLANS[params.get('plan')] ? params.get('plan') : PLANS.basic.id)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -39,14 +39,9 @@ export default function Login() {
   const roles = useMemo(() => rolesForPlan(planChoice), [planChoice])
   const activePlan = PLANS[planChoice]
 
-  const instantDemo = () => {
-    loginAsDemo(roles[0].id, planChoice)
-    navigate('/app')
-  }
-
-  const demoAsRole = (roleId) => {
+  const enter = (roleId) => {
     loginAsDemo(roleId, planChoice)
-    navigate('/app')
+    navigate('/app/home')
   }
 
   const handleLogin = (e) => {
@@ -60,124 +55,162 @@ export default function Login() {
       setError('Please enter an email address.')
       return
     }
-    demoAsRole(roles[0].id)
+    enter(roles[0].id)
   }
 
   return (
     <main className="login-page">
       <div className="login-shell">
-        {/* Brand panel */}
+        {/* Brand panel — desktop only */}
         <div className="login-brand">
-          <Link to="/" className="logo" style={{ color: '#fff' }}>
+          <Link to="/" className="logo">
             <span className="logo-icon">
-              <GraduationCap size={20} color="#fff" />
+              <GraduationCap size={18} />
             </span>
             EduSuite Pro
           </Link>
 
-          <h2 className="login-brand-title">
-            The complete <br /> School OS
-          </h2>
+          <h2 className="login-brand-title">The complete School OS</h2>
           <p className="login-brand-desc">
             Attendance, fees, grades, homework and AI — across every plan tier, in one platform.
           </p>
 
           <div className="login-points">
-            <div className="login-point"><span className="p-ico"><ShieldCheck size={16} /></span> Multi-role secure access</div>
-            <div className="login-point"><span className="p-ico"><Zap size={16} /></span> Real-time updates & parent alerts</div>
-            <div className="login-point"><span className="p-ico"><Users2 size={16} /></span> Teacher, student & parent portals</div>
+            <div className="login-point">
+              <span className="p-ico">
+                <ShieldCheck size={15} />
+              </span>
+              Multi-role secure access
+            </div>
+            <div className="login-point">
+              <span className="p-ico">
+                <Zap size={15} />
+              </span>
+              Real-time updates and parent alerts
+            </div>
+            <div className="login-point">
+              <span className="p-ico">
+                <Users2 size={15} />
+              </span>
+              Teacher, student and parent portals
+            </div>
           </div>
         </div>
 
-        {/* Form panel */}
-        <div className="login-form-panel">
-          <h2 className="login-title">Start the {activePlan.name} demo</h2>
-          <p className="login-sub">Fresh session — pick the plan, then a role. No credentials needed.</p>
+        {/* Sign-in card */}
+        <div className="login-card">
+          <div className="login-card-head">
+            <span className="login-app-icon">
+              <GraduationCap size={22} />
+            </span>
+            <h2 className="login-title">Sign in to the {activePlan.name} demo</h2>
+            <p className="login-sub">Pick a role, or use any email below.</p>
+          </div>
 
-          {/* Plan selector */}
-          <div className="login-step-label">Step 1 — Demo plan</div>
-          <div className="chip-row" style={{ marginBottom: 10 }}>
+          {/* Plan picker */}
+          <div className="field-label">Plan</div>
+          <div className="seg-control" role="group" aria-label="Demo plan">
             {Object.values(PLANS).map((p) => (
               <button
                 key={p.id}
                 type="button"
-                className={`chip ${planChoice === p.id ? 'active' : ''}`}
-                style={planChoice === p.id ? { background: p.color, borderColor: p.color } : undefined}
+                className={planChoice === p.id ? 'active' : ''}
+                aria-pressed={planChoice === p.id}
                 onClick={() => setPlanChoice(p.id)}
               >
-                {p.name} • {p.price}
-              </button>
-            ))}
-          </div>
-          <div className="login-plan-summary">
-            <span className="lps-dot" style={{ background: activePlan.color }} />
-            <span className="lps-name">{activePlan.name}</span>
-            <span className="lps-tag">{activePlan.tagline}</span>
-            <span className="lps-roles">{roles.length} roles</span>
-          </div>
-
-          {/* Role selector */}
-          <div className="login-step-label">Step 2 — Role (roles for {activePlan.name})</div>
-          <div className="login-role-grid">
-            {roles.map((r) => (
-              <button key={r.id} type="button" className="login-role-chip" onClick={() => demoAsRole(r.id)}>
-                <span className="chip-emoji">{r.icon}</span>
-                {r.name}
-                <span
-                  className="plan-pill"
-                  style={{ borderColor: `${r.color}55`, color: r.color, fontSize: 10.5 }}
-                >
-                  {r.desc.split(' ')[0]}
-                </span>
+                {p.name}
               </button>
             ))}
           </div>
 
-          <button type="button" className="btn btn-primary login-demo-btn" onClick={instantDemo}>
-            <PlayCircle size={20} /> Instant demo as {roles[0].name}
-            <ChevronRight size={18} />
-          </button>
+          <p className="login-plan-summary">
+            {activePlan.tagline} &middot; {roles.length} roles included
+          </p>
 
-          <div className="login-demo-meta">
-            Logs you in instantly • opens the <strong>{activePlan.name}</strong> app
+          {/* Role list */}
+          <div className="field-label">Sign in as</div>
+          <div className="login-role-list">
+            {roles.map((r) => {
+              const Icon = r.icon
+              return (
+                <button key={r.id} type="button" className="login-role-row" onClick={() => enter(r.id)}>
+                  <span className="app-row-ico">
+                    {Icon ? <Icon size={17} /> : null}
+                  </span>
+                  <div className="app-row-text">
+                    <b>{r.name}</b>
+                    <span>{r.blurb}</span>
+                  </div>
+                  <ChevronRight size={17} className="app-row-chevron" />
+                </button>
+              )
+            })}
           </div>
 
-          <div className="login-divider"><span>or sign in with any email</span></div>
+          <div className="login-divider">
+            <span>or use an email</span>
+          </div>
 
           <form className="login-form" onSubmit={handleLogin}>
-            <label className="login-field">
-              <span>Email address</span>
-              <div className="login-input">
-                <Mail size={16} />
-                <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); setError('') }} placeholder="you@school.edu" />
-              </div>
+            <label className="field-label" htmlFor="login-email">
+              Email
             </label>
-            <label className="login-field">
-              <span>Password</span>
-              <div className="login-input">
-                <Lock size={16} />
-                <input type="password" value={password} onChange={(e) => { setPassword(e.target.value); setError('') }} placeholder="••••••••" />
-                {password !== 'demo123' && (
-                  <button type="button" className="input-suffix-btn" title="Fill the demo password" onClick={() => setPassword('demo123')}>
-                    <KeyRound size={14} />
-                  </button>
-                )}
-              </div>
+            <input
+              id="login-email"
+              className="input"
+              type="email"
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); setError('') }}
+              placeholder="you@school.edu"
+              autoComplete="username"
+            />
+
+            <label className="field-label" htmlFor="login-password">
+              Password
             </label>
-            {error && <div className="login-error"><X size={13} /> {error}</div>}
-            <button type="submit" className="btn btn-secondary login-submit">
-              <LogIn size={17} /> {password !== 'demo123' && password ? 'Sign In (demo accepts demo123)' : 'Sign In as demo'}
+            <div className="login-input">
+              <input
+                id="login-password"
+                className="input"
+                type="password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value); setError('') }}
+                placeholder="demo123"
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="input-suffix-btn"
+                title="Fill the demo password"
+                aria-label="Fill the demo password"
+                onClick={() => setPassword('demo123')}
+              >
+                <KeyRound size={15} />
+              </button>
+            </div>
+
+            {error && (
+              <div className="login-error" role="alert">
+                <X size={13} /> {error}
+              </div>
+            )}
+
+            <button type="submit" className="btn btn-primary btn-block">
+              <LogIn size={16} /> Sign in
             </button>
           </form>
 
           <div className="login-hint">
-            <Sparkles size={13} /> Accepts any email — password <b>demo123</b>. You&apos;ll enter the {activePlan.name} app as {roles[0].name}.
-            <span style={{ display: 'inline-flex' }}><RefreshCw size={12} /></span>
+            <Sparkles size={13} />
+            <span>
+              Any email works. The password is <b>demo123</b>. You will enter the{' '}
+              {activePlan.name} app as {roles[0].name}.
+            </span>
           </div>
 
           <div className="login-back">
             <Link to="/start">
-              <ArrowRight size={15} style={{ transform: 'rotate(180deg)' }} /> Choose another plan
+              <ArrowRight size={14} style={{ transform: 'rotate(180deg)' }} /> Change plan
             </Link>
           </div>
         </div>
