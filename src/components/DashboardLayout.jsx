@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Link, Navigate, Outlet, useLocation } from 'react-router-dom'
 import {
-  GraduationCap, LogOut, Menu, X, ChevronDown, Check, RefreshCw, Lock, Sun, Moon
+  GraduationCap, LogOut, Menu, X, ChevronDown, Check,
+  Lock, Sun, Moon, Layers
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
-import { PLANS, moduleById, modulesFor } from '../lib/registry'
-import { appName } from '../lib/registry'
+import {
+  PLANS, moduleById, modulesFor, groupModules, roleById, appName
+} from '../lib/registry'
 import { useTheme } from '../lib/useTheme'
 
 export default function DashboardLayout() {
@@ -16,36 +18,57 @@ export default function DashboardLayout() {
   const [swPlanOpen, setSwPlanOpen] = useState(false)
   const [mobileNav, setMobileNav] = useState(false)
 
-  if (!user) return <Navigate to={`/login?plan=${PLANS.basic.id}`} replace />
-
-  const plan = PLANS[user.plan] || PLANS.basic
-  const modules = modulesFor(plan.id, user.roleId)
-  const roles = rolesFn(plan.id)
-  const currentModuleId = location.pathname === '/app' ? 'dashboard' : location.pathname.split('/').pop()
-  const current = moduleById(currentModuleId)
+  const plan = user ? PLANS[user.plan] || PLANS.basic : null
+  const modules = user ? modulesFor(plan.id, user.roleId) : []
+  const roles = user ? rolesFn(plan.id) : []
+  const current = moduleById(location.pathname.split('/').pop()) || (location.pathname === '/app' ? moduleById('home') : null)
   const allowedHere = modules.some((m) => m.path === location.pathname)
 
-  const groups = []
-  for (const m of modules) {
-    const g = groups.find((x) => x.name === m.group)
-    if (g) g.items.push(m)
-    else groups.push({ name: m.group, items: [m] })
+  /* Close the mobile drawer and any open dropdown on navigation */
+  const [navPath, setNavPath] = useState(location.pathname)
+  if (navPath !== location.pathname) {
+    setNavPath(location.pathname)
+    setMobileNav(false)
+    setSwRoleOpen(false)
+    setSwPlanOpen(false)
   }
+
+  if (!user) return <Navigate to={`/login?plan=${PLANS.basic.id}`} replace />
+
+  const groups = groupModules(modules)
+  const RoleIcon = (roleById(user.roleId) || {}).icon
 
   return (
     <div className="app-shell">
-      {/* Sidebar */}
+      {/* Drawer scrim (phones only) */}
+      {mobileNav && (
+        <button
+          type="button"
+          className="app-nav-scrim"
+          aria-label="Close navigation"
+          onClick={() => setMobileNav(false)}
+        />
+      )}
+
+      {/* Sidebar / drawer */}
       <aside className={`app-sidebar ${mobileNav ? 'mobile-open' : ''}`}>
         <div className="app-sidebar-user">
-          <span className="role-avatar" style={{ background: user.color }}>{user.icon}</span>
+          <span className="role-avatar">{RoleIcon ? <RoleIcon size={18} /> : null}</span>
           <div style={{ minWidth: 0, flex: 1 }}>
-            <b style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.name}</b>
+            <b>{user.name}</b>
             <span>{user.role}</span>
           </div>
-          <span className={`tier-badge badge ${plan.id}`}>{plan.name}</span>
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm nav-hamburger drawer-close"
+            onClick={() => setMobileNav(false)}
+            aria-label="Close navigation"
+          >
+            <X size={18} />
+          </button>
         </div>
 
-        <nav className="app-nav">
+        <nav className="app-nav" aria-label="Modules">
           {groups.map((g) => (
             <div key={g.name}>
               <div className="app-nav-group-title">{g.name}</div>
@@ -57,9 +80,11 @@ export default function DashboardLayout() {
                     key={m.id}
                     to={m.path}
                     className={`app-nav-item ${active ? 'active' : ''}`}
-                    onClick={() => setMobileNav(false)}
+                    aria-current={active ? 'page' : undefined}
                   >
-                    <span className="nav-ico"><Icon size={16} /></span>
+                    <span className="nav-ico">
+                      <Icon size={17} />
+                    </span>
                     {m.label}
                   </Link>
                 )
@@ -69,7 +94,8 @@ export default function DashboardLayout() {
         </nav>
 
         <div className="app-sidebar-foot">
-          <button className="btn btn-ghost btn-sm" style={{ justifyContent: 'flex-start' }} onClick={logout}>
+          <span className={`tier-badge badge`}>{plan.name} plan</span>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={logout}>
             <LogOut size={15} /> Log out of demo
           </button>
         </div>
@@ -79,41 +105,58 @@ export default function DashboardLayout() {
       <div className="app-main">
         <div className="app-topbar">
           <div className="tb-title">
-            <b>{current ? current.label : 'EduSuite Pro'}</b>
+            <b>{current ? current.label : appName}</b>
             <div>
-              {plan.name} plan • {user.role} view
+              {user.role} view &middot; {plan.name} plan
             </div>
           </div>
 
           <div className="tb-actions">
-            <button className="btn btn-ghost btn-sm nav-hamburger" onClick={() => setMobileNav((v) => !v)}>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm nav-hamburger"
+              onClick={() => setMobileNav((v) => !v)}
+              aria-label={mobileNav ? 'Close navigation' : 'Open navigation'}
+              aria-expanded={mobileNav}
+            >
               {mobileNav ? <X size={18} /> : <Menu size={18} />}
             </button>
 
-            <button className="btn btn-ghost btn-sm theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}>
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm theme-toggle"
+              onClick={toggleTheme}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+            >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
             {/* Plan switcher */}
-            <div className="role-switcher" style={{ position: 'relative' }}>
+            <div className="role-switcher">
               <button
+                type="button"
                 className="role-switcher-btn"
                 onClick={() => { setSwPlanOpen((v) => !v); setSwRoleOpen(false) }}
+                aria-expanded={swPlanOpen}
               >
-                <RefreshCw size={14} /> Show {plan.name} plan
+                <Layers size={14} /> {plan.name}
                 <ChevronDown size={14} />
               </button>
               {swPlanOpen && (
-                <div className="role-switcher-menu">
+                <div className="role-switcher-menu" role="menu">
                   <div className="rs-label">Switch plan tier</div>
                   {Object.values(PLANS).map((p) => (
                     <button
                       key={p.id}
+                      type="button"
+                      role="menuitem"
                       className={p.id === plan.id ? 'active' : ''}
-                      onClick={() => { switchPlan(p.id); setSwPlanOpen(false); setSwRoleOpen(false) }}
+                      onClick={() => { switchPlan(p.id); setSwPlanOpen(false) }}
                     >
-                      <span className="tier-badge badge" style={{ background: p.soft, borderColor: p.color, color: p.color }}>
-                        {p.name}
+                      {p.name}
+                      <span style={{ marginLeft: 'auto', fontSize: 'var(--t-2xs)', color: 'var(--ink-muted)' }}>
+                        {p.price}
                       </span>
                       {p.id === plan.id && <Check size={14} />}
                     </button>
@@ -126,24 +169,32 @@ export default function DashboardLayout() {
             {roles.length > 1 && (
               <div className="role-switcher">
                 <button
+                  type="button"
                   className="role-switcher-btn"
                   onClick={() => { setSwRoleOpen((v) => !v); setSwPlanOpen(false) }}
+                  aria-expanded={swRoleOpen}
                 >
-                  {user.icon} {user.role} <ChevronDown size={14} />
+                  {RoleIcon ? <RoleIcon size={14} /> : null} {user.role}
+                  <ChevronDown size={14} />
                 </button>
                 {swRoleOpen && (
-                  <div className="role-switcher-menu">
+                  <div className="role-switcher-menu" role="menu">
                     <div className="rs-label">Switch role (no logout)</div>
-                    {roles.map((r) => (
-                      <button
-                        key={r.id}
-                        className={r.id === user.roleId ? 'active' : ''}
-                        onClick={() => { switchRole(r.id); setSwRoleOpen(false) }}
-                      >
-                        <span>{r.icon}</span> {r.name}
-                        {r.id === user.roleId && <Check size={14} style={{ marginLeft: 'auto' }} />}
-                      </button>
-                    ))}
+                    {roles.map((r) => {
+                      const Icon = r.icon
+                      return (
+                        <button
+                          key={r.id}
+                          type="button"
+                          role="menuitem"
+                          className={r.id === user.roleId ? 'active' : ''}
+                          onClick={() => { switchRole(r.id); setSwRoleOpen(false) }}
+                        >
+                          {Icon ? <Icon size={14} /> : null} {r.name}
+                          {r.id === user.roleId && <Check size={14} style={{ marginLeft: 'auto' }} />}
+                        </button>
+                      )
+                    })}
                   </div>
                 )}
               </div>
@@ -160,14 +211,19 @@ export default function DashboardLayout() {
         </div>
       </div>
 
-      {/* Mobile bottom navigation */}
-      <nav className="app-bottomnav" aria-label="Primary navigation">
+      {/* Mobile bottom tab bar */}
+      <nav className="app-bottomnav" aria-label="Primary">
         {modules.slice(0, 5).map((m) => {
           const Icon = m.icon
           const active = m.path === location.pathname
           return (
-            <Link key={m.id} to={m.path} className={`bn-item ${active ? 'active' : ''}`} onClick={() => setMobileNav(false)}>
-              <Icon size={20} />
+            <Link
+              key={m.id}
+              to={m.path}
+              className={`tab-item ${active ? 'active' : ''}`}
+              aria-current={active ? 'page' : undefined}
+            >
+              <Icon size={21} />
               <span>{m.short || m.label.split(' ')[0]}</span>
             </Link>
           )
@@ -179,13 +235,14 @@ export default function DashboardLayout() {
 
 function AccessLocked({ plan, currentLabel }) {
   return (
-    <div className="panel" style={{ textAlign: 'center', padding: '60px 24px' }}>
-      <h2 style={{ fontSize: 22, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'center' }}>
-        <Lock size={20} style={{ color: 'var(--primary)' }} /> This module needs the {plan.name} plan
-      </h2>
+    <div className="panel" style={{ textAlign: 'center', padding: '56px 24px' }}>
+      <span className="eb-icon" style={{ margin: '0 auto 16px' }}>
+        <Lock size={20} />
+      </span>
+      <h2 style={{ fontSize: 22, marginBottom: 10 }}>This module needs the {plan.name} plan</h2>
       <p style={{ color: 'var(--ink-muted)', fontSize: 14.5, maxWidth: 460, margin: '0 auto 22px' }}>
-        The <strong>{currentLabel || 'requested'}</strong> feature is available on a higher tier.
-        Use the <em>Show plan</em> switcher above or pick another role that includes it.
+        <strong>{currentLabel || 'The requested'}</strong> feature is available on a higher tier.
+        Use the plan switcher above, or pick another role that includes it.
       </p>
       <Link to="/start" className="btn btn-primary">
         Compare plans
