@@ -3,6 +3,7 @@ import { ListTodo, Plus, CheckCircle2, Clock, Search } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { Panel, PageHeader, Progress, useToast } from '../../components/ui'
 import { homework as seed } from '../../lib/mock'
+import { SceneEmpty } from '../../components/Scenes'
 
 export default function HomeworkPage() {
   const { user } = useAuth()
@@ -76,7 +77,14 @@ export default function HomeworkPage() {
       ))}
 
       {visible.length === 0 && (
-        <Panel title="No results" icon={ListTodo}><p style={{ color: 'var(--ink-muted)' }}>No homework matches your filter.</p></Panel>
+        <div className="empty-state">
+          <SceneEmpty className="scene" />
+          <h3>No homework matches</h3>
+          <p>
+            Nothing here for the current class and status filter. Try widening it, or
+            assign something new.
+          </p>
+        </div>
       )}
 
       {reviewing && (

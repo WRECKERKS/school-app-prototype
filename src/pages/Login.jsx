@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { PLANS, rolesForPlan } from '../lib/registry'
+import { SceneDesk } from '../components/Scenes'
 
 const warmApp = () => {
   const preload = () => {
@@ -95,6 +96,8 @@ export default function Login() {
               Teacher, student and parent portals
             </div>
           </div>
+
+          <SceneDesk className="scene login-scene" />
         </div>
 
         {/* Sign-in card */}

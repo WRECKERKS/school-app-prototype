@@ -1,4 +1,6 @@
 import { Component } from 'react'
+import { RotateCw } from 'lucide-react'
+import { SceneCrash } from './Scenes'
 
 export default class ErrorBoundary extends Component {
   state = { error: null }
@@ -16,9 +18,16 @@ export default class ErrorBoundary extends Component {
     return (
       <div className="error-boundary">
         <div className="eb-card">
-          <span className="eb-icon">⚠️</span>
-          <h2>Something went wrong</h2>
-          <p>An error interrupted this view. Reloading usually fixes it — if it keeps happening, try clearing this site's data.</p>
+          <SceneCrash className="scene" />
+          <h2>Something came unstuck</h2>
+          <p>
+            A view failed to render. Reloading usually clears it — if it keeps
+            happening, the browser may be holding stale cached files.
+          </p>
+          <details className="eb-detail">
+            <summary>Technical detail</summary>
+            <code>{String(this.state.error?.message || this.state.error)}</code>
+          </details>
           <button
             type="button"
             className="btn btn-primary"
@@ -26,7 +35,7 @@ export default class ErrorBoundary extends Component {
               window.location.reload()
             }}
           >
-            Reload app
+            <RotateCw size={16} /> Reload app
           </button>
         </div>
       </div>

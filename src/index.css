@@ -6794,6 +6794,153 @@ button.fcard:active,
   }
 }
 
+/* ---------- 32. 2D scenes -------------------------------------------------
+
+   Illustration frames. The scene fills its box and never overflows, so it can
+   be dropped into a card without measuring anything. */
+
+.scene {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  margin: 0 auto var(--s-4);
+  filter: drop-shadow(0 6px 14px rgba(15, 23, 42, 0.12));
+}
+
+[data-theme='dark'] .scene {
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.5));
+}
+
+.login-scene {
+  max-width: 240px;
+  margin: var(--s-6) auto 0;
+}
+
+/* --- 404 ---------------------------------------------------------------- */
+.notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--s-8) var(--s-5);
+  background: var(--paper);
+  text-align: center;
+}
+
+.notfound-code {
+  margin-top: var(--s-2);
+  font-size: var(--t-sm);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.notfound h1 {
+  margin-top: 6px;
+  font-size: var(--t-3xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.notfound-body {
+  max-width: 44ch;
+  margin-top: var(--s-2);
+  color: var(--ink-muted);
+}
+
+.notfound-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+}
+
+/* --- Crash boundary ----------------------------------------------------- */
+.eb-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 420px;
+  padding: var(--s-6);
+  border-radius: var(--r-lg);
+  background: var(--paper-raised);
+  text-align: center;
+}
+
+.eb-card h2 {
+  font-size: var(--t-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.eb-card p {
+  margin-top: 6px;
+  font-size: var(--t-sm);
+  color: var(--ink-muted);
+}
+
+.eb-detail {
+  width: 100%;
+  margin: var(--s-4) 0;
+  padding: var(--s-3);
+  border-radius: var(--r-sm);
+  background: var(--paper-sunk);
+  text-align: left;
+}
+
+.eb-detail summary {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.eb-detail code {
+  display: block;
+  margin-top: var(--s-2);
+  font-family: var(--font-mono);
+  font-size: var(--t-2xs);
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+
+.eb-card .btn {
+  margin-top: var(--s-2);
+}
+
+/* --- Empty list --------------------------------------------------------- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--s-8) var(--s-5);
+  border-radius: var(--r-md);
+  background: var(--paper-raised);
+  text-align: center;
+}
+
+.empty-state .scene {
+  max-width: 220px;
+  margin-bottom: var(--s-3);
+}
+
+.empty-state h3 {
+  font-size: var(--t-md);
+  font-weight: 700;
+}
+
+.empty-state p {
+  max-width: 40ch;
+  margin-top: 4px;
+  font-size: var(--t-sm);
+  color: var(--ink-muted);
+}
+
 @media print {
   .app-sidebar,
   .app-topbar,
