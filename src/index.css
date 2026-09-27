@@ -6578,6 +6578,222 @@ button.fcard:active,
   }
 }
 
+/* ---------- 31. Home: profile, notices, account tiles -------------------- */
+
+.app-profile-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4);
+  margin-bottom: var(--s-4);
+  padding: var(--s-5);
+  border-radius: var(--r-lg);
+  background: linear-gradient(135deg, var(--accent-soft), var(--hue-violet-soft) 70%, var(--hue-teal-soft));
+  box-shadow: var(--clay-2);
+}
+
+.app-profile-top {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+.app-profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: var(--r-md);
+  background: var(--paper-raised);
+  color: var(--accent);
+  box-shadow: var(--clay-1);
+}
+
+.app-profile-id {
+  min-width: 0;
+}
+
+.app-profile-id h1 {
+  font-size: var(--t-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.app-profile-id p {
+  font-size: var(--t-sm);
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.app-profile-date {
+  font-size: var(--t-xs);
+  color: var(--ink-muted);
+}
+
+.app-profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.app-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 var(--s-3);
+  border: 0;
+  border-radius: var(--r-pill);
+  background: var(--paper-raised);
+  color: var(--ink-soft);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--clay-1);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+.app-pill-btn:hover {
+  color: var(--accent);
+  box-shadow: var(--clay-2);
+}
+
+.app-pill-btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--clay-press);
+}
+
+.app-pill-btn.danger:hover {
+  color: var(--hue-rose);
+}
+
+.app-pill-dot {
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--r-pill);
+  background: var(--hue-rose);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Notice strip: one unmissable row above the fold */
+.app-notice-strip {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--paper-raised);
+  color: inherit;
+  box-shadow: var(--clay-1);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+}
+
+.app-notice-strip:hover {
+  box-shadow: var(--clay-2);
+}
+
+.app-notice-strip:active {
+  transform: translateY(1px);
+}
+
+.app-notice-ico {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: var(--r-sm);
+  background: var(--hue-amber-soft);
+  color: var(--hue-amber);
+  box-shadow: var(--clay-inset);
+}
+
+.app-notice-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-notice-text b {
+  display: block;
+  font-size: var(--t-base);
+  font-weight: 600;
+}
+
+.app-notice-text span {
+  font-size: var(--t-xs);
+  color: var(--ink-muted);
+}
+
+/* Account tiles: a wider grid than module tiles, with a sub-label */
+.app-tile-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--s-3);
+  margin-bottom: var(--s-5);
+}
+
+.app-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--s-4);
+  border-radius: var(--r-md);
+  background: var(--paper-raised);
+  color: inherit;
+}
+
+.app-tile-ico {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--s-2);
+  border-radius: var(--r-sm);
+}
+
+.app-tile b {
+  font-size: var(--t-base);
+  font-weight: 600;
+}
+
+.app-tile-sub {
+  font-size: var(--t-xs);
+  color: var(--ink-muted);
+}
+
+@media (max-width: 560px) {
+  .app-profile-card {
+    padding: var(--s-4);
+  }
+
+  .app-profile-actions {
+    width: 100%;
+  }
+
+  .app-pill-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .app-tile-row {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-2);
+  }
+
+  .app-tile {
+    padding: var(--s-3);
+  }
+}
+
 @media print {
   .app-sidebar,
   .app-topbar,

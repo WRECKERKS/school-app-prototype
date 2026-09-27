@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
 import {
-  ArrowRight, CalendarCheck, Megaphone, Clock, TrendingUp, Sparkles, Inbox, ChevronRight
+  ArrowRight, CalendarCheck, Megaphone, Clock, TrendingUp, Sparkles, Inbox, ChevronRight,
+  BellRing, LogOut, Moon, Sun, Wallet, BookOpen, CalendarDays,
+  HelpCircle, ShieldCheck, FileBarChart2, Users
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { Panel } from '../../components/ui'
+import { useTheme } from '../../lib/useTheme'
 import { workModulesFor, PLANS, roleById } from '../../lib/registry'
 import { schedule, announcements, upcomingEvents, activityLog } from '../../lib/mock'
 
@@ -113,7 +116,8 @@ function longDate() {
 /* ---- Page --------------------------------------------------------------- */
 
 export default function HomePage() {
-  const { user } = useAuth()
+  const { user, logout } = useAuth()
+  const { theme, toggle: toggleTheme } = useTheme()
   const copy = HOME_COPY[user.roleId] || fallbackCopy
   const plan = PLANS[user.plan] || PLANS.basic
   const modules = workModulesFor(plan.id, user.roleId)
@@ -121,26 +125,50 @@ export default function HomePage() {
   const RoleIcon = (roleById(user.roleId) || {}).icon
 
   const liveNow = schedule.find((s) => s.live)
+  const unread = announcements.filter((a) => a.priority === 'High').length
 
   return (
     <>
-      {/* Greeting header — the app-bar equivalent on a phone */}
-      <header className="app-greet">
-        <span className="app-greet-avatar">
-          {RoleIcon ? <RoleIcon size={20} /> : null}
-        </span>
-        <div className="app-greet-text">
-          <h1>
-            {greeting()}, {firstName}
-          </h1>
-          <p>
-            {longDate()} &middot; {plan.name} plan
-          </p>
+      {/* Profile card — who you are, what plan you are on, and the three
+          account actions that otherwise only existed inside the sidebar. */}
+      <section className="app-profile-card">
+        <div className="app-profile-top">
+          <span className="app-profile-avatar">
+            {RoleIcon ? <RoleIcon size={24} /> : null}
+          </span>
+          <div className="app-profile-id">
+            <h1>
+              {greeting()}, {firstName}
+            </h1>
+            <p>
+              {user.role} &middot; {plan.name} plan
+            </p>
+            <span className="app-profile-date">{longDate()}</span>
+          </div>
         </div>
-        <Link to="/app/overview" className="btn btn-ghost btn-sm" aria-label="Open dashboard">
-          <TrendingUp size={16} />
-        </Link>
-      </header>
+
+        <div className="app-profile-actions">
+          <button
+            type="button"
+            className="app-pill-btn"
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          >
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+            {theme === 'dark' ? 'Light' : 'Dark'}
+          </button>
+          <Link to="/app/notifications" className="app-pill-btn">
+            <BellRing size={15} /> Alerts
+            {unread > 0 && <span className="app-pill-dot">{unread}</span>}
+          </Link>
+          <Link to="/app/overview" className="app-pill-btn">
+            <TrendingUp size={15} /> Overview
+          </Link>
+          <button type="button" className="app-pill-btn danger" onClick={logout}>
+            <LogOut size={15} /> Log out
+          </button>
+        </div>
+      </section>
 
       {/* Headline numbers */}
       {copy.stats.length > 0 && (
@@ -152,6 +180,23 @@ export default function HomePage() {
             </div>
           ))}
         </div>
+      )}
+
+      {/* Notice strip — the thing a school app most needs to be unmissable */}
+      {announcements[0] && (
+        <Link to="/app/announcements" className="app-notice-strip">
+          <span className="app-notice-ico">
+            <Megaphone size={17} />
+          </span>
+          <div className="app-notice-text">
+            <b>{announcements[0].title}</b>
+            <span>
+              {announcements[0].date} &middot; {announcements[0].id}
+            </span>
+          </div>
+          <span className="status-badge status-overdue">{announcements[0].priority}</span>
+          <ChevronRight size={16} className="app-row-chevron" />
+        </Link>
       )}
 
       {/* Today */}
@@ -201,7 +246,8 @@ export default function HomePage() {
         })}
       </div>
 
-      {/* Module launcher grid */}
+      {/* Module launcher — every module on the plan, so the sidebar is a
+          shortcut rather than the only way in. */}
       <div className="app-section-head">
         <h2>All modules</h2>
         <span className="stat-label">{modules.length} on {plan.name}</span>
@@ -218,6 +264,83 @@ export default function HomePage() {
             </Link>
           )
         })}
+      </div>
+
+      {/* Account + settings tiles */}
+      <div className="app-section-head">
+        <h2>Account</h2>
+      </div>
+      <div className="app-tile-row">
+        <Link to="/app/notifications" className="app-tile">
+          <span className="app-tile-ico">
+            <BellRing size={18} />
+          </span>
+          <b>Alerts</b>
+          <span className="app-tile-sub">SMS, WhatsApp, email</span>
+        </Link>
+        <Link to="/app/announcements" className="app-tile">
+          <span className="app-tile-ico">
+            <Megaphone size={18} />
+          </span>
+          <b>Notices</b>
+          <span className="app-tile-sub">{announcements.length} posted</span>
+        </Link>
+        <Link to="/app/fees" className="app-tile">
+          <span className="app-tile-ico">
+            <Wallet size={18} />
+          </span>
+          <b>Fees</b>
+          <span className="app-tile-sub">Invoices &amp; receipts</span>
+        </Link>
+        <Link to="/app/notes" className="app-tile">
+          <span className="app-tile-ico">
+            <BookOpen size={18} />
+          </span>
+          <b>Notes</b>
+          <span className="app-tile-sub">Library by batch</span>
+        </Link>
+        <Link to="/app/timetable" className="app-tile">
+          <span className="app-tile-ico">
+            <CalendarDays size={18} />
+          </span>
+          <b>Timetable</b>
+          <span className="app-tile-sub">This week</span>
+        </Link>
+        <Link to="/app/doubts" className="app-tile">
+          <span className="app-tile-ico">
+            <HelpCircle size={18} />
+          </span>
+          <b>Doubts</b>
+          <span className="app-tile-sub">Ask &amp; answer</span>
+        </Link>
+        <Link to="/app/overview" className="app-tile">
+          <span className="app-tile-ico">
+            <ShieldCheck size={18} />
+          </span>
+          <b>Overview</b>
+          <span className="app-tile-sub">Role dashboard</span>
+        </Link>
+        <Link to="/app/analytics" className="app-tile">
+          <span className="app-tile-ico">
+            <FileBarChart2 size={18} />
+          </span>
+          <b>Analytics</b>
+          <span className="app-tile-sub">Deep reporting</span>
+        </Link>
+        <Link to="/app/students" className="app-tile">
+          <span className="app-tile-ico">
+            <Users size={18} />
+          </span>
+          <b>People</b>
+          <span className="app-tile-sub">Students &amp; staff</span>
+        </Link>
+        <Link to="/app/schedule" className="app-tile">
+          <span className="app-tile-ico">
+            <CalendarCheck size={18} />
+          </span>
+          <b>Schedule</b>
+          <span className="app-tile-sub">Events &amp; meetings</span>
+        </Link>
       </div>
 
       {/* Lists */}
