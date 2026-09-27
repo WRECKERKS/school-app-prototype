@@ -1,14 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Navigate, Outlet, useLocation } from 'react-router-dom'
 import {
   GraduationCap, LogOut, Menu, X, ChevronDown, Check,
-  Lock, Sun, Moon, Layers
+  Lock, Sun, Moon, Layers, PanelLeftClose, PanelLeft
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import {
   PLANS, moduleById, modulesFor, groupModules, roleById, appName
 } from '../lib/registry'
 import { useTheme } from '../lib/useTheme'
+
+const NAV_KEY = 'edusuite.nav'
+
+/** Sidebar starts hidden, so the first screen after signing in is the home
+ *  screen full-width rather than a dashboard split in two. */
+function initialNavState() {
+  try {
+    return localStorage.getItem(NAV_KEY) === 'open'
+  } catch {
+    return false
+  }
+}
 
 export default function DashboardLayout() {
   const { user, switchRole, switchPlan, logout, rolesForPlan: rolesFn } = useAuth()
@@ -17,6 +29,15 @@ export default function DashboardLayout() {
   const [swRoleOpen, setSwRoleOpen] = useState(false)
   const [swPlanOpen, setSwPlanOpen] = useState(false)
   const [mobileNav, setMobileNav] = useState(false)
+  const [navOpen, setNavOpen] = useState(initialNavState)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(NAV_KEY, navOpen ? 'open' : 'closed')
+    } catch {
+      /* private mode — the choice just does not persist */
+    }
+  }, [navOpen])
 
   const plan = user ? PLANS[user.plan] || PLANS.basic : null
   const modules = user ? modulesFor(plan.id, user.roleId) : []
@@ -39,7 +60,7 @@ export default function DashboardLayout() {
   const RoleIcon = (roleById(user.roleId) || {}).icon
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${navOpen ? 'nav-open' : ''}`}>
       {/* Drawer scrim (phones only) */}
       {mobileNav && (
         <button
@@ -65,6 +86,15 @@ export default function DashboardLayout() {
             aria-label="Close navigation"
           >
             <X size={18} />
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost btn-sm sidebar-collapse"
+            onClick={() => setNavOpen(false)}
+            aria-label="Hide navigation"
+            title="Hide navigation"
+          >
+            <PanelLeftClose size={16} />
           </button>
         </div>
 
@@ -120,6 +150,19 @@ export default function DashboardLayout() {
               aria-expanded={mobileNav}
             >
               {mobileNav ? <X size={18} /> : <Menu size={18} />}
+            </button>
+
+            {/* Desktop: show or hide the sidebar. Hidden by default, so the app
+                opens on the home screen rather than a two-column dashboard. */}
+            <button
+              type="button"
+              className="btn btn-ghost btn-sm sidebar-toggle"
+              onClick={() => setNavOpen((v) => !v)}
+              aria-label={navOpen ? 'Hide navigation' : 'Show navigation'}
+              aria-expanded={navOpen}
+              title={navOpen ? 'Hide navigation' : 'Show navigation'}
+            >
+              {navOpen ? <PanelLeftClose size={16} /> : <PanelLeft size={16} />}
             </button>
 
             <button

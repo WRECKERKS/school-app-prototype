@@ -6531,6 +6531,53 @@ button.fcard:active,
 .app-quick:nth-child(6n + 5) { --tile: var(--hue-rose); --tile-soft: var(--hue-rose-soft); }
 .app-quick:nth-child(6n + 6) { --tile: var(--hue-cyan); --tile-soft: var(--hue-cyan-soft); }
 
+/* ---------- 30. Collapsible sidebar ---------------------------------------
+
+   The app opens on the home screen with no sidebar. That was the actual reason
+   home read as "the dashboard": the fixed 256px rail was splitting the first
+   screen in two before any content had a chance.
+
+   Desktop only — below 901px the sidebar is already an off-canvas drawer driven
+   by .mobile-open, and these rules come later in the file than that media
+   query, so an unscoped version here would give phones a phantom second column. */
+
+.sidebar-collapse,
+.sidebar-toggle {
+  flex-shrink: 0;
+}
+
+.sidebar-toggle,
+.sidebar-collapse {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .app-shell {
+    grid-template-columns: 0 1fr;
+  }
+
+  .app-shell.nav-open {
+    grid-template-columns: var(--sidebar-w) 1fr;
+  }
+
+  .app-shell:not(.nav-open) .app-sidebar {
+    border-right: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .sidebar-toggle,
+  .sidebar-collapse {
+    display: inline-flex;
+  }
+
+  /* The X in the sidebar is a phone affordance only */
+  .drawer-close {
+    display: none;
+  }
+}
+
 @media print {
   .app-sidebar,
   .app-topbar,
