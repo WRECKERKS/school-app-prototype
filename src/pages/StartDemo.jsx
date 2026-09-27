@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Star, ArrowRight, GraduationCap, ListChecks, Zap } from 'lucide-react'
+import { ArrowRight, GraduationCap, Check } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { PLANS, rolesForPlan } from '../lib/registry'
-import { img, StockImg } from '../components/ui'
 
 const FEATURES = {
   basic: ['Overview dashboard', 'Attendance register', 'Class timetable', 'Staff directory', 'Announcements'],
@@ -21,74 +20,75 @@ export default function StartDemo() {
 
   const jumpIn = (roleId, planId) => {
     loginAsDemo(roleId, planId)
-    navigate('/app')
+    navigate('/app/home')
   }
 
   return (
     <main className="start-page">
       <div className="start-head">
-        <span className="section-kicker">Live demo</span>
-        <h1 style={{ fontSize: 'clamp(28px, 4vw, 42px)', marginBottom: 12 }}>
-          Start a guided demo for your clients
-        </h1>
-        <p style={{ fontSize: 15.5, color: 'var(--ink-soft)' }}>
-          Pick a plan tier — everything opens fresh: the matching login screen, then that plan&apos;s dashboard.
-        </p>
-      </div>
-
-      <div className="demo-steps">
-        <span className="step-pill"><b>1.</b> Choose a plan</span>
-        <span className="step-pill"><b>2.</b> Pick a role</span>
-        <span className="step-pill"><b>3.</b> Explore the modules</span>
+        <span className="start-app-icon">
+          <GraduationCap size={22} />
+        </span>
+        <h1>Pick a plan to explore</h1>
+        <p>Everything opens fresh on the plan you choose.</p>
       </div>
 
       <div className="start-grid">
         {Object.values(PLANS).map((plan) => (
           <div key={plan.id} className={`start-card ${plan.id === 'standard' ? 'featured' : ''}`}>
-            <StockImg src={img(plan.id)} alt={`${plan.name} plan`} className="start-card-image" />
             <div className="start-card-body">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-                <h3>{plan.name} Plan</h3>
-                {plan.id === 'standard' && (
-                  <span className="badge tier-badge standard">Most popular</span>
-                )}
+              <div className="start-card-title">
+                <h3>{plan.name}</h3>
+                {plan.id === 'standard' && <span className="tier-badge badge">Popular</span>}
               </div>
               <div className="price">
-                {plan.price}/year{plan.perYear ? ' • rolling' : ''}
+                {plan.price}
+                <span>/year</span>
               </div>
-              <p>{plan.tagline}</p>
+              <p className="start-card-tag">{plan.tagline}</p>
+
               <ul className="plan-feats">
                 {FEATURES[plan.id].map((f) => (
-                  <li key={f}><span className="f-ico" style={{ background: plan.soft, color: plan.color }}><ListChecks size={13} /></span>{f}</li>
+                  <li key={f}>
+                    <span className="f-ico">
+                      <Check size={13} />
+                    </span>
+                    {f}
+                  </li>
                 ))}
               </ul>
-              <button className="btn btn-primary" style={{ width: '100%' }} onClick={() => pick(plan.id)}>
-                <Star size={16} /> Start {plan.name} demo
-                <ArrowRight size={16} />
+
+              <button
+                type="button"
+                className="btn btn-primary btn-block"
+                onClick={() => pick(plan.id)}
+              >
+                Start {plan.name} demo <ArrowRight size={15} />
               </button>
-              <div className="qd-row">
-                <Zap size={13} />
-                <span>Jump straight in as</span>
-              </div>
+
+              <div className="qd-label">or jump straight in</div>
               <div className="qd-chips">
-                {rolesForPlan(plan.id).map((r) => (
-                  <button
-                    key={r.id}
-                    className="qd-chip"
-                    style={{ color: r.color }}
-                    onClick={() => jumpIn(r.id, plan.id)}
-                    title={`Open the app as ${r.name}`}
-                  >
-                    {r.icon} {r.name}
-                  </button>
-                ))}
+                {rolesForPlan(plan.id).map((r) => {
+                  const Icon = r.icon
+                  return (
+                    <button
+                      key={r.id}
+                      type="button"
+                      className="qd-chip"
+                      onClick={() => jumpIn(r.id, plan.id)}
+                      title={`Open the app as ${r.name}`}
+                    >
+                      {Icon ? <Icon size={13} /> : null} {r.name}
+                    </button>
+                  )
+                })}
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div style={{ textAlign: 'center', marginTop: 40 }}>
+      <div className="start-foot">
         <Link to="/" className="btn btn-ghost">
           <GraduationCap size={16} /> Back to homepage
         </Link>
