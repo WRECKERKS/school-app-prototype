@@ -73,22 +73,25 @@
   --topbar-h: 56px;
   --tabbar-h: 62px;
 
-  /* ---- Surfaces: grey app canvas, white cards ---- */
-  --paper: #f2f4f7;
+  /* ---- Surfaces: tinted canvas, white cards ----
+     The canvas used to be #f2f4f7, a near-neutral grey that made the app read as
+     flat white. It now carries a faint blue cast, which gives white cards
+     something to sit against and quietly ties the whole UI to the primary. */
+  --paper: #e9edf5;
   --paper-raised: #ffffff;
-  --paper-sunk: #e9edf2;
-  --paper-inset: #dfe4ea;
+  --paper-sunk: #e0e6f0;
+  --paper-inset: #d5dce9;
 
   /* ---- Ink ---- */
-  --ink: #101828;
-  --ink-soft: #344054;
-  --ink-muted: #667085;
-  --ink-faint: #98a2b3;
+  --ink: #0f172a;
+  --ink-soft: #33405a;
+  --ink-muted: #5f6d85;
+  --ink-faint: #94a1b8;
 
   /* ---- Rules (borders) ---- */
-  --rule: #e4e7ec;
-  --rule-soft: #eef1f5;
-  --rule-strong: #d0d5dd;
+  --rule: #dde3ee;
+  --rule-soft: #e8ecf4;
+  --rule-strong: #c3ccdc;
 
   /* ---- Primary: one friendly blue, used for actions and active state ---- */
   --accent: #3b5bdb;
@@ -96,90 +99,148 @@
   --accent-soft: #e8ecfd;
   --accent-rule: #b2c0f5;
 
-  /* ---- Semantic ---- */
-  --good: #12805c;
-  --good-soft: #d7f2e6;
-  --warn: #b54708;
-  --warn-soft: #fdefd6;
+  /* ---- Hue family ------------------------------------------------------
+     Five companions to the primary, all at the same chroma and lightness in
+     light mode so they read as one set rather than five unrelated colours.
+
+     They are deliberately *not* used for status. good/warn/info keep their own
+     tokens below because those mean something. These carry identity: module
+     tiles, illustrations, and anything that wants to be recognisable. */
+  --hue-teal: #0d9488;
+  --hue-teal-hover: #0b7a70;
+  --hue-teal-soft: #d6f1ee;
+  --hue-teal-rule: #8ad5cb;
+
+  --hue-violet: #7c3aed;
+  --hue-violet-hover: #6a2fd4;
+  --hue-violet-soft: #ece3fd;
+  --hue-violet-rule: #c1abf7;
+
+  --hue-amber: #b45309;
+  --hue-amber-hover: #96430a;
+  --hue-amber-soft: #fcecd5;
+  --hue-amber-rule: #eec089;
+
+  --hue-rose: #be123c;
+  --hue-rose-hover: #a30f34;
+  --hue-rose-soft: #fce0e8;
+  --hue-rose-rule: #f4a2b7;
+
+  --hue-cyan: #0e7490;
+  --hue-cyan-hover: #0b5f75;
+  --hue-cyan-soft: #d5eef7;
+  --hue-cyan-rule: #8bcbe1;
+
+  /* ---- Semantic: these mean something, so they are not part of the family ---- */
+  --good: #0f7a58;
+  --good-soft: #d5f1e4;
+  --warn: #b45309;
+  --warn-soft: #fcecd5;
   --info: #175cd3;
   --info-soft: #e1ecfd;
 
-  /* ---- Elevation: real card shadows, the way app UIs do it ---- */
-  --shadow-1: 0 1px 2px rgba(16, 24, 40, 0.05);
-  --shadow-2: 0 2px 8px -2px rgba(16, 24, 40, 0.1), 0 1px 3px rgba(16, 24, 40, 0.06);
-  --shadow-3: 0 12px 28px -8px rgba(16, 24, 40, 0.18), 0 4px 10px -4px rgba(16, 24, 40, 0.08);
+  /* ---- Elevation ----
+     Two ladders. --shadow-* is the old flat scale, still referenced by a few
+     older rules. --clay-* is the depth model everything new should use: a lit
+     top edge, a solid rim underneath, and a soft cast shadow. Three layers is
+     what makes it read as a solid object instead of a rectangle. */
+  --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-2: 0 2px 8px -2px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.07);
+  --shadow-3: 0 12px 28px -8px rgba(15, 23, 42, 0.2), 0 4px 10px -4px rgba(15, 23, 42, 0.09);
   --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+
+  /* Clay — medium depth, as requested: clearly chunky, still clean */
+  --clay-rim: #c9d2e2;
+  --clay-hi: rgba(255, 255, 255, 0.95);
+  --clay-1: inset 0 1px 0 var(--clay-hi), 0 1px 0 var(--clay-rim), 0 3px 8px -2px rgba(15, 23, 42, 0.14);
+  --clay-2: inset 0 1px 0 var(--clay-hi), 0 2px 0 var(--clay-rim), 0 9px 20px -6px rgba(15, 23, 42, 0.18);
+  --clay-3: inset 0 1px 0 var(--clay-hi), 0 3px 0 var(--clay-rim), 0 18px 36px -10px rgba(15, 23, 42, 0.24);
+  --clay-inset: inset 0 2px 5px -1px rgba(15, 23, 42, 0.1), inset 0 -1px 0 var(--clay-hi);
+  --clay-press: inset 0 2px 4px rgba(15, 23, 42, 0.12);
 
   color-scheme: light;
 }
 
+/* Dark is the same system, not a separate idea. Every token that exists in
+   :root exists here, at the same name, tuned for a dark canvas — so a component
+   never has to know which theme it is in.
+
+   Hues are lifted in lightness rather than re-picked: the light-mode base of
+   #3b5bdb is unreadable on near-black, but #7f95f5 is the same blue read from
+   the other side. Soft fills stay low-chroma so they tint without glowing. */
 [data-theme='dark'] {
-  --paper: #0e1116;
-  --paper-raised: #171b22;
-  --paper-sunk: #10141a;
-  --paper-inset: #21262e;
+  /* Surfaces — a touch cooler and bluer than the light canvas, so the hue family
+     still reads at night instead of going neutral grey. */
+  --paper: #10141c;
+  --paper-raised: #191f2a;
+  --paper-sunk: #0b0e14;
+  --paper-inset: #222a37;
 
-  --ink: #f5f7fa;
-  --ink-soft: #d0d5dd;
-  --ink-muted: #98a2b3;
-  --ink-faint: #667085;
+  /* Ink */
+  --ink: #eef2f8;
+  --ink-soft: #c3cbd9;
+  --ink-muted: #8e99ab;
+  --ink-faint: #6b7688;
 
-  --rule: #262c35;
-  --rule-soft: #1e232a;
-  --rule-strong: #3a414c;
+  /* Rules */
+  --rule: #29313f;
+  --rule-soft: #1f2632;
+  --rule-strong: #3d485a;
 
-  --accent: #8098f9;
-  --accent-hover: #a5b4fa;
+  /* Hue family, lifted for dark */
+  --accent: #7f95f5;
+  --accent-hover: #9db0f8;
   --accent-soft: #1c2440;
-  --accent-rule: #3d4d8f;
+  --accent-rule: #3f4f8c;
 
-  --good: #47cd89;
-  --good-soft: #10281e;
-  --warn: #fdb022;
-  --warn-soft: #2b2010;
-  --info: #84adff;
-  --info-soft: #101a30;
+  --hue-teal: #3fbfb0;
+  --hue-teal-hover: #63d2c4;
+  --hue-teal-soft: #10302e;
+  --hue-teal-rule: #2c6b65;
 
+  --hue-violet: #a78bfa;
+  --hue-violet-hover: #bda4fb;
+  --hue-violet-soft: #241a3d;
+  --hue-violet-rule: #574192;
+
+  --hue-amber: #e0a44b;
+  --hue-amber-hover: #eaba6c;
+  --hue-amber-soft: #33260f;
+  --hue-amber-rule: #7a5c26;
+
+  --hue-rose: #f0768f;
+  --hue-rose-hover: #f599ad;
+  --hue-rose-soft: #3a1723;
+  --hue-rose-rule: #7d3446;
+
+  --hue-cyan: #4fb3d4;
+  --hue-cyan-hover: #74c6e0;
+  --hue-cyan-soft: #0f2b36;
+  --hue-cyan-rule: #2f6479;
+
+  /* Semantic */
+  --good: #4ecb8e;
+  --good-soft: #0f2c22;
+  --warn: #e0a44b;
+  --warn-soft: #33260f;
+  --info: #7f95f5;
+  --info-soft: #1c2440;
+
+  /* Clay in the dark needs the rim *below* the surface to be darker, not
+     lighter, or the card stops reading as raised. */
+  --clay-rim: #0a0d12;
+  --clay-hi: rgba(255, 255, 255, 0.055);
+  --clay-1: inset 0 1px 0 var(--clay-hi), 0 1px 0 var(--clay-rim), 0 3px 8px -2px rgba(0, 0, 0, 0.55);
+  --clay-2: inset 0 1px 0 var(--clay-hi), 0 2px 0 var(--clay-rim), 0 8px 18px -6px rgba(0, 0, 0, 0.6);
+  --clay-3: inset 0 1px 0 var(--clay-hi), 0 3px 0 var(--clay-rim), 0 16px 32px -10px rgba(0, 0, 0, 0.7);
+  --clay-inset: inset 0 2px 5px -1px rgba(0, 0, 0, 0.6), inset 0 -1px 0 var(--clay-hi);
+  --clay-press: inset 0 2px 4px rgba(0, 0, 0, 0.45);
+
+  /* Shadow ladder, kept for anything still on the old scale */
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
   --shadow-2: 0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-3: 0 12px 28px -8px rgba(0, 0, 0, 0.7), 0 4px 10px -4px rgba(0, 0, 0, 0.5);
   --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-
-  color-scheme: dark;
-}
-
-[data-theme='dark'] {
-  /* Warm near-black — "night edition" of the same paper */
-  --paper: #121110;
-  --paper-raised: #1a1917;
-  --paper-sunk: #0d0c0b;
-  --paper-inset: #1f1e1b;
-
-  --ink: #f2eee6;
-  --ink-soft: #cfc9be;
-  --ink-muted: #9b9488;
-  --ink-faint: #6b655c;
-
-  --rule: #2e2c28;
-  --rule-soft: #232220;
-  --rule-strong: #423f3a;
-
-  --accent: #d9705f;
-  --accent-hover: #e58878;
-  --accent-soft: #2e1a17;
-  --accent-rule: #6b3931;
-
-  --good: #6fbf9b;
-  --good-soft: #14251e;
-  --warn: #d0a951;
-  --warn-soft: #2a2113;
-  --info: #7fb0d4;
-  --info-soft: #131f27;
-
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-2: 0 2px 8px -2px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-3: 0 12px 32px -8px rgba(0, 0, 0, 0.65), 0 2px 8px -2px rgba(0, 0, 0, 0.5);
-  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 
   color-scheme: dark;
 }
