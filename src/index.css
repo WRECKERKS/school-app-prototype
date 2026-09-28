@@ -277,6 +277,11 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* `clip` rather than `hidden`: a full-bleed fixed decoration (inset:0) spans
+     the scrollbar gutter, which made the page 7px scrollable sideways on a
+     390px phone. `clip` contains that without creating a scroll container, so
+     the sticky topbar keeps working. */
+  overflow-x: clip;
 }
 
 body {
