@@ -243,7 +243,7 @@ export default function DashboardLayout() {
               </div>
             )}
 
-            <Link to="/" className="btn btn-soft btn-sm">
+            <Link to="/" className="btn btn-soft btn-sm tb-brand">
               <GraduationCap size={15} /> {appName}
             </Link>
           </div>

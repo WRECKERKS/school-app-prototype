@@ -4909,6 +4909,36 @@ textarea:focus {
 
 /* --- Phone: sidebar becomes a drawer, tab bar appears --- */
 @media (max-width: 900px) {
+  /* The topbar carries the drawer button, the theme toggle and both demo
+     switchers. On a 390px phone that left no room for the brand pill, which
+     pushed 7px of it outside the bar and out of reach. The brand is already
+     shown by the drawer and the home profile card, so it is dropped here
+     rather than shrinking the controls people actually use. */
+  .tb-brand {
+    display: none;
+  }
+
+  /* Touch targets: the compact topbar controls were 32px tall, well under the
+     44px minimum, which is hard to hit with a thumb. Only on touch widths, so
+     the denser desktop topbar is untouched. */
+  .theme-toggle,
+  .nav-hamburger {
+    width: 44px;
+    min-height: 44px;
+  }
+
+  .btn-sm {
+    min-height: 44px;
+  }
+
+  .role-switcher-btn {
+    min-height: 44px;
+  }
+
+  .app-pill-btn {
+    min-height: 44px;
+  }
+
   .app-shell {
     grid-template-columns: 1fr;
   }
@@ -6981,5 +7011,31 @@ button.fcard:active,
   .stat-card {
     border-color: #ccc;
     box-shadow: none;
+  }
+}
+
+/* ---------- Touch targets, last word --------------------------------------
+   Several of these components are defined further down this file than the
+   phone media query above, so a plain media query there loses on source
+   order. This block is intentionally last: on touch widths every control
+   below is grown to the 44px minimum regardless of where its base rule
+   sits. */
+@media (max-width: 900px) {
+  .app-pill-btn,
+  .user-chip,
+  .plan-btn,
+  .role-switcher-menu button,
+  .input-suffix-btn,
+  .nav-user .btn {
+    min-height: 44px;
+  }
+
+  .input-suffix-btn {
+    width: 44px;
+  }
+
+  .qd-chip,
+  .seg-control button {
+    min-height: 44px;
   }
 }
