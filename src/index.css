@@ -948,6 +948,32 @@ select {
   border-left: 1px solid var(--rule);
 }
 
+/* The navbar had no responsive rules at all, so a signed-in phone visitor got
+   a 499px row in a 390px viewport and the page scrolled sideways. Keep the
+   logo, the theme toggle and the account action; the marketing links and the
+   account detail are reachable from the page itself. */
+@media (max-width: 720px) {
+  .navbar-inner {
+    gap: var(--s-3);
+    padding: 0 var(--s-4);
+  }
+
+  .nav-link {
+    display: none;
+  }
+
+  .user-chip-name,
+  .tier-badge {
+    display: none;
+  }
+
+  .nav-user {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: 0;
+  }
+}
+
 .user-chip {
   display: inline-flex;
   align-items: center;
