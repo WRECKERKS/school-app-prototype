@@ -38,8 +38,22 @@ await new Promise((res, rej) => {
 })
 let id = 0
 const pending = new Map()
+/* Console noise is a real signal here: anime.js logs a warning and silently
+   degrades to `none` easing for its removed "cubicBezier(...)" string syntax,
+   and a thrown error in an effect leaves a half-animated element behind that no
+   amount of getComputedStyle will explain. Neither shows up in a style check. */
+const consoleMsgs = []
 ws.onmessage = (e) => {
   const m = JSON.parse(e.data)
+  if (m.method === 'Log.entryAdded') {
+    const en = m.params.entry
+    if (en.level === 'error' || en.level === 'warning') consoleMsgs.push(`${en.level}: ${en.text}`)
+  } else if (m.method === 'Runtime.consoleAPICalled' && (m.params.type === 'error' || m.params.type === 'warning')) {
+    consoleMsgs.push(`${m.params.type}: ${m.params.args.map((a) => a.value ?? a.description ?? '').join(' ')}`)
+  } else if (m.method === 'Runtime.exceptionThrown') {
+    const d = m.params.exceptionDetails
+    consoleMsgs.push(`exception: ${d.text} ${d.exception?.description ?? ''}`)
+  }
   if (m.id && pending.has(m.id)) {
     const { res, rej } = pending.get(m.id); pending.delete(m.id)
     if (m.error) rej(new Error(JSON.stringify(m.error)))
@@ -55,6 +69,7 @@ const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: t
 const call = (m, p) => send(m, p, sessionId)
 await call('Page.enable')
 await call('Runtime.enable')
+await call('Log.enable')
 
 /* ---- the audit, runs inside the page ------------------------------------ */
 const AUDIT = String.raw`(() => {
@@ -189,6 +204,7 @@ const AUDIT = String.raw`(() => {
 
 async function runAudit(label, { path: route, width, height, theme, signIn }) {
   await call('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: width < 700 })
+  consoleMsgs.length = 0
 
   if (signIn) {
     /* Deterministic session for the app routes. Unauthenticated, /app/* bounces
@@ -238,10 +254,15 @@ async function runAudit(label, { path: route, width, height, theme, signIn }) {
   /* flat = no glow and no shadow at all; rim = the old clay edge came back */
   const d = r.depth.filter((x) => x.rim || (!x.glow && x.layers === 0))
   const of = r.overflow.length, s = r.smallTargets.length
-  const flag = t || d.length || of ? '!!' : 'ok'
+  const noise = [...new Set(consoleMsgs)]
+  const flag = t || d.length || of || noise.length ? '!!' : 'ok'
   console.log(
     `${flag} ${label.padEnd(30)} text-fail=${String(t).padEnd(3)} depth-weak=${String(d.length).padEnd(3)} overflow=${String(of).padEnd(3)} small=${s}  [${where.result.value}]`
   )
+  if (noise.length) {
+    console.log(`     -> console (${noise.length})`)
+    for (const n of noise.slice(0, 6)) console.log(`        ${n.slice(0, 160)}`)
+  }
   return r
 }
 
