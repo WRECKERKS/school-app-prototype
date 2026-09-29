@@ -5,11 +5,12 @@
     tokens — the same illustration then works on the light canvas and the dark
     one without a second asset.
 
-    Each shape is drawn with the same three-part trick as the clay surfaces: a
-    base fill, a lighter band along the top edge, and a darker band underneath.
-    That is what keeps flat vector art from looking like clip art. */
+    Each shape is built from a base fill plus one lighter band along its top
+    edge. That top band is the whole reason flat vector art stops looking like
+    clip art, and it is the one part of the old clay treatment worth keeping --
+    the hard rim underneath is not. */
 
-const clay = {
+const sheen = {
   hi: 'rgba(255,255,255,0.34)',
 }
 
@@ -18,7 +19,7 @@ function Defs({ id }) {
     <defs>
       <linearGradient id={`${id}-sky`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="var(--accent-soft)" />
-        <stop offset="100%" stopColor="var(--hue-teal-soft)" />
+        <stop offset="100%" stopColor="var(--paper-sunk)" />
       </linearGradient>
       <linearGradient id={`${id}-page`} x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="#ffffff" />
@@ -47,19 +48,19 @@ export function SceneDesk({ className }) {
       <path d="M206 108c0-16 8-28 8-28s10 10 10 26" fill="var(--hue-teal)" />
       <path d="M198 108c-2-14-12-22-12-22s-6 12-4 22" fill="var(--hue-teal)" opacity="0.75" />
       <rect x="188" y="106" width="38" height="30" rx="8" fill="var(--hue-rose)" />
-      <rect x="188" y="106" width="38" height="9" rx="4.5" fill={clay.hi} />
+      <rect x="188" y="106" width="38" height="9" rx="4.5" fill={sheen.hi} />
 
       {/* desk */}
       <rect x="26" y="136" width="208" height="12" rx="6" fill="var(--ink-soft)" opacity="0.9" />
-      <rect x="26" y="136" width="208" height="5" rx="2.5" fill={clay.hi} />
+      <rect x="26" y="136" width="208" height="5" rx="2.5" fill={sheen.hi} />
 
       {/* book stack */}
       <rect x="40" y="112" width="74" height="24" rx="7" fill="var(--accent)" />
-      <rect x="40" y="112" width="74" height="8" rx="4" fill={clay.hi} />
+      <rect x="40" y="112" width="74" height="8" rx="4" fill={sheen.hi} />
       <rect x="46" y="94" width="66" height="18" rx="6" fill="var(--hue-violet)" />
-      <rect x="46" y="94" width="66" height="6" rx="3" fill={clay.hi} />
+      <rect x="46" y="94" width="66" height="6" rx="3" fill={sheen.hi} />
       <rect x="52" y="80" width="54" height="14" rx="5" fill="var(--hue-cyan)" />
-      <rect x="52" y="80" width="54" height="5" rx="2.5" fill={clay.hi} />
+      <rect x="52" y="80" width="54" height="5" rx="2.5" fill={sheen.hi} />
       <rect x="112" y="106" width="6" height="30" rx="3" fill="var(--paper-raised)" opacity="0.9" />
 
       {/* clipboard */}
@@ -88,7 +89,7 @@ export function SceneLost({ className }) {
 
       {/* folder */}
       <path d="M64 74h44l10 12h74a10 10 0 0 1 10 10v58a10 10 0 0 1-10 10H64a10 10 0 0 1-10-10V84a10 10 0 0 1 10-10z" fill="var(--hue-amber)" />
-      <path d="M64 74h44l10 12h-74a10 10 0 0 0-10 10V84a10 10 0 0 1 10-10z" fill={clay.hi} />
+      <path d="M64 74h44l10 12h-74a10 10 0 0 0-10 10V84a10 10 0 0 1 10-10z" fill={sheen.hi} />
       <path d="M54 100h148v8H54z" fill="var(--rule-strong)" opacity="0.35" />
 
       {/* magnifier */}
@@ -96,7 +97,7 @@ export function SceneLost({ className }) {
         <circle cx="172" cy="76" r="34" fill="var(--hue-cyan-soft)" stroke="var(--hue-cyan)" strokeWidth="7" />
         <circle cx="162" cy="66" r="12" fill="#fff" opacity="0.5" />
         <rect x="164" y="100" width="16" height="46" rx="8" fill="var(--ink-soft)" />
-        <rect x="167" y="104" width="5" height="38" rx="2.5" fill={clay.hi} />
+        <rect x="167" y="104" width="5" height="38" rx="2.5" fill={sheen.hi} />
       </g>
 
       {/* question mark */}
@@ -138,7 +139,7 @@ export function SceneCrash({ className }) {
         ))}
         <circle r="40" fill="var(--hue-rose)" />
         <circle r="40" fill="none" stroke="var(--rule-strong)" strokeWidth="2" opacity="0.5" />
-        <circle cx="-12" cy="-14" r="12" fill={clay.hi} />
+        <circle cx="-12" cy="-14" r="12" fill={sheen.hi} />
         <circle r="15" fill={`url(#${id}-page)`} stroke="var(--rule-strong)" strokeWidth="2" />
         {/* crack */}
         <path d="M0 -15 L7 -4 L-4 3 L5 15" stroke="var(--ink)" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.65" />
@@ -147,7 +148,7 @@ export function SceneCrash({ className }) {
       {/* unplugged cable */}
       <path d="M150 150c26 6 44-10 44-30" stroke="var(--ink-soft)" strokeWidth="7" fill="none" strokeLinecap="round" />
       <rect x="146" y="140" width="26" height="20" rx="6" fill="var(--ink-soft)" />
-      <rect x="150" y="144" width="18" height="5" rx="2.5" fill={clay.hi} />
+      <rect x="150" y="144" width="18" height="5" rx="2.5" fill={sheen.hi} />
       <rect x="169" y="132" width="7" height="9" rx="3" fill="var(--ink-soft)" />
       <rect x="179" y="130" width="7" height="9" rx="3" fill="var(--ink-soft)" />
 
@@ -168,7 +169,7 @@ export function SceneEmpty({ className }) {
       {/* tray */}
       <path d="M62 84h136l-12 66a12 12 0 0 1-12 10H86a12 12 0 0 1-12-10z" fill="var(--paper-raised)" />
       <path d="M62 84h136l-4 22H66z" fill="var(--hue-violet)" opacity="0.9" />
-      <path d="M62 84h136l-3 16H65z" fill={clay.hi} />
+      <path d="M62 84h136l-3 16H65z" fill={sheen.hi} />
       <path d="M62 84h136l-12 66a12 12 0 0 1-12 10H86a12 12 0 0 1-12-10z" fill="none" stroke="var(--rule-strong)" strokeWidth="2" />
 
       {/* a couple of papers resting in */}

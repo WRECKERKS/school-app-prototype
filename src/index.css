@@ -3285,7 +3285,6 @@ select {
   border: 1px dashed var(--accent);
   opacity: 0.45;
 }
-
 /* Textarea (standalone + `input textarea` modifier) */
 .textarea {
   min-height: 84px;
@@ -3316,7 +3315,12 @@ input.textarea {
   font-size: 11px;
   line-height: 1.15;
   letter-spacing: 0.5px;
-  color: var(--ink);
+  /* A literal dark value on purpose. The plate above is #fff in both themes,
+     because a printed or photographed QR has to stay scannable, and so its
+     glyphs cannot follow --ink. In dark mode --ink is near-white, which put
+     white glyphs on a white plate at 1.09:1 -- invisible, and invisible
+     exactly where it matters most. */
+  color: #0b1512;
   white-space: pre-wrap;
   word-break: break-all;
   text-align: center;

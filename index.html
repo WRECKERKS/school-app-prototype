@@ -9,9 +9,15 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="EduSuite Pro" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light" />
-    <meta name="description" content="EduSuite Pro — a complete school management system prototype with Basic, Standard, and Premium plans. Attendance, grades, fees, parent portals, and AI-powered tools." />
-    <meta name="theme-color" content="#f4f6f9" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="description" content="EduSuite Pro - a complete school management system prototype with Basic, Standard, and Premium plans. Attendance, grades, fees, parent portals, and AI-powered tools." />
+    <!-- Two of these, because the browser chrome is not themed by the app's own
+         data-theme attribute. Both were still painted the pre-redesign
+         blue-grey (#f4f6f9), which left the OS status bar, the splash screen
+         and the installed PWA header in the old brand while the page below was
+         green. -->
+    <meta name="theme-color" content="#fbfdfc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="og:title" content="EduSuite Pro — School Management System" />
     <meta name="og:description" content="Interactive prototype of a complete school management platform across three plan tiers." />
