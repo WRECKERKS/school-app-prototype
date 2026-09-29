@@ -7153,3 +7153,147 @@ textarea.input:focus {
     border-left: 0;
   }
 }
+
+/* ---------- 37. Launcher and quick actions --------------------------------
+
+   The two grids that make the app feel like an app rather than a form.
+
+   The launcher was a horizontal list of small icon-plus-text rows. It now
+   stacks the icon above the label with a proper 44px rounded-square well, which
+   is the whole visual vocabulary of an app grid, and the well is where the
+   colour lives so the labels stay quiet. Hover lifts the well on its own
+   instead of tilting the whole tile, so the text never moves.
+
+   Quick actions sit above it as a horizontal scroller. They get a solid
+   emerald-tinted well because they are the things you actually press. */
+
+.app-launcher {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: var(--s-2);
+}
+
+.app-launch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-2);
+  border: 1px solid transparent;
+  border-radius: var(--r-md);
+  background: none;
+  box-shadow: none;
+  color: var(--ink-soft);
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background var(--t-fast),
+    border-color var(--t-fast);
+}
+
+.app-launch:hover {
+  background: var(--paper-raised);
+  border-color: var(--rule);
+}
+
+/* The well carries the tint and lifts on hover; the label underneath does
+   neither, so reading the row of names stays stable while you move. */
+.app-launch-ico {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  background: var(--paper-sunk);
+  color: var(--ink-soft);
+  box-shadow: none;
+  transition:
+    background var(--t-base),
+    color var(--t-base),
+    transform var(--t-base),
+    box-shadow var(--t-base);
+}
+
+.app-launch:hover .app-launch-ico {
+  background: var(--accent-soft);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.app-launch:active {
+  transform: none;
+}
+
+.app-launch:active .app-launch-ico {
+  transform: scale(0.94);
+}
+
+.app-launch b {
+  font-size: var(--t-xs);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink-soft);
+}
+
+.app-launch:hover b {
+  color: var(--ink);
+}
+
+/* ---- Quick actions: the row you actually press ---- */
+.app-quick-row {
+  gap: var(--s-2);
+}
+
+.app-quick {
+  flex: 0 0 82px;
+  padding: var(--s-3) var(--s-2);
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--r-md);
+  background: var(--paper-raised);
+  box-shadow: none;
+  transition:
+    background var(--t-fast),
+    border-color var(--t-fast),
+    transform var(--t-fast);
+}
+
+.app-quick:hover {
+  background: var(--paper-raised);
+  border-color: var(--accent-rule);
+}
+
+.app-quick:active {
+  transform: scale(0.96);
+}
+
+.app-quick-ico {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: none;
+}
+
+/* ---- Account tiles ---- */
+.app-tile {
+  border-radius: var(--r-md);
+  background: var(--paper-raised);
+  box-shadow: none;
+  border: 1px solid var(--rule);
+  transition:
+    background var(--t-fast),
+    border-color var(--t-fast);
+}
+
+.app-tile:hover {
+  background: var(--paper-raised);
+  border-color: var(--accent-rule);
+}
+
+.app-tile-ico {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
