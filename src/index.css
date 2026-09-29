@@ -165,7 +165,7 @@
      the system. Before this, absent students were painted with --accent. */
   --good: #0a7a52;
   --good-soft: #d8f3e6;
-  --warn: #b45309;
+  --warn: #9c4305;
   --warn-soft: #fdf0d5;
   --info: #1d4ed8;
   --info-soft: #e2ebfd;
@@ -1508,7 +1508,9 @@ select {
   box-shadow: var(--shadow-2);
 }
 
-.plan-card.featured::before {
+/* ::after, not ::before: section 33 uses ::before for the ambient glow and a
+   later rule would otherwise wipe the ribbon out. */
+.plan-card.featured::after {
   content: 'Most popular';
   position: absolute;
   top: -1px;
@@ -2989,8 +2991,9 @@ select {
   border-color: var(--rule-strong);
 }
 
-/* Oxblood tick along the top edge — the only decoration on a stat card */
-.stat-card::before {
+/* Accent tick along the top edge. Moved to ::after so section 33 can own
+   ::before for the ambient glow. */
+.stat-card::after {
   content: '';
   position: absolute;
   top: -1px;
@@ -5064,8 +5067,9 @@ textarea:focus {
     animation: sheet-up var(--t-base) both;
   }
 
-  .modal::before,
-  .dialog::before {
+  /* Grab handle moved to ::after; ::before is the ambient glow in section 33. */
+  .modal::after,
+  .dialog::after {
     content: '';
     flex-shrink: 0;
     width: 38px;
@@ -7091,5 +7095,154 @@ button.fcard:active,
   .qd-chip,
   .seg-control button {
     min-height: 44px;
+  }
+}
+
+/* ---------- 33. Ambient shading -------------------------------------------
+
+   The whole point of this section: structure used to come from a 1px border and
+   a hard clay rim, which made every surface read as the same stamped rectangle.
+   Now separation comes from light. Each card sits in a soft, edge-less pool of
+   green — the colour-cast you get when light passes through a tinted sheet.
+
+   Two implementations, because the two card populations are not the same:
+
+   - Group A cards are not clipped, so the glow sits *behind* them and reads as
+     a true halo. The spread comes from filter: blur(), not from a negative
+     inset: an inset of -22% pushed the pseudo-element past the card edge and
+     the audit reported 40px of document overflow on a 390px phone. These cards
+     become very slightly translucent so the glow behind them is visible.
+   - Group B cards clip their own overflow (a .panel does it to round the
+     header strip), so an escaping glow would be cut off mid-blur and look like
+     a rendering bug. Those get the same light arriving from the top-left, but
+     landing inside the card instead of around it.
+
+   Nothing here animates, so it is safe under prefers-reduced-motion. */
+
+:root {
+  --shade: color-mix(in srgb, var(--accent) 52%, transparent);
+  --shade-o: 0.3;
+  --shade-blur: 26px;
+}
+
+[data-theme='dark'] {
+  /* Stronger and wider at night: on black, the same opacity reads as almost
+     nothing, and a soft glow is the main thing giving dark surfaces depth. */
+  --shade: color-mix(in srgb, var(--accent) 40%, transparent);
+  --shade-o: 0.34;
+  --shade-blur: 30px;
+}
+
+/* ---- Group A: halo escapes the card ---- */
+.stat-card,
+.fcard,
+.tcard,
+.feature-card,
+.plan-card,
+.app-launch,
+.app-quick,
+.app-tile,
+.app-profile-card,
+.pm-card,
+.empty-state {
+  position: relative;
+  isolation: isolate;
+  background: color-mix(in srgb, var(--paper-raised) 92%, transparent);
+}
+
+.stat-card::before,
+.fcard::before,
+.tcard::before,
+.feature-card::before,
+.plan-card::before,
+.app-launch::before,
+.app-quick::before,
+.app-tile::before,
+.app-profile-card::before,
+.pm-card::before,
+.empty-state::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    72% 72% at 24% 2%,
+    var(--shade) 0%,
+    color-mix(in srgb, var(--shade) 40%, transparent) 45%,
+    transparent 74%
+  );
+  filter: blur(var(--shade-blur));
+  opacity: var(--shade-o);
+  pointer-events: none;
+  transition: opacity var(--t-base);
+}
+
+/* The light pools a little stronger on the surfaces you are meant to touch. */
+@media (hover: hover) {
+  .stat-card:hover::before,
+  .fcard:hover::before,
+  .tcard:hover::before,
+  .feature-card:hover::before,
+  .plan-card:hover::before,
+  .app-launch:hover::before,
+  .app-quick:hover::before,
+  .app-tile:hover::before,
+  .app-profile-card:hover::before {
+    opacity: calc(var(--shade-o) + 0.12);
+  }
+}
+
+/* ---- Group B: cast lands inside the card ---- */
+.panel,
+.login-card,
+.start-card,
+.modal,
+.dialog,
+.phone-mock {
+  position: relative;
+  isolation: isolate;
+  border-color: var(--rule-soft);
+}
+
+.panel::before,
+.login-card::before,
+.start-card::before,
+.modal::before,
+.dialog::before,
+.phone-mock::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    120% 90% at 12% 0%,
+    var(--shade) 0%,
+    color-mix(in srgb, var(--shade) 22%, transparent) 40%,
+    transparent 78%
+  );
+  opacity: calc(var(--shade-o) * 0.7);
+  pointer-events: none;
+}
+
+/* Print has no ambient light — the glow would just smear. */
+@media print {
+  .panel::before,
+  .login-card::before,
+  .start-card::before,
+  .modal::before,
+  .dialog::before,
+  .phone-mock::before,
+  .stat-card::before,
+  .fcard::before,
+  .tcard::before,
+  .feature-card::before,
+  .plan-card::before,
+  .app-launch::before,
+  .app-quick::before,
+  .app-tile::before,
+  .app-profile-card::before,
+  .pm-card::before,
+  .empty-state::before {
+    display: none !important;
   }
 }
