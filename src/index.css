@@ -1,9 +1,10 @@
 /* =========================================================================
    EduSuite Pro — app design tokens
 
-   Built to read like an ordinary, hand-rolled mobile app: friendly rounded
-   surfaces, one primary blue, soft card elevation, system-ish type. Nothing
-   clever — just the shapes and spacing you see in every store app.
+   One emerald brand, a near-white / true-black canvas pair, and structure that
+   comes from spacing and ambient light instead of borders. Nothing here is
+   decorative for its own sake: every token is either an action, a surface, or
+   a status.
    ========================================================================= */
 
 /* ---------- 1. Tokens ---------------------------------------------------- */
@@ -73,84 +74,105 @@
   --topbar-h: 56px;
   --tabbar-h: 62px;
 
-  /* ---- Surfaces: tinted canvas, white cards ----
-     The canvas used to be #f2f4f7, a near-neutral grey that made the app read as
-     flat white. It now carries a faint blue cast, which gives white cards
-     something to sit against and quietly ties the whole UI to the primary. */
-  --paper: #e4e9f3;
+  /* ---- Surfaces: near-white canvas, true-white cards ----
+     The canvas is no longer a tinted grey. It is a very faint mint-white, just
+     enough that pure-white cards read as lifted without a hard rim doing the
+     work. The green cast is what makes the app feel like a product rather than
+     a spreadsheet. */
+  --paper: #fbfdfc;
   --paper-raised: #ffffff;
-  --paper-sunk: #dae1ee;
-  --paper-inset: #cfd8e7;
+  --paper-sunk: #f1f6f3;
+  --paper-inset: #e6efea;
 
   /* ---- Ink ----
-     --ink-faint is the one that used to be unreadable at 2.6:1. It is only for
-     de-emphasised metadata, but metadata is still text, so it lands at 4.5:1. */
-  --ink: #0f172a;
-  --ink-soft: #33405a;
-  --ink-muted: #55637b;
-  --ink-faint: #66748c;
+     Not pure black and not blue-black: a deep neutral with a green undertone so
+     text sits on the same colour world as the surfaces. --ink-faint is metadata
+     only, but metadata is still text, so it stays at 4.5:1. */
+  --ink: #0b1512;
+  --ink-soft: #2b3a35;
+  --ink-muted: #4c5b56;
+  --ink-faint: #66756f;
 
-  /* ---- Rules (borders) ---- */
-  --rule: #d0d9e8;
-  --rule-soft: #e2e8f2;
-  --rule-strong: #b4bfd2;
+  /* ---- Rules (borders) ----
+     Deliberately weak. Structure comes from spacing and the ambient shading in
+     section 3, so borders only need to separate, not decorate. */
+  --rule: #dde5e1;
+  --rule-soft: #e9efec;
+  --rule-strong: #c2cec8;
 
-  /* ---- Primary: one friendly blue, used for actions and active state ----
+  /* ---- Primary: one emerald, used for actions and active state ----
      --accent is a *mark* colour: it has to stay legible as text, an icon or a
      border on top of the current surface, so it is lifted in dark mode.
      --accent-strong is a *fill* colour: it carries --on-accent text on top of
      it, so it has to hold 4.5:1 against white and therefore stays deep in
      both themes. Conflating the two is what made every filled button in dark
-     mode drop to 2.79:1. */
-  --accent: #3b5bdb;
-  --accent-hover: #2f4bc0;
-  --accent-soft: #e8ecfd;
-  --accent-rule: #b2c0f5;
-  --accent-strong: #3b5bdb;
-  --accent-strong-hover: #2f4bc0;
+     mode drop to 2.79:1.
+
+     #047857 on #fbfdfc is 4.9:1, so the emerald is already safe to use as link
+     and label text without being deepened into an unreadable forest green. */
+  --accent: #047857;
+  --accent-hover: #036a4e;
+  --accent-soft: #d7f2e6;
+  --accent-rule: #8fd6bb;
+  --accent-strong: #047857;
+  --accent-strong-hover: #036a4e;
   --on-accent: #ffffff;
 
   /* ---- Hue family ------------------------------------------------------
-     Five companions to the primary, all at the same chroma and lightness in
+     Companions to the primary, all at roughly the same chroma and lightness in
      light mode so they read as one set rather than five unrelated colours.
 
-     They are deliberately *not* used for status. good/warn/info keep their own
-     tokens below because those mean something. These carry identity: module
-     tiles, illustrations, and anything that wants to be recognisable. */
-  --hue-teal: #0a6f66;
-  --hue-teal-hover: #085a53;
-  --hue-teal-soft: #d3efec;
-  --hue-teal-rule: #6fc2b9;
+     They are deliberately *not* used for status. good/warn/info/danger keep
+     their own tokens below because those mean something. These carry identity:
+     module tiles, illustrations, and anything that wants to be recognisable.
 
-  --hue-violet: #7c3aed;
-  --hue-violet-hover: #6a2fd4;
-  --hue-violet-soft: #ece3fd;
-  --hue-violet-rule: #c1abf7;
+     With emerald owning the brand, the old teal sat too close to it and read as
+     a mistake. Teal has been pushed toward cyan and the whole set has been
+     desaturated slightly so nothing competes with the primary for attention. */
+  --hue-teal: #0d6f78;
+  --hue-teal-hover: #0a5960;
+  --hue-teal-soft: #d5eef1;
+  --hue-teal-rule: #79bcc5;
 
-  --hue-amber: #92620a;
-  --hue-amber-hover: #774f07;
-  --hue-amber-soft: #fbeed0;
-  --hue-amber-rule: #dcb96e;
+  --hue-violet: #6d3fd4;
+  --hue-violet-hover: #5b31b4;
+  --hue-violet-soft: #ebe4fd;
+  --hue-violet-rule: #b8a5f5;
 
-  --hue-rose: #be123c;
-  --hue-rose-hover: #a30f34;
-  --hue-rose-soft: #fce0e8;
-  --hue-rose-rule: #f4a2b7;
+  --hue-amber: #8a5a06;
+  --hue-amber-hover: #6f4805;
+  --hue-amber-soft: #fbecce;
+  --hue-amber-rule: #d8b467;
 
-  --hue-cyan: #0a5f75;
-  --hue-cyan-hover: #084c5f;
-  --hue-cyan-soft: #d0ecf5;
-  --hue-cyan-rule: #6fb9d4;
+  --hue-rose: #b31a45;
+  --hue-rose-hover: #96153a;
+  --hue-rose-soft: #fce1e8;
+  --hue-rose-rule: #f2a0b6;
+
+  --hue-cyan: #1461a8;
+  --hue-cyan-hover: #0f4d88;
+  --hue-cyan-soft: #dcecfb;
+  --hue-cyan-rule: #7fb6e2;
 
   /* ---- Semantic: these mean something, so they are not part of the family ----
-     --warn is deliberately red-orange rather than amber, so a warning badge
-     cannot be mistaken for an amber identity tile. */
-  --good: #0b6b4d;
-  --good-soft: #d5f1e4;
-  --warn: #b23a08;
-  --warn-soft: #fde4d3;
-  --info: #175cd3;
-  --info-soft: #e1ecfd;
+     --good is a brighter, lighter green than --accent-strong on purpose. The
+     brand owns the *deep* fill used for buttons and nav; success owns a soft
+     tinted chip. Same colour world, different weight, so a "Present" badge
+     never gets mistaken for something you can press.
+
+     --warn is amber rather than the old red-orange so it cannot be confused
+     with a danger state, and --danger is rose, which is now the only red in
+     the system. Before this, absent students were painted with --accent. */
+  --good: #0a7a52;
+  --good-soft: #d8f3e6;
+  --warn: #b45309;
+  --warn-soft: #fdf0d5;
+  --info: #1d4ed8;
+  --info-soft: #e2ebfd;
+  --danger: #be123c;
+  --danger-hover: #a30f34;
+  --danger-soft: #fce1e8;
+  --danger-rule: #f2a0b6;
 
   /* ---- Elevation ----
      Two ladders. --shadow-* is the old flat scale, still referenced by a few
@@ -179,68 +201,74 @@
    never has to know which theme it is in.
 
    Hues are lifted in lightness rather than re-picked: the light-mode base of
-   #3b5bdb is unreadable on near-black, but #7f95f5 is the same blue read from
-   the other side. Soft fills stay low-chroma so they tint without glowing. */
+   #047857 is unreadable on near-black, but #5fe3b0 is the same emerald read
+   from the other side. Soft fills stay low-chroma so they tint without
+   glowing. */
 [data-theme='dark'] {
-  /* Surfaces — a touch cooler and bluer than the light canvas, so the hue family
-     still reads at night instead of going neutral grey. */
-  --paper: #0f131b;
-  --paper-raised: #1a212c;
-  --paper-sunk: #0a0d13;
-  --paper-inset: #242c39;
+  /* Surfaces — true black canvas with a card that is barely, but definitely,
+     lighter. The gap is small on purpose: a large jump turns the app into a
+     stack of grey slabs. */
+  --paper: #000000;
+  --paper-raised: #0b100e;
+  --paper-sunk: #050807;
+  --paper-inset: #141b18;
 
   /* Ink */
-  --ink: #eef2f8;
-  --ink-soft: #c6cedc;
-  --ink-muted: #98a3b5;
-  --ink-faint: #8a97ab;
+  --ink: #f2f6f4;
+  --ink-soft: #c3cfca;
+  --ink-muted: #94a29d;
+  --ink-faint: #7e8c88;
 
   /* Rules */
-  --rule: #2e3746;
-  --rule-soft: #232b37;
-  --rule-strong: #465164;
+  --rule: #1f2825;
+  --rule-soft: #161d1a;
+  --rule-strong: #38443f;
 
   /* Hue family, lifted for dark */
-  --accent: #7f95f5;
-  --accent-hover: #9db0f8;
-  --accent-soft: #1c2440;
-  --accent-rule: #3f4f8c;
-  --accent-strong: #3b5bdb;
-  --accent-strong-hover: #4a63e0;
+  --accent: #5fe3b0;
+  --accent-hover: #7febc3;
+  --accent-soft: #0a2419;
+  --accent-rule: #1f6b4e;
+  --accent-strong: #047857;
+  --accent-strong-hover: #0a9166;
   --on-accent: #ffffff;
 
-  --hue-teal: #3fbfb0;
-  --hue-teal-hover: #63d2c4;
-  --hue-teal-soft: #10302e;
-  --hue-teal-rule: #2c6b65;
+  --hue-teal: #3fb8c6;
+  --hue-teal-hover: #63cfdb;
+  --hue-teal-soft: #0d2b30;
+  --hue-teal-rule: #2a5f68;
 
   --hue-violet: #a78bfa;
   --hue-violet-hover: #bda4fb;
-  --hue-violet-soft: #241a3d;
-  --hue-violet-rule: #574192;
+  --hue-violet-soft: #201a38;
+  --hue-violet-rule: #4e3c86;
 
   --hue-amber: #e0a44b;
   --hue-amber-hover: #eaba6c;
-  --hue-amber-soft: #33260f;
-  --hue-amber-rule: #7a5c26;
+  --hue-amber-soft: #2e2410;
+  --hue-amber-rule: #6b5122;
 
   --hue-rose: #f0768f;
   --hue-rose-hover: #f599ad;
-  --hue-rose-soft: #3a1723;
-  --hue-rose-rule: #7d3446;
+  --hue-rose-soft: #34151f;
+  --hue-rose-rule: #73303f;
 
-  --hue-cyan: #4fb3d4;
-  --hue-cyan-hover: #74c6e0;
-  --hue-cyan-soft: #0f2b36;
-  --hue-cyan-rule: #2f6479;
+  --hue-cyan: #58a6ea;
+  --hue-cyan-hover: #7cc0f2;
+  --hue-cyan-soft: #0e2338;
+  --hue-cyan-rule: #2a5578;
 
   /* Semantic */
-  --good: #4ecb8e;
-  --good-soft: #0f2c22;
-  --warn: #e0a44b;
-  --warn-soft: #33260f;
-  --info: #7f95f5;
-  --info-soft: #1c2440;
+  --good: #5ee9a4;
+  --good-soft: #0a2a1e;
+  --warn: #f5c165;
+  --warn-soft: #2e2410;
+  --info: #8fb0fb;
+  --info-soft: #101c38;
+  --danger: #f89bb0;
+  --danger-hover: #ffb3c4;
+  --danger-soft: #33131e;
+  --danger-rule: #7a3145;
 
   /* Clay in the dark needs the rim *below* the surface to be darker, not
      lighter, or the card stops reading as raised. */
