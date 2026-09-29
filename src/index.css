@@ -7302,6 +7302,37 @@ textarea.input:focus {
   color: var(--accent);
 }
 
+/* ---------- 39. Touch targets and reduced motion --------------------------
+
+   Two things that were wrong before.
+
+   Sections 27 and 28 both set .btn-sm to 38px on a coarse pointer, and 38px is
+   under the 44px a thumb needs. Section 34 fixed small buttons by width, which
+   covered phones but left a coarse-pointer device that is not a narrow screen --
+   a tablet, mostly -- still at 38px. This is keyed on the pointer rather than
+   the viewport, so it catches those.
+
+   The reduced-motion block is already global and correct. What it cannot reach
+   is the JS in lib/motion.js, which is why every primitive there checks the
+   preference itself and skips rather than shortens: a 0.01ms anime.js timeline
+   still fires every callback and still leaves a frame of inline styles behind. */
+
+@media (pointer: coarse) {
+  .btn,
+  .btn-sm,
+  .btn-lg {
+    min-height: 44px;
+  }
+}
+
+/* Keyboard focus must never be invisible. :focus-visible is set in section 34
+   for controls; this is the fallback for anything the list there did not name,
+   including elements that get focus from a route change rather than a click. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* ---------- 38. Landing, sign-in, plan chooser ----------------------------
 
    The three screens a visitor sees before they have an account.

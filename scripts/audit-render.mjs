@@ -276,6 +276,39 @@ async function runAudit(label, { path: route, width, height, theme, signIn }) {
 
   const { result } = await call('Runtime.evaluate', { expression: AUDIT, returnByValue: true })
   const r = result.value
+
+  /* Keyboard focus. Press Tab for real rather than calling .focus(), because
+     Chrome only matches :focus-visible after genuine keyboard interaction --
+     a programmatic focus would report a ring that a keyboard user never gets.
+     Walks a few stops and keeps the worst. */
+  await call('Input.dispatchKeyEvent', {
+    type: 'rawKeyDown', windowsVirtualKeyCode: 9, key: 'Tab', code: 'Tab',
+  })
+  await call('Input.dispatchKeyEvent', {
+    type: 'keyUp', windowsVirtualKeyCode: 9, key: 'Tab', code: 'Tab',
+  })
+  await sleep(250)
+  const focus = await call('Runtime.evaluate', {
+    expression: `(() => {
+      const el = document.activeElement
+      if (!el || el === document.body) return { tag: 'none', ok: false, why: 'focus never left the body' }
+      const cs = getComputedStyle(el)
+      const w = parseFloat(cs.outlineWidth) || 0
+      const hasOutline = w > 0 && cs.outlineStyle !== 'none'
+      const hasShadow = cs.boxShadow && cs.boxShadow !== 'none'
+      const size = el.getBoundingClientRect()
+      return {
+        tag: el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).trim().split(/\\s+/)[0] : ''),
+        ok: hasOutline || hasShadow,
+        why: hasOutline ? 'outline ' + cs.outlineWidth + ' ' + cs.outlineColor
+                        : hasShadow ? 'box-shadow ring' : 'no visible ring (outline ' + cs.outlineWidth + ' ' + cs.outlineStyle + ')',
+        h: Math.round(size.height),
+      }
+    })()`,
+    returnByValue: true,
+  })
+  const f = focus.result.value
+
   const t = r.textFail.length
   /* flat = no glow, no shadow, and no border or fill to separate it either;
      rim = the old clay edge came back */
@@ -283,10 +316,11 @@ async function runAudit(label, { path: route, width, height, theme, signIn }) {
   const of = r.overflow.length, s = r.smallTargets.length
   const noise = [...new Set(consoleMsgs)]
   const stuck = r.stuck ? r.stuck.length : 0
-  const flag = t || d.length || of || noise.length || stuck ? '!!' : 'ok'
+  const flag = t || d.length || of || noise.length || stuck || !f.ok ? '!!' : 'ok'
   console.log(
-    `${flag} ${label.padEnd(30)} text-fail=${String(t).padEnd(3)} depth-weak=${String(d.length).padEnd(3)} overflow=${String(of).padEnd(3)} stuck=${stuck} small=${s}  [${where.result.value}]`
+    `${flag} ${label.padEnd(30)} text-fail=${String(t).padEnd(3)} depth-weak=${String(d.length).padEnd(3)} overflow=${String(of).padEnd(3)} stuck=${stuck} focus=${f.ok ? 'ok' : 'NO'} small=${s}  [${where.result.value}]`
   )
+  if (!f.ok) console.log(`     -> keyboard focus on ${f.tag} (h=${f.h}px): ${f.why}`)
   if (r.stuck) {
     console.log(`     -> invisible content (${r.stuck.length})`)
     for (const s2 of r.stuck.slice(0, 6)) console.log(`        ${s2}`)
