@@ -6877,3 +6877,154 @@ textarea.input:focus {
     min-height: 44px;
   }
 }
+
+/* ---------- 35. App shell -------------------------------------------------
+
+   The chrome you touch on every single screen: rail, app bar, tab bar. Same
+   arrangement as before, restated so the intent is readable in one place.
+
+   Three ideas:
+
+   - The rail is a distinct plane, not another white card. It sits a half-step
+     off the canvas with a very slight vertical falloff, which is enough to
+     separate it without a shadow. A shadow on a full-height surface reads as
+     dirt along its whole length.
+   - The active module gets a real icon well, not just tinted text. That is the
+     single detail that makes a sidebar read as designed rather than as a list
+     of links with one of them highlighted.
+   - The phone tab bar floats. A bar pinned edge to edge with a hairline is
+     the old pattern; an inset pill with a cast shadow sits on the content
+     instead of slicing it. --tabbar-h still drives the bottom padding on
+     .app-main, so the extra inset does not cover content. */
+
+/* ---- Rail ---- */
+.app-sidebar {
+  background: linear-gradient(
+    180deg,
+    var(--paper-raised) 0%,
+    color-mix(in srgb, var(--paper-raised) 96%, var(--paper-sunk)) 100%
+  );
+  border-right: 1px solid var(--rule);
+  box-shadow: none;
+}
+
+.app-nav-group-title {
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.app-nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 42px;
+  margin-bottom: 2px;
+  padding: 0 var(--s-3);
+  border-radius: var(--r-sm);
+  font-size: var(--t-base);
+  font-weight: 500;
+  color: var(--ink-soft);
+  transition:
+    background var(--t-fast),
+    color var(--t-fast);
+}
+
+.app-nav-item:hover {
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  color: var(--ink);
+}
+
+.app-nav-item.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* The emerald spine on the active item. Kept, but moved to sit inside the
+   fill rather than hanging off the left edge of the rail. */
+.app-nav-item.active::before {
+  left: 0;
+  width: 3px;
+  height: 20px;
+  border-radius: 0 3px 3px 0;
+  background: var(--accent);
+}
+
+/* The icon well. Neutral square at rest, emerald-tinted on the active item --
+   the shape stays constant so the column does not jitter when you move. */
+.app-nav-item .nav-ico {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 7px;
+  color: var(--ink-muted);
+  transition:
+    background var(--t-fast),
+    color var(--t-fast);
+}
+
+.app-nav-item:hover .nav-ico {
+  color: var(--ink);
+}
+
+.app-nav-item.active .nav-ico {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+}
+
+/* ---- App bar ---- */
+.app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  min-height: var(--topbar-h);
+  border-bottom: 1px solid var(--rule);
+  background: color-mix(in srgb, var(--paper-raised) 82%, transparent);
+  backdrop-filter: saturate(180%) blur(16px);
+  box-shadow: none;
+}
+
+.app-main {
+  padding: var(--s-5) var(--s-5) var(--s-10);
+}
+
+/* ---- Phone tab bar: a floating pill ---- */
+@media (max-width: 900px) {
+  .app-bottomnav {
+    left: var(--s-3);
+    right: var(--s-3);
+    bottom: calc(var(--s-3) + env(safe-area-inset-bottom, 0px));
+    min-height: var(--tabbar-h);
+    padding-bottom: 0;
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--paper-raised) 86%, transparent);
+    backdrop-filter: saturate(180%) blur(18px);
+    box-shadow:
+      0 1px 2px rgba(11, 21, 18, 0.06),
+      0 10px 30px -8px rgba(11, 21, 18, 0.22);
+  }
+
+  .tab-item {
+    border-radius: 16px;
+    transition:
+      background var(--t-fast),
+      color var(--t-fast);
+  }
+
+  .tab-item.active {
+    color: var(--accent);
+  }
+
+  /* The pill no longer has a hairline above it, so the top corners need the
+     content to clear them on the first card. */
+  .app-main {
+    padding-bottom: calc(var(--tabbar-h) + var(--s-8) + var(--s-5));
+  }
+}
