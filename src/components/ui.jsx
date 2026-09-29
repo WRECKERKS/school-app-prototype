@@ -41,6 +41,10 @@ export function StockImg({ src, alt, className, style, priority, width, height }
 /* ---- Tones -------------------------------------------------------------
    The only colour vocabulary in the app. Components take a tone name and
    resolve it to a CSS class, so no component ever hardcodes a hex value. */
+/* Tone name -> modifier class. `danger` used to resolve to 'accent', which
+   painted every danger tone emerald. With the brand now green that made a
+   failed scan, an absent student and a primary button the exact same colour,
+   so the one thing a status colour must never do is look like a button. */
 const TONE_CLASS = {
   neutral: '',
   accent: 'accent',
@@ -48,7 +52,7 @@ const TONE_CLASS = {
   warn: 'warn',
   info: 'info',
   success: 'good',
-  danger: 'accent',
+  danger: 'danger',
   positive: 'positive',
   negative: 'negative',
 }
@@ -131,17 +135,26 @@ function cssVar(name, fallback) {
 }
 
 /* Theme-aware chart colours that adapt to light / dark mode */
+/* Chart colours. The series colours are deliberately NOT the brand green and
+   NOT --ink: green now means "this is a button you can press", and a chart
+   painted in the brand colour reads as UI chrome rather than as data. Data
+   gets its own blue so it can never be confused for an action. */
 export function chartTheme() {
   return {
-    grid: cssVar('--rule-soft', '#e8e2d7'),
-    tick: cssVar('--ink-muted', '#6b655c'),
-    tooltipFill: cssVar('--paper-raised', '#fdfbf7'),
-    polar: cssVar('--rule', '#ddd6c9'),
-    polarTick: cssVar('--ink-soft', '#45403a'),
-    primary: cssVar('--ink', '#1a1815'),
-    accent: cssVar('--accent', '#8c2f26'),
-    good: cssVar('--good', '#2c6550'),
-    warn: cssVar('--warn', '#85611c'),
+    grid: cssVar('--rule-soft', '#e9efec'),
+    tick: cssVar('--ink-muted', '#4c5b56'),
+    tooltipFill: cssVar('--paper-raised', '#ffffff'),
+    polar: cssVar('--rule', '#dde5e1'),
+    polarTick: cssVar('--ink-soft', '#2b3a35'),
+    /* chrome */
+    primary: cssVar('--ink', '#0b1512'),
+    accent: cssVar('--accent', '#047857'),
+    /* series */
+    data: cssVar('--info', '#1d4ed8'),
+    dataAlt: cssVar('--hue-cyan', '#1461a8'),
+    dataWarn: cssVar('--warn', '#9c4305'),
+    good: cssVar('--good', '#0a7a52'),
+    warn: cssVar('--warn', '#9c4305'),
   }
 }
 

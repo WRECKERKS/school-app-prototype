@@ -80,7 +80,7 @@ export default function AttendancePage() {
                   <td className="strong">{row.name}</td>
                   <td>{row.total}</td>
                   <td style={{ color: 'var(--good)', fontWeight: 600 }}>{row.present}</td>
-                  <td style={{ color: 'var(--accent)', fontWeight: 600 }}>{row.absent}</td>
+                  <td style={{ color: 'var(--danger)', fontWeight: 600 }}>{row.absent}</td>
                   <td>
                     <div className="score-row" style={{ minWidth: 150 }}>
                       <div className="score-bar">

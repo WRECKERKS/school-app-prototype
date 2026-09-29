@@ -2663,6 +2663,20 @@ select {
   color: var(--warn);
 }
 
+/* info and danger had no modifier rules at all, so a tone of either fell
+   through to the default accent and rendered emerald. */
+.stat-icon.info {
+  background: var(--info-soft);
+  border-color: color-mix(in srgb, var(--info) 25%, transparent);
+  color: var(--info);
+}
+
+.stat-icon.danger {
+  background: var(--danger-soft);
+  border-color: color-mix(in srgb, var(--danger) 25%, transparent);
+  color: var(--danger);
+}
+
 .stat-change {
   padding: 2px 6px;
   border-radius: var(--r-xs);
@@ -2680,6 +2694,13 @@ select {
 .stat-change.negative {
   background: var(--accent-soft);
   color: var(--accent);
+}
+
+/* A falling number is a bad outcome, not a brand-coloured fact. */
+.stat-change.negative.danger,
+.stat-change.danger {
+  background: var(--danger-soft);
+  color: var(--danger);
 }
 
 .stat-change.neutral {
@@ -2873,6 +2894,12 @@ select {
 }
 .progress-fill.warn {
   background: var(--warn);
+}
+.progress-fill.info {
+  background: var(--info);
+}
+.progress-fill.danger {
+  background: var(--danger);
 }
 .progress-fill.accent {
   background: var(--accent);
@@ -4751,6 +4778,11 @@ a.app-list-row:active {
 .app-row-ico.info {
   background: var(--info-soft);
   color: var(--info);
+}
+
+.app-row-ico.danger {
+  background: var(--danger-soft);
+  color: var(--danger);
 }
 
 .app-row-text {

@@ -32,7 +32,7 @@ export default function AnalyticsPage() {
                 <XAxis dataKey="topic" tick={{ fontSize: 12, fill: c.tick }} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: c.tick }} />
                 <Tooltip cursor={{ fill: c.tooltipFill }} />
-                <Bar dataKey="score" name="Score" fill={c.primary} radius={[8, 8, 0, 0]} barSize={26} />
+                <Bar dataKey="score" name="Score" fill={c.data} radius={[8, 8, 0, 0]} barSize={26} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -46,7 +46,7 @@ export default function AnalyticsPage() {
                 <XAxis dataKey="month" tick={{ fontSize: 12, fill: c.tick }} />
                 <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: c.tick }} />
                 <Tooltip />
-                <Line type="monotone" dataKey="score" name="Avg score" stroke={c.primary} strokeWidth={3} dot={{ r: 5, fill: c.primary }} />
+                <Line type="monotone" dataKey="score" name="Avg score" stroke={c.data} strokeWidth={3} dot={{ r: 5, fill: c.data }} />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -61,8 +61,8 @@ export default function AnalyticsPage() {
                 <YAxis domain={[0, 100]} tick={{ fontSize: 12, fill: c.tick }} />
                 <Tooltip cursor={{ fill: c.tooltipFill }} />
                 <Legend wrapperStyle={{ fontSize: 12, color: c.tick }} />
-                <Bar dataKey="math" name="Math" fill={c.primary} radius={[6, 6, 0, 0]} barSize={14} />
-                <Bar dataKey="science" name="Science" fill={c.accent} radius={[6, 6, 0, 0]} barSize={14} />
+                <Bar dataKey="math" name="Math" fill={c.data} radius={[6, 6, 0, 0]} barSize={14} />
+                <Bar dataKey="science" name="Science" fill={c.dataAlt} radius={[6, 6, 0, 0]} barSize={14} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -75,8 +75,8 @@ export default function AnalyticsPage() {
                 <PolarGrid stroke={c.polar} />
                 <PolarAngleAxis dataKey="skill" tick={{ fontSize: 11, fill: c.polarTick }} />
                 <PolarRadiusAxis angle={90} domain={[0, 100]} />
-                <Radar name="Term 1" dataKey="term1" stroke={c.primary} fill={c.primary} fillOpacity={0.35} />
-                <Radar name="Term 2" dataKey="term2" stroke={c.accent} fill={c.accent} fillOpacity={0.4} />
+                <Radar name="Term 1" dataKey="term1" stroke={c.data} fill={c.data} fillOpacity={0.35} />
+                <Radar name="Term 2" dataKey="term2" stroke={c.dataAlt} fill={c.dataAlt} fillOpacity={0.4} />
                 <Legend wrapperStyle={{ fontSize: 12, color: c.tick }} />
                 <Tooltip />
               </RadarChart>

@@ -296,6 +296,8 @@ await audit('app attendance dark', { path: '/app/attendance', ...DESK, theme: 'd
 await audit('app students light', { path: '/app/students', ...DESK, theme: 'light', signIn: true })
 await audit('app tests light', { path: '/app/tests', ...DESK, theme: 'light', signIn: true })
 await audit('app schedule light', { path: '/app/schedule', ...DESK, theme: 'light', signIn: true })
+await audit('app analytics light', { path: '/app/analytics', ...DESK, theme: 'light', signIn: true })
+await audit('app analytics dark', { path: '/app/analytics', ...DESK, theme: 'dark', signIn: true })
 await audit('app timetable light', { path: '/app/timetable', ...DESK, theme: 'light', signIn: true })
 await audit('app homework light', { path: '/app/homework', ...DESK, theme: 'light', signIn: true })
 
