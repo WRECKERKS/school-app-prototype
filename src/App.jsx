@@ -6,6 +6,7 @@ import BackToTop from './components/BackToTop'
 import ErrorBoundary from './components/ErrorBoundary'
 import { ToastProvider } from './components/ui'
 import { AuthProvider } from './context/AuthContext'
+import { useReveal } from './lib/motion'
 
 const Landing = lazy(() => import('./pages/Landing'))
 const StartDemo = lazy(() => import('./pages/StartDemo'))
@@ -50,10 +51,15 @@ function LoginRoute() {
   return <Login key={params.get('plan') || 'basic'} />
 }
 
+/* The key on the wrapper remounts it per pathname, which is what makes the
+   entrance replay on every navigation. The motion itself comes from the shared
+   primitive rather than a CSS keyframe so routes settle on the same curve as
+   every other entrance in the app. */
 function AnimatedRoutes({ children }) {
   const location = useLocation()
+  const ref = useReveal({ distance: 10 })
   return (
-    <div key={location.pathname} className="route-fade">
+    <div key={location.pathname} ref={ref} className="route-fade">
       {children}
     </div>
   )

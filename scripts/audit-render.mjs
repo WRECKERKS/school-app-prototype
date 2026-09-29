@@ -199,6 +199,22 @@ const AUDIT = String.raw`(() => {
     }
   }
 
+  /* 6. stuck-at-zero. The contrast pass above SKIPS anything with opacity 0, so
+        a botched entrance animation is invisible to it by construction -- the
+        content just quietly does not exist. This is the failure mode motion
+        introduces, so it needs its own check. */
+  const stuck = []
+  for (const el of document.querySelectorAll('.app-shell *, .login-page *, .start-page *, .landing *')) {
+    const cs = getComputedStyle(el)
+    if (cs.display === 'none' || cs.visibility === 'hidden') continue
+    if (px(cs.opacity) > 0.02) continue
+    const r = el.getBoundingClientRect()
+    if (r.width < 2 || r.height < 2) continue
+    if (el.textContent.trim().length < 2 && !el.querySelector('svg,img')) continue
+    stuck.push(el.tagName.toLowerCase() + '.' + String(el.className || '').trim().split(/\s+/).join('.'))
+  }
+  if (stuck.length) out.stuck = [...new Set(stuck)].slice(0, 10)
+
   return out
 })()`
 
@@ -255,10 +271,15 @@ async function runAudit(label, { path: route, width, height, theme, signIn }) {
   const d = r.depth.filter((x) => x.rim || (!x.glow && x.layers === 0))
   const of = r.overflow.length, s = r.smallTargets.length
   const noise = [...new Set(consoleMsgs)]
-  const flag = t || d.length || of || noise.length ? '!!' : 'ok'
+  const stuck = r.stuck ? r.stuck.length : 0
+  const flag = t || d.length || of || noise.length || stuck ? '!!' : 'ok'
   console.log(
-    `${flag} ${label.padEnd(30)} text-fail=${String(t).padEnd(3)} depth-weak=${String(d.length).padEnd(3)} overflow=${String(of).padEnd(3)} small=${s}  [${where.result.value}]`
+    `${flag} ${label.padEnd(30)} text-fail=${String(t).padEnd(3)} depth-weak=${String(d.length).padEnd(3)} overflow=${String(of).padEnd(3)} stuck=${stuck} small=${s}  [${where.result.value}]`
   )
+  if (r.stuck) {
+    console.log(`     -> invisible content (${r.stuck.length})`)
+    for (const s2 of r.stuck.slice(0, 6)) console.log(`        ${s2}`)
+  }
   if (noise.length) {
     console.log(`     -> console (${noise.length})`)
     for (const n of noise.slice(0, 6)) console.log(`        ${n.slice(0, 160)}`)

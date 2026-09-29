@@ -9,6 +9,7 @@ import {
   PLANS, moduleById, modulesFor, groupModules, roleById, appName
 } from '../lib/registry'
 import { useTheme } from '../lib/useTheme'
+import { useStaggerReveal } from '../lib/motion'
 
 const NAV_KEY = 'edusuite.nav'
 
@@ -44,6 +45,8 @@ export default function DashboardLayout() {
   const roles = user ? rolesFn(plan.id) : []
   const current = moduleById(location.pathname.split('/').pop()) || (location.pathname === '/app' ? moduleById('home') : null)
   const allowedHere = modules.some((m) => m.path === location.pathname)
+  const groups = groupModules(modules)
+  const navRef = useStaggerReveal('.app-nav-item', { gap: 26, max: 24 })
 
   /* Close the mobile drawer and any open dropdown on navigation */
   const [navPath, setNavPath] = useState(location.pathname)
@@ -56,7 +59,6 @@ export default function DashboardLayout() {
 
   if (!user) return <Navigate to={`/login?plan=${PLANS.basic.id}`} replace />
 
-  const groups = groupModules(modules)
   const RoleIcon = (roleById(user.roleId) || {}).icon
 
   return (
@@ -98,7 +100,10 @@ export default function DashboardLayout() {
           </button>
         </div>
 
-        <nav className="app-nav" aria-label="Modules">
+        {/* The nav items cascade in once when the rail first appears. Revealing
+            them on every route change would be noise: you did not just discover
+            these modules, you are moving between them. */}
+        <nav ref={navRef} className="app-nav" aria-label="Modules">
           {groups.map((g) => (
             <div key={g.name}>
               <div className="app-nav-group-title">{g.name}</div>

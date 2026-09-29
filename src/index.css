@@ -3615,15 +3615,11 @@ input.textarea {
 
 /* ---------- 24. Misc ----------------------------------------------------- */
 
+/* The route entrance is JS now (see useReveal in lib/motion.js) so that it
+   shares the app's easing curve. The class stays because it is the hook the
+   animation is scoped to, and so nothing shifts if JS is unavailable. */
 .route-fade {
-  animation: routeIn var(--t-slow) both;
-}
-
-@keyframes routeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
+  min-height: 1px;
 }
 
 .page-loader {
