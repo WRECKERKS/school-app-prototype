@@ -174,6 +174,16 @@
   --danger-soft: #fce1e8;
   --danger-rule: #f2a0b6;
 
+  /* ---- Background bloom ----
+     Very low alpha on purpose. The field has to be felt rather than seen: at
+     13% over the near-white canvas it shifts the page a few points greener
+     without ever competing with a card, and the audit confirms body text keeps
+     its contrast. The second blob is nudged toward the hue family so the top
+     right of the page is not the same green as the bottom left. */
+  --bloom-1: color-mix(in srgb, var(--accent) 13%, transparent);
+  --bloom-2: color-mix(in srgb, var(--hue-teal) 9%, transparent);
+  --bloom-3: color-mix(in srgb, var(--accent) 7%, transparent);
+
   /* ---- Elevation ----
      Two ladders. --shadow-* is the old flat scale, still referenced by a few
      older rules.
@@ -272,6 +282,12 @@
   --danger-hover: #ffb3c4;
   --danger-soft: #33131e;
   --danger-rule: #7a3145;
+
+  /* On black the same alpha reads as nothing, so the bloom runs a little
+     stronger and leans on the lighter mint rather than the deep brand green. */
+  --bloom-1: color-mix(in srgb, var(--accent) 16%, transparent);
+  --bloom-2: color-mix(in srgb, var(--hue-teal) 12%, transparent);
+  --bloom-3: color-mix(in srgb, var(--accent) 9%, transparent);
 
   /* Cast shadow on a black canvas has no light to fall on, so the lift comes
      almost entirely from the surface being lighter than the page. All that is
@@ -415,19 +431,24 @@ table {
 }
 
 /* Paper ground: a faint ruled texture, not a gradient wash */
+/* The organic field behind everything. Three large, heavily blurred ellipses of
+   brand colour, pushed mostly off the edges of the viewport so you read the
+   light falling in from the corners rather than three shapes sitting in the
+   middle of the screen. Gradients are already soft, so this costs no filter.
+
+   This is what the per-card shading in section 33 sits inside: the field gives
+   the page a light source, the card glows pick it up locally. */
 .app-bg {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: linear-gradient(var(--rule-soft) 1px, transparent 1px);
-  background-size: 100% 32px;
-  opacity: 0.35;
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 70%);
-}
-
-[data-theme='dark'] .app-bg {
-  opacity: 0.18;
+  background-image:
+    radial-gradient(58rem 44rem at 8% -10%, var(--bloom-1) 0%, transparent 62%),
+    radial-gradient(48rem 40rem at 96% 2%, var(--bloom-2) 0%, transparent 60%),
+    radial-gradient(54rem 46rem at 78% 102%, var(--bloom-3) 0%, transparent 64%);
+  opacity: 1;
+  mask-image: none;
 }
 
 /* ---------- 3. Typography ------------------------------------------------ */
@@ -3945,15 +3966,7 @@ body {
   background: var(--paper);
 }
 
-.app-bg {
-  background: none;
-  opacity: 1;
-  mask-image: none;
-}
-
-[data-theme='dark'] .app-bg {
-  opacity: 1;
-}
+/* the bloom is now defined on the base .app-bg rule above */
 
 h1,
 h2,
