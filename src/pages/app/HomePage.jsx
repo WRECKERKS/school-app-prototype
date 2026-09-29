@@ -7,6 +7,7 @@ import {
 import { useAuth } from '../../context/AuthContext'
 import { Panel } from '../../components/ui'
 import { useTheme } from '../../lib/useTheme'
+import { useStaggerOn } from '../../lib/motion'
 import { workModulesFor, PLANS, roleById } from '../../lib/registry'
 import { schedule, announcements, upcomingEvents, activityLog } from '../../lib/mock'
 
@@ -127,11 +128,27 @@ export default function HomePage() {
   const liveNow = schedule.find((s) => s.live)
   const unread = announcements.filter((a) => a.priority === 'High').length
 
+  /* The page assembles top to bottom on arrival: hero, today, notice, then
+     each group of shortcuts. Keyed on the role+plan so switching either of them
+     in the demo replays the build -- the layout genuinely changed underneath. */
+  useStaggerOn(
+    '.app-hero, .panel, .app-notice-strip, .app-section-head, .app-quick-row, .app-launcher, .app-tile-row',
+    `${user.roleId}:${user.plan}`,
+    { gap: 40, max: 8 }
+  )
+
   return (
     <>
-      {/* Profile card — who you are, what plan you are on, and the three
-          account actions that otherwise only existed inside the sidebar. */}
-      <section className="app-profile-card">
+      {/* Hero — who you are, what plan you are on, the three account actions
+          that otherwise only existed inside the sidebar, and the headline
+          numbers folded in as a strip along its base edge.
+
+          The numbers used to sit in a band of their own directly under the
+          greeting, which is the single most CRM thing this page did: it opened
+          with a KPI strip before telling you anything. A school app opens with
+          who you are and what is happening now. The figures are still here,
+          just as a footnote to that instead of the headline. */}
+      <section className="app-profile-card app-hero">
         <div className="app-profile-top">
           <span className="app-profile-avatar">
             {RoleIcon ? <RoleIcon size={24} /> : null}
@@ -168,38 +185,22 @@ export default function HomePage() {
             <LogOut size={15} /> Log out
           </button>
         </div>
+
+        {copy.stats.length > 0 && (
+          <div className="app-stat-row">
+            {copy.stats.map((s) => (
+              <div key={s.label} className="app-stat">
+                <b className={s.tone || undefined}>{s.value}</b>
+                <span>{s.label}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
-      {/* Headline numbers */}
-      {copy.stats.length > 0 && (
-        <div className="app-stat-row">
-          {copy.stats.map((s) => (
-            <div key={s.label} className="app-stat">
-              <b className={s.tone || undefined}>{s.value}</b>
-              <span>{s.label}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Notice strip — the thing a school app most needs to be unmissable */}
-      {announcements[0] && (
-        <Link to="/app/announcements" className="app-notice-strip">
-          <span className="app-notice-ico">
-            <Megaphone size={17} />
-          </span>
-          <div className="app-notice-text">
-            <b>{announcements[0].title}</b>
-            <span>
-              {announcements[0].date} &middot; {announcements[0].id}
-            </span>
-          </div>
-          <span className="status-badge status-overdue">{announcements[0].priority}</span>
-          <ChevronRight size={16} className="app-row-chevron" />
-        </Link>
-      )}
-
-      {/* Today */}
+      {/* Today comes first, before the notice strip. What is live right now is
+          the reason someone opened this app; the notice is already there when
+          they get to it. */}
       <Panel title="Today" icon={Sparkles}>
         <p className="app-lead-title">{copy.leadTitle}</p>
         <p className="app-lead-body">{copy.leadBody}</p>
@@ -227,6 +228,23 @@ export default function HomePage() {
           </Link>
         </div>
       </Panel>
+
+      {/* Notice strip — the thing a school app most needs to be unmissable */}
+      {announcements[0] && (
+        <Link to="/app/announcements" className="app-notice-strip">
+          <span className="app-notice-ico">
+            <Megaphone size={17} />
+          </span>
+          <div className="app-notice-text">
+            <b>{announcements[0].title}</b>
+            <span>
+              {announcements[0].date} &middot; {announcements[0].id}
+            </span>
+          </div>
+          <span className="status-badge status-overdue">{announcements[0].priority}</span>
+          <ChevronRight size={16} className="app-row-chevron" />
+        </Link>
+      )}
 
       {/* Quick actions — horizontal scroll, like a launcher row */}
       <div className="app-section-head">

@@ -7028,3 +7028,128 @@ textarea.input:focus {
     padding-bottom: calc(var(--tabbar-h) + var(--s-8) + var(--s-5));
   }
 }
+
+/* ---------- 36. Home: an app, not a dashboard -----------------------------
+
+   This page is the reason the redesign was for. The old version opened with a
+   band of four headline numbers and a violet-to-teal gradient, which is
+   unambiguously a CRM: metrics first, you second.
+
+   The changes, and why:
+
+   - Emerald-only gradient. The violet and teal stops were leftovers from the
+     old brand and they fought the green identity from halfway across the card.
+   - The greeting is the largest type on the page. Your name is what you came
+     here to see.
+   - The figures live in a strip along the base of the hero, divided by
+     hairlines instead of each sitting in its own box. Four separate cards for
+     four numbers is the dashboard tell again, just smaller.
+   - The avatar is a rounded square rather than a circle, which is the language
+     the rest of the app uses for icon wells. */
+
+.app-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-5) var(--s-6);
+  margin-bottom: var(--s-4);
+  padding: var(--s-6);
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(120% 150% at 8% 0%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 58%),
+    radial-gradient(90% 130% at 100% 100%, color-mix(in srgb, var(--accent) 12%, transparent) 0%, transparent 60%),
+    var(--paper-raised);
+  border: 1px solid var(--accent-rule);
+  box-shadow: var(--lift-2);
+  overflow: hidden;
+}
+
+.app-profile-top {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  min-width: 0;
+}
+
+.app-profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--accent) 14%, var(--paper-raised));
+  color: var(--accent);
+  box-shadow: none;
+}
+
+.app-profile-id h1 {
+  font-size: var(--t-3xl);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.app-profile-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* The numbers: a strip along the bottom edge of the hero, not four cards. */
+.app-hero .app-stat-row {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0;
+  margin: var(--s-2) 0 0;
+  padding-top: var(--s-4);
+  border-top: 1px solid var(--accent-rule);
+}
+
+.app-hero .app-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 var(--s-4);
+  border: 0;
+  border-left: 1px solid var(--accent-rule);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.app-hero .app-stat:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.app-hero .app-stat b {
+  font-size: var(--t-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.app-hero .app-stat span {
+  font-size: var(--t-sm);
+  color: var(--ink-soft);
+}
+
+@media (max-width: 720px) {
+  .app-hero {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--s-5);
+  }
+
+  .app-hero .app-stat-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-4) 0;
+  }
+
+  .app-hero .app-stat:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+}
