@@ -7297,3 +7297,116 @@ textarea.input:focus {
   background: var(--accent-soft);
   color: var(--accent);
 }
+
+/* ---------- 38. Landing, sign-in, plan chooser ----------------------------
+
+   The three screens a visitor sees before they have an account.
+
+   - The sign-in split panel was a flat block of --accent-strong. A large
+     surface that saturated is the one place in the app where the brand colour
+     is allowed to be loud, so it gets a real mesh and a glow rather than
+     reading as a rectangle someone filled in.
+   - The featured plan is marked with --ink and a hard --shadow-2. The ribbon
+     now matches the emerald language, and the lift is a coloured glow so the
+     recommended plan glows rather than merely sitting slightly higher.
+   - The logo and the "Change plan" link are the two small targets the phone
+     audit has been reporting on every run. Both are real controls and both
+     were under 44px on touch widths. */
+
+/* ---- Landing hero ---- */
+.hero {
+  padding: var(--s-16) var(--s-5) var(--s-12);
+}
+
+.hero-title {
+  font-size: var(--t-display);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.hero-eyebrow {
+  border: 1px solid var(--accent-rule);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ---- Sign-in: the brand panel gets a mesh ---- */
+.login-brand {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  background:
+    radial-gradient(120% 100% at 0% 0%, color-mix(in srgb, var(--on-accent) 22%, transparent) 0%, transparent 55%),
+    radial-gradient(100% 90% at 100% 100%, color-mix(in srgb, var(--on-accent) 14%, transparent) 0%, transparent 60%),
+    var(--accent-strong);
+  color: var(--on-accent);
+  box-shadow:
+    0 1px 2px rgba(4, 120, 87, 0.24),
+    0 18px 48px -16px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.login-brand .logo,
+.login-brand .logo-icon,
+.login-brand .login-brand-title,
+.login-point .p-ico {
+  color: var(--on-accent);
+}
+
+.login-brand .logo-icon {
+  background: color-mix(in srgb, var(--on-accent) 20%, transparent);
+  color: var(--on-accent);
+}
+
+.login-card {
+  border-radius: var(--r-xl);
+  background: var(--paper-raised);
+}
+
+/* ---- Plan chooser ---- */
+.plan-card {
+  transition:
+    border-color var(--t-base),
+    box-shadow var(--t-base),
+    transform var(--t-base);
+}
+
+.plan-card:hover {
+  border-color: var(--accent-rule);
+  box-shadow: var(--lift-2);
+  transform: translateY(-2px);
+}
+
+.plan-card.featured {
+  border-color: var(--accent);
+  box-shadow:
+    var(--lift-2),
+    0 16px 44px -18px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.plan-card.featured::after {
+  border-radius: var(--r-pill);
+  background: var(--accent-strong);
+  color: var(--on-accent);
+  letter-spacing: 0.06em;
+}
+
+/* ---- Touch targets the audit kept reporting ----
+   A 132x30 logo and a 92x21 "Change plan" link are both real controls, and
+   both were under 44px on a 390px phone. They now get the standard target and
+   the extra height reads as a deliberate tap row rather than as padding. */
+@media (max-width: 900px) {
+  .logo {
+    min-height: 44px;
+  }
+
+  .login-card a,
+  .start-card a,
+  .plan-switch,
+  a.link-btn,
+  .text-btn {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
