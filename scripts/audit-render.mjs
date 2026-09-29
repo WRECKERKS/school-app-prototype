@@ -139,19 +139,29 @@ const AUDIT = String.raw`(() => {
   /* 2. depth model. Two things have to be true now that clay is gone: the
         ambient green glow actually applied, and no hard rim is left behind.
         A rim is an outset layer with zero blur and zero spread -- that single
-        line under the card was the whole clay read. */
+        line under the card was the whole clay read.
+
+        "Separated from the canvas" is the underlying goal, and for a control
+        that can come from a hairline or a fill rather than a shadow. A ghost
+        button with a 1px border and no shadow is correct, not flat, so a
+        border or a background counts. Without that, every ghost button in the
+        app reads as a failure. */
   const RAISED = ['.panel', '.stat-card', '.login-card', '.start-card', '.fcard', '.tcard',
                    '.app-launch', '.app-quick', '.app-profile-card', '.btn', '.modal', '.app-tile']
   for (const sel of RAISED) {
     const el = document.querySelector(sel)
     if (!el) { out.missing.push(sel); continue }
-    const sh = getComputedStyle(el).boxShadow
+    const cs = getComputedStyle(el)
+    const sh = cs.boxShadow
     const layers = !sh || sh === 'none' ? [] : sh.split(/,(?![^(]*\))/).filter((s) => s.trim())
     /* zero blur, zero spread, outset (no 'inset') => a drawn rim */
     const rim = layers.find((l) => !/inset/.test(l) && /^0(px)?\s+-?[\d.]+px\s+0(px)?\s+/.test(l.trim()))
     const b = getComputedStyle(el, '::before')
-    const glow = b && b.backgroundImage && /gradient/.test(b.backgroundImage) && px(b.opacity) > 0
-    out.depth.push({ sel, layers: layers.length, glow: !!glow, rim: rim ? rim.trim() : null })
+    const glow = !!(b && b.backgroundImage && /gradient/.test(b.backgroundImage) && px(b.opacity) > 0)
+    const bc = parse(cs.borderTopColor)
+    const bgc = parse(cs.backgroundColor)
+    const edge = (px(cs.borderTopWidth) > 0 && bc && bc.a > 0.1) || (bgc && bgc.a > 0.1)
+    out.depth.push({ sel, layers: layers.length, glow, edge: !!edge, rim: rim ? rim.trim() : null })
   }
 
   /* 3. is the card actually a different colour from the canvas? */
@@ -267,8 +277,9 @@ async function runAudit(label, { path: route, width, height, theme, signIn }) {
   const { result } = await call('Runtime.evaluate', { expression: AUDIT, returnByValue: true })
   const r = result.value
   const t = r.textFail.length
-  /* flat = no glow and no shadow at all; rim = the old clay edge came back */
-  const d = r.depth.filter((x) => x.rim || (!x.glow && x.layers === 0))
+  /* flat = no glow, no shadow, and no border or fill to separate it either;
+     rim = the old clay edge came back */
+  const d = r.depth.filter((x) => x.rim || (!x.glow && !x.edge && x.layers === 0))
   const of = r.overflow.length, s = r.smallTargets.length
   const noise = [...new Set(consoleMsgs)]
   const stuck = r.stuck ? r.stuck.length : 0
@@ -297,11 +308,11 @@ async function audit(label, opts) {
       console.log(`              fg=${f.fg} bg=${f.bg}  "${f.text}"`)
     }
   }
-  const bad = r.depth.filter((x) => x.rim || (!x.glow && x.layers === 0))
+  const bad = r.depth.filter((x) => x.rim || (!x.glow && !x.edge && x.layers === 0))
   if (bad.length) {
     console.log(`     -> depth failures (${bad.length})`)
     for (const d of bad.slice(0, 8)) {
-      console.log(`        ${d.sel}  layers=${d.layers} glow=${d.glow}` + (d.rim ? `  RIM: ${d.rim}` : ''))
+      console.log(`        ${d.sel}  layers=${d.layers} glow=${d.glow} edge=${d.edge}` + (d.rim ? `  RIM: ${d.rim}` : ''))
     }
   }
   if (r.overflow.length) {

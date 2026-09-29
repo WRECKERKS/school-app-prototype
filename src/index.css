@@ -6639,3 +6639,241 @@ button.fcard:active,
     display: none !important;
   }
 }
+
+/* ---------- 34. Controls --------------------------------------------------
+
+   The last word on buttons, inputs, chips and badges. These sit at the end of
+   the file on purpose: the sections above each define these elements once, and
+   several of them define them twice. Rather than keep editing rules in place
+   and hoping the cascade lands the way it reads, the shared control language
+   lives here in one block where it can be read top to bottom.
+
+   The moves, in order of how much they change the feel:
+
+   - Nothing has a hard rim any more. Hover on a ghost button tints the
+     surface instead of darkening the border, which is what made the old
+     controls look like they had been drawn rather than lit.
+   - Pressing is a scale, not a nudge. Two rules were fighting over this
+     before: one did translateY(1px), the other scale(0.97), and the later one
+     silently won. scale() is the one that survives.
+   - Primary buttons get a soft coloured glow rather than a hard drop shadow,
+     so the button looks lit by the same source as the cards around it.
+   - Focus is a ring plus a glow, not just an outline, so keyboard focus is
+     obvious on both themes without depending on the browser default. */
+
+/* ---- Buttons ---- */
+.btn {
+  min-height: 42px;
+  padding: 0 var(--s-5);
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  font-size: var(--t-base);
+  font-weight: 600;
+  letter-spacing: 0;
+  box-shadow: none;
+  transition:
+    transform var(--t-fast),
+    box-shadow var(--t-base),
+    background var(--t-fast),
+    border-color var(--t-fast),
+    color var(--t-fast);
+}
+
+.btn:active {
+  transform: scale(0.975);
+  box-shadow: none;
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: var(--accent-strong);
+  color: var(--on-accent);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--accent) 30%, transparent),
+    0 6px 18px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-strong-hover);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--accent) 34%, transparent),
+    0 10px 26px -8px color-mix(in srgb, var(--accent) 78%, transparent);
+}
+
+.btn-primary:active:not(:disabled) {
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* Soft: a tinted surface, not a border. */
+.btn-soft {
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: none;
+}
+
+.btn-soft:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 18%, var(--paper-raised));
+}
+
+/* Ghost: hairline, and hover tints rather than thickens. */
+.btn-ghost {
+  background: var(--paper-raised);
+  border-color: var(--rule);
+  color: var(--ink-soft);
+  box-shadow: none;
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 7%, var(--paper-raised));
+  border-color: var(--accent-rule);
+  color: var(--ink);
+}
+
+/* The inverted button, for the one dark action on a light page. */
+.btn-accent {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-raised);
+  box-shadow: none;
+}
+
+.btn-accent:hover:not(:disabled) {
+  background: var(--ink-soft);
+  border-color: var(--ink-soft);
+}
+
+.btn-sm {
+  min-height: 34px;
+  padding: 0 var(--s-3);
+  font-size: var(--t-sm);
+}
+
+.btn-lg {
+  min-height: 50px;
+  padding: 0 var(--s-6);
+  font-size: var(--t-md);
+}
+
+/* ---- Focus: visible on both themes, never relying on the UA default ---- */
+.btn:focus-visible,
+.input:focus-visible,
+.select:focus-visible,
+.textarea:focus-visible,
+.chip:focus-visible,
+.nav-link:focus-visible,
+.app-nav-item:focus-visible,
+a:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+/* ---- Inputs ---- */
+.input,
+.select,
+textarea.input,
+select.select,
+.search-input {
+  min-height: 44px;
+  padding: 10px var(--s-3);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-sm);
+  background: var(--paper-raised);
+  color: var(--ink);
+  font-size: var(--t-base);
+  box-shadow: none;
+  transition:
+    border-color var(--t-fast),
+    box-shadow var(--t-base),
+    background var(--t-fast);
+}
+
+/* A field you are typing in should not also look like a field you are not. */
+.input:hover:not(:disabled),
+.select:hover:not(:disabled) {
+  border-color: var(--rule-strong);
+}
+
+.input:focus,
+.select:focus,
+textarea.input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--ink-faint);
+}
+
+/* ---- Chips & badges ----
+   Small elements cannot carry a rim or a shadow without turning muddy, so they
+   get a soft tinted fill and nothing else. The earlier --sunk on these was
+   making 11px text sit in a well it had no room for. */
+.chip {
+  min-height: 34px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--rule-soft);
+  border-radius: var(--r-pill);
+  background: var(--paper-raised);
+  font-size: var(--t-sm);
+  font-weight: 500;
+  box-shadow: none;
+  transition:
+    background var(--t-fast),
+    border-color var(--t-fast),
+    color var(--t-fast);
+}
+
+.chip.active {
+  border-color: transparent;
+  background: var(--accent-strong);
+  color: var(--on-accent);
+  box-shadow: 0 4px 12px -6px color-mix(in srgb, var(--accent) 65%, transparent);
+}
+
+.badge {
+  padding: 3px var(--s-2);
+  border: 0;
+  border-radius: var(--r-xs);
+  background: var(--paper-sunk);
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  box-shadow: none;
+}
+
+.status-badge {
+  padding: 3px var(--s-2);
+  border: 0;
+  border-radius: var(--r-pill);
+  font-size: var(--t-2xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: none;
+}
+
+.qd-chip,
+.seg-control button.active,
+.stat-change {
+  box-shadow: none;
+}
+
+/* Touch widths: every button is 44px, including the small variants. .btn-sm at
+   34px is fine for a mouse and too small for a thumb, and the phone audit
+   flagged "Log out of demo" at 255x34 after the size scale was retuned. */
+@media (max-width: 900px) {
+  .btn,
+  .btn-sm,
+  .btn-lg {
+    min-height: 44px;
+  }
+}
