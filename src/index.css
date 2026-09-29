@@ -176,22 +176,25 @@
 
   /* ---- Elevation ----
      Two ladders. --shadow-* is the old flat scale, still referenced by a few
-     older rules. --clay-* is the depth model everything new should use: a lit
-     top edge, a solid rim underneath, and a soft cast shadow. Three layers is
-     what makes it read as a solid object instead of a rectangle. */
-  --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-2: 0 2px 8px -2px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.07);
-  --shadow-3: 0 12px 28px -8px rgba(15, 23, 42, 0.2), 0 4px 10px -4px rgba(15, 23, 42, 0.09);
+     older rules.
+
+     --lift-* replaces the old clay model. Clay built depth out of a hard 1px
+     bottom rim, which is what made every card look like a rubber stamp pressed
+     into the page. These are pure cast shadow: soft, wide, and the same hue as
+     the ink, so elevation reads as distance rather than as a drawn outline.
+     The only thing left of the old trick is a very faint top highlight in dark
+     mode, where there is no light source for a cast shadow to come from. */
+  --shadow-1: 0 1px 2px rgba(11, 21, 18, 0.05);
+  --shadow-2: 0 2px 8px -2px rgba(11, 21, 18, 0.1), 0 1px 3px rgba(11, 21, 18, 0.05);
+  --shadow-3: 0 12px 28px -8px rgba(11, 21, 18, 0.16), 0 4px 10px -4px rgba(11, 21, 18, 0.07);
   --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.9);
 
-  /* Clay — medium depth, as requested: clearly chunky, still clean */
-  --clay-rim: #c9d2e2;
-  --clay-hi: rgba(255, 255, 255, 0.95);
-  --clay-1: inset 0 1px 0 var(--clay-hi), 0 1px 0 var(--clay-rim), 0 3px 8px -2px rgba(15, 23, 42, 0.14);
-  --clay-2: inset 0 1px 0 var(--clay-hi), 0 2px 0 var(--clay-rim), 0 9px 20px -6px rgba(15, 23, 42, 0.18);
-  --clay-3: inset 0 1px 0 var(--clay-hi), 0 3px 0 var(--clay-rim), 0 18px 36px -10px rgba(15, 23, 42, 0.24);
-  --clay-inset: inset 0 2px 5px -1px rgba(15, 23, 42, 0.1), inset 0 -1px 0 var(--clay-hi);
-  --clay-press: inset 0 2px 4px rgba(15, 23, 42, 0.12);
+  --lift-hi: transparent;
+  --lift-1: 0 1px 2px rgba(11, 21, 18, 0.05);
+  --lift-2: 0 6px 16px -6px rgba(11, 21, 18, 0.14), 0 2px 5px -2px rgba(11, 21, 18, 0.06);
+  --lift-3: 0 22px 46px -14px rgba(11, 21, 18, 0.2), 0 8px 18px -8px rgba(11, 21, 18, 0.08);
+  --sunk: inset 0 1px 2px rgba(11, 21, 18, 0.06);
+  --press: 0 1px 1px rgba(11, 21, 18, 0.04);
 
   color-scheme: light;
 }
@@ -270,15 +273,16 @@
   --danger-soft: #33131e;
   --danger-rule: #7a3145;
 
-  /* Clay in the dark needs the rim *below* the surface to be darker, not
-     lighter, or the card stops reading as raised. */
-  --clay-rim: #0a0d12;
-  --clay-hi: rgba(255, 255, 255, 0.055);
-  --clay-1: inset 0 1px 0 var(--clay-hi), 0 1px 0 var(--clay-rim), 0 3px 8px -2px rgba(0, 0, 0, 0.55);
-  --clay-2: inset 0 1px 0 var(--clay-hi), 0 2px 0 var(--clay-rim), 0 8px 18px -6px rgba(0, 0, 0, 0.6);
-  --clay-3: inset 0 1px 0 var(--clay-hi), 0 3px 0 var(--clay-rim), 0 16px 32px -10px rgba(0, 0, 0, 0.7);
-  --clay-inset: inset 0 2px 5px -1px rgba(0, 0, 0, 0.6), inset 0 -1px 0 var(--clay-hi);
-  --clay-press: inset 0 2px 4px rgba(0, 0, 0, 0.45);
+  /* Cast shadow on a black canvas has no light to fall on, so the lift comes
+     almost entirely from the surface being lighter than the page. All that is
+     left of the old clay treatment is a 1px top highlight, which stands in for
+     the light source. */
+  --lift-hi: rgba(255, 255, 255, 0.05);
+  --lift-1: inset 0 1px 0 var(--lift-hi), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --lift-2: inset 0 1px 0 var(--lift-hi), 0 6px 16px -6px rgba(0, 0, 0, 0.55);
+  --lift-3: inset 0 1px 0 var(--lift-hi), 0 20px 40px -14px rgba(0, 0, 0, 0.65);
+  --sunk: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+  --press: inset 0 1px 2px rgba(0, 0, 0, 0.4);
 
   /* Shadow ladder, kept for anything still on the old scale */
   --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -6410,17 +6414,15 @@ li {
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- 29. Clay depth -----------------------------------------------
+/* ---------- 29. Depth ------------------------------------------------------
 
-   The visibility problem: a white card on a near-white canvas with a 1px border
-   is legible but flat, and at a glance every surface reads as the same thing.
-   The fix is depth, not contrast — give each surface a lit top edge, a solid rim
-   underneath it, and a soft cast shadow. Three layers is what makes a rectangle
-   read as a solid object.
+   The old clay model built depth out of a hard 1px rim under a lit top edge.
+   That rim is what made every card look like a rubber stamp pressed into the
+   page, and it is gone. Depth now comes from two places only: a soft cast
+   shadow, and the ambient green in section 33.
 
-   The rim is the part people notice. A single drop shadow looks like a
-   rectangle floating; a shadow plus a hard bottom edge looks pressed out of the
-   screen, which is the clay read. */
+   The borders that remain are --rule-soft, which is faint enough to separate
+   without drawing an outline around the card. */
 
 .panel,
 .stat-card,
@@ -6442,7 +6444,7 @@ li {
 .app-hero-card,
 .empty-state,
 .illus-card {
-  box-shadow: var(--clay-1);
+  box-shadow: var(--lift-1);
 }
 
 .stat-card,
@@ -6470,18 +6472,18 @@ li {
   .app-tile:hover,
   button.fcard:hover {
     transform: translateY(-2px);
-    box-shadow: var(--clay-2);
+    box-shadow: var(--lift-2);
   }
 }
 
-/* Pressing a clay surface pushes it in rather than lifting it */
+/* Pressing a raised surface settles it back down rather than lifting it */
 .app-launch:active,
 .app-quick:active,
 .app-tile:active,
 button.fcard:active,
 .fcard:active {
   transform: translateY(1px);
-  box-shadow: var(--clay-press);
+  box-shadow: var(--press);
 }
 
 /* Sunk surfaces get the inverse treatment: shadow inside, light along the
@@ -6495,35 +6497,35 @@ button.fcard:active,
 .seg-control,
 .app-hero-card,
 .app-stat {
-  box-shadow: var(--clay-inset);
+  box-shadow: var(--sunk);
 }
 
 /* Buttons are the other thing you press all day, so they get the full treatment */
 .btn {
   border: 0;
-  box-shadow: var(--clay-1);
+  box-shadow: var(--lift-1);
   transition: transform var(--t-fast), box-shadow var(--t-fast), background var(--t-fast);
 }
 
 .btn:hover {
-  box-shadow: var(--clay-2);
+  box-shadow: var(--lift-2);
 }
 
 .btn:active {
   transform: translateY(1px);
-  box-shadow: var(--clay-press);
+  box-shadow: var(--press);
 }
 
 .btn-primary {
-  box-shadow: var(--clay-1), 0 4px 12px -4px color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: var(--lift-1), 0 4px 12px -4px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
 .btn-primary:hover {
-  box-shadow: var(--clay-2), 0 6px 18px -4px color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: var(--lift-2), 0 6px 18px -4px color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
 .btn-primary:active {
-  box-shadow: var(--clay-press);
+  box-shadow: var(--press);
 }
 
 .btn-ghost,
@@ -6539,7 +6541,7 @@ button.fcard:active,
 .qd-chip,
 .seg-control button.active,
 .stat-change {
-  box-shadow: var(--clay-inset);
+  box-shadow: var(--sunk);
 }
 
 /* Tables: header row sits in a well, rows get a hairline, not a shadow */
@@ -6570,8 +6572,10 @@ button.fcard:active,
   backdrop-filter: saturate(180%) blur(12px);
 }
 
+/* The tab bar floats over scrolling content, so it needs a real cast shadow
+   rather than the 2px rim it used to carry. */
 .app-bottomnav {
-  box-shadow: 0 -2px 0 var(--clay-rim), 0 -8px 20px -8px rgba(15, 23, 42, 0.16);
+  box-shadow: 0 -10px 24px -10px rgba(11, 21, 18, 0.18);
 }
 
 [data-theme='dark'] .app-bottomnav {
@@ -6622,14 +6626,14 @@ button.fcard:active,
 .app-tile-ico {
   background: var(--tile-soft, var(--accent-soft));
   color: var(--tile, var(--accent));
-  box-shadow: var(--clay-inset);
+  box-shadow: var(--sunk);
   transition: background var(--t-fast), color var(--t-fast);
 }
 
 .app-quick-ico {
   background: var(--tile-soft, var(--accent-soft));
   color: var(--tile, var(--accent));
-  box-shadow: var(--clay-inset);
+  box-shadow: var(--sunk);
 }
 
 /* Quick actions use the same cycle, just one column of it */
@@ -6699,7 +6703,7 @@ button.fcard:active,
   padding: var(--s-5);
   border-radius: var(--r-lg);
   background: linear-gradient(135deg, var(--accent-soft), var(--hue-violet-soft) 70%, var(--hue-teal-soft));
-  box-shadow: var(--clay-2);
+  box-shadow: var(--lift-2);
 }
 
 .app-profile-top {
@@ -6718,7 +6722,7 @@ button.fcard:active,
   border-radius: var(--r-md);
   background: var(--paper-raised);
   color: var(--accent);
-  box-shadow: var(--clay-1);
+  box-shadow: var(--lift-1);
 }
 
 .app-profile-id {
@@ -6761,18 +6765,18 @@ button.fcard:active,
   font-size: var(--t-xs);
   font-weight: 600;
   cursor: pointer;
-  box-shadow: var(--clay-1);
+  box-shadow: var(--lift-1);
   transition: transform var(--t-fast), box-shadow var(--t-fast);
 }
 
 .app-pill-btn:hover {
   color: var(--accent);
-  box-shadow: var(--clay-2);
+  box-shadow: var(--lift-2);
 }
 
 .app-pill-btn:active {
   transform: translateY(1px);
-  box-shadow: var(--clay-press);
+  box-shadow: var(--press);
 }
 
 .app-pill-btn.danger:hover {
@@ -6802,12 +6806,12 @@ button.fcard:active,
   border-radius: var(--r-md);
   background: var(--paper-raised);
   color: inherit;
-  box-shadow: var(--clay-1);
+  box-shadow: var(--lift-1);
   transition: transform var(--t-fast), box-shadow var(--t-fast);
 }
 
 .app-notice-strip:hover {
-  box-shadow: var(--clay-2);
+  box-shadow: var(--lift-2);
 }
 
 .app-notice-strip:active {
@@ -6823,7 +6827,7 @@ button.fcard:active,
   border-radius: var(--r-sm);
   background: var(--hue-amber-soft);
   color: var(--hue-amber);
-  box-shadow: var(--clay-inset);
+  box-shadow: var(--sunk);
 }
 
 .app-notice-text {
@@ -7198,9 +7202,23 @@ button.fcard:active,
 .start-card,
 .modal,
 .dialog,
-.phone-mock {
+.phone-mock,
+.stat-card,
+.fcard,
+.tcard,
+.feature-card,
+.plan-card,
+.app-launch,
+.app-quick,
+.app-tile,
+.app-profile-card,
+.pm-card,
+.empty-state {
   position: relative;
   isolation: isolate;
+  /* Faint enough to separate without drawing an outline around the card. The
+     old --rule was dark enough that every card had a visible grey frame, which
+     is most of what made the UI read as heavy. */
   border-color: var(--rule-soft);
 }
 
